@@ -1,6 +1,7 @@
 const initState = {
     counter: 0,
-    draggables: []
+    draggables: [],
+    activeItemId: null
 };
 
 const counter = (state = initState, action) => {
@@ -24,10 +25,12 @@ const items = (state = initState, action) => {
                     {
                         id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
                         type: action.itemType,
-                        width: 300,
-                        height: 150,
+                        width: 100,
+                        height: 70,
                         x: 0,
-                        y: 0
+                        y: 0,
+                        content: '',
+                        rootElementStyle: {margin: 0}
                     }
                 ]
             };
@@ -42,6 +45,35 @@ const items = (state = initState, action) => {
                         return item;
                     })
                 
+            };
+        case 'CHANGECONTENT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: action.content}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMSTYLE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: action.style}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'ACTIVEITEM':
+            return {
+                ...state,
+                activeItemId: action.itemId
             };
         default:
             return state;

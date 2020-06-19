@@ -11,6 +11,10 @@
     background-color: #74a7ee;
 }
 
+.draggable:last-of-type {
+    background-color: darkgreen;
+}
+
 .draggable.active {
     border: 2px solid red;
 }
