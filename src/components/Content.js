@@ -10,9 +10,9 @@ const Content = props => {
     //const rootStyle = useSelector(state => state)
 
     const handleChange = e => {
-        console.log(e);
+        //console.log(e);
         dispatch(changeItemContent(currentItem.id, e.target.value));
-        html = e.target.value;
+        //html = e.target.value;
     };
 
     return (

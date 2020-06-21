@@ -19,6 +19,15 @@ const moveItem = (itemId, position) => {
     }
 };
 
+const resizeItem = (itemId, itemData) => {
+    return {
+        type: 'RESIZEITEM',
+        itemId: itemId,
+        width: itemData.width,
+        height: itemData.height
+    }
+};
+
 const changeItemContent = (itemId, content) => {
     return {
         type: 'CHANGECONTENT',
@@ -42,4 +51,4 @@ const activeItem = itemId => {
     }
 };
 
-export {increment as default, createDraggable, moveItem, activeItem, changeItemContent, changeItemStyle};
+export {increment as default, createDraggable, moveItem, resizeItem, activeItem, changeItemContent, changeItemStyle};

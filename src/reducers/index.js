@@ -46,6 +46,18 @@ const items = (state = initState, action) => {
                     })
                 
             };
+        case 'RESIZEITEM':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, width: action.width, height: action.height}
+                        }
+                        return item;
+                    })
+
+            };
         case 'CHANGECONTENT':
             return {
                 ...state,
