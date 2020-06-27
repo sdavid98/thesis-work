@@ -1,14 +1,17 @@
 import React, {useRef} from "react";
 import {Rnd} from "react-rnd";
 import {useDispatch, useSelector} from "react-redux";
-import {activeItem, moveItem, resizeItem} from "../actions";
+import {selectActiveItem, moveItem, resizeItem} from "../actions";
 import Content from "./Content";
 
 const Drag = () => {
     const dispatch = useDispatch();
     const drags = useSelector(state => state.draggables);
-    const activeItemId = useSelector(state => state.activeItemId);
-    const dragsNotActive = drags.filter(drag => drag.id !== activeItemId);
+    const activeItem = useSelector(state => state.activeItem);
+    let dragsNotActive;
+    if (activeItem) {
+        dragsNotActive = drags.filter(drag => drag.id !== activeItem.id);
+    }
     const refs = useRef([]);
 
     const stopDragOrResizeOnHit = (currentItem, id, calledForDrag = true) => {
@@ -52,6 +55,18 @@ const Drag = () => {
         }
     };
 
+    const handleResize = (itemId) => {
+        stopDragOrResizeOnHit(refs.current[itemId], itemId, false);
+        updateItemMinHeight(itemId);
+    };
+
+    const updateItemMinHeight = (itemId) => {
+        if (refs.current[itemId].resizable.state.height <= refs.current[itemId+'content'].clientHeight) {
+            refs.current[itemId].resizable.state.isResizing = false;
+            dispatch(resizeItem(itemId, {height: refs.current[itemId+'content'].clientHeight, width: refs.current[itemId].resizable.state.width}));
+        }
+    };
+
     if (drags.length > 0) {
         return drags.map((item) => (
             <Rnd
@@ -63,15 +78,15 @@ const Drag = () => {
                 position={{ x: item.x, y: item.y }}
                 enableResizing={{top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:false, topLeft:false}}
                 className="draggable"
-                onClick={() => dispatch(activeItem(item.id))}
-                onResize={() => stopDragOrResizeOnHit(refs.current[item.id], item.id, false)}
+                onClick={() => dispatch(selectActiveItem(item))}
+                onResize={() => handleResize(item.id)}
                 onResizeStop={(a, b, c, data) => dispatch(resizeItem(item.id, {width: data.width + item.width, height: data.height + item.height}))}
-                onDragStart={() => dispatch(activeItem(item.id))}
+                onDragStart={() => dispatch(selectActiveItem(item))}
                 onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
                 onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
             >
                 <div className="drag-handler"></div>
-                <Content dragId={item.id}/>
+                <div className="content" ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
             </Rnd>
         ))
     }

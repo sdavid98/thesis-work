@@ -4,9 +4,16 @@ const increment = () => {
     }
 };
 
-const createDraggable = (itemType) => {
+const createBasicDraggable = (itemType) => {
     return {
-        type: 'CREATEDRAGGABLE',
+        type: 'CREATEBASICDRAGGABLE',
+        itemType: itemType,
+    };
+};
+
+const createListDraggable = (itemType) => {
+    return {
+        type: 'CREATELISTDRAGGABLE',
         itemType: itemType,
     };
 };
@@ -28,11 +35,11 @@ const resizeItem = (itemId, itemData) => {
     }
 };
 
-const changeItemContent = (itemId, content) => {
+const changeItemContent = (itemId, text) => {
     return {
         type: 'CHANGECONTENT',
         itemId: itemId,
-        content: content
+        text: text
     }
 };
 
@@ -44,11 +51,12 @@ const changeItemStyle = (itemId, style) => {
     }
 };
 
-const activeItem = itemId => {
+const selectActiveItem = item => {
     return {
-        type: 'ACTIVEITEM',
-        itemId: itemId
+        type: 'SELECTACTIVEITEM',
+        item: item
     }
 };
 
-export {increment as default, createDraggable, moveItem, resizeItem, activeItem, changeItemContent, changeItemStyle};
+
+export {increment as default, createBasicDraggable, moveItem, resizeItem, selectActiveItem, changeItemContent, changeItemStyle, createListDraggable};

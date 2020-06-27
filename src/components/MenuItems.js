@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import {createDraggable} from "../actions";
+import {createBasicDraggable, createListDraggable} from "../actions";
 import {useDispatch} from "react-redux";
 
 
@@ -19,27 +19,33 @@ const MenuItems = () => {
     const items = [
         {
             name: "text",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createBasicDraggable
         },
         {
             name: "image",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createBasicDraggable
         },
         {
             name: "button",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createBasicDraggable
         },
         {
             name: "list",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createListDraggable
         },
         {
             name: "divider",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createBasicDraggable
         },
         {
             name: "template block",
-            icon: <FolderIcon />
+            icon: <FolderIcon />,
+            action: createBasicDraggable
         }
     ];
 
@@ -56,7 +62,7 @@ const MenuItems = () => {
                             primary={item.name}
                         />
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="add" onClick={() => dispatch(createDraggable(item.name))}>
+                            <IconButton edge="end" aria-label="add" onClick={() => dispatch(item.action(item.name))}>
                                 <AddCircleOutlineOutlinedIcon />
                             </IconButton>
                         </ListItemSecondaryAction>
