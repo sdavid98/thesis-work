@@ -1,19 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeItemContent} from "../actions";
 import {Editor} from "@tinymce/tinymce-react";
 
 const TextEditor = (props) => {
     const dispatch = useDispatch();
-    const activeItem = useSelector(state => state.activeItem);
+    const activeItemId = useSelector(state => state.activeItemId);
+    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const [text, setText] = useState('');
+    //console.log(activeItem, activeItemId);
 
     const handleChange = (content, b) => {
 
-        dispatch(changeItemContent(activeItem.id, content));
-        if (activeItem.type === 'list') {
+        setText(content);
+        dispatch(changeItemContent(activeItemId, content));
+        console.log('change');
+        /*if (activeItem.type === 'list') {
             console.log(content, b);
             props.keyup(content);
-        }
+        }*/
     };
 
     const basicEditor =
@@ -44,6 +49,7 @@ const TextEditor = (props) => {
                     'undo redo | bold italic underline | link | superscript subscript | fontselect fontsizeselect | forecolor backcolor | charmap | removeformat'
             }}
             onEditorChange={(content, b) => handleChange(content, b)}
+            onKeyUp={e => props.keyup(e, e.target.innerHTML)}
         />;
 
     if (activeItem.type === 'list') {

@@ -1,13 +1,7 @@
 const initState = {
     counter: 0,
     draggables: [],
-    activeItem: {
-        id: null,
-        type: null,
-        content: {},
-        rootElementStyle: {}
-    },
-    range: null
+    activeItemId: null
 };
 
 const items = (state = initState, action) => {
@@ -48,6 +42,29 @@ const items = (state = initState, action) => {
                                 style: {
                                     paddingLeft: '10px'
                                 }
+                            }
+                        },
+                        rootElementStyle: {margin: 0}
+                    }
+                ]
+            };
+        case 'CREATEIMAGEDRAGGABLE':
+            return {
+                ...state,
+                draggables: [ ...state.draggables,
+                    {
+                        id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
+                        type: action.itemType,
+                        width: 150,
+                        height: 150,
+                        x: 0,
+                        y: 0,
+                        content: {
+                            text: '<p>Change me</p>',
+                            imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Digital.com',
+                            imageDimensions: {
+                                width: 150,
+                                height: 150
                             }
                         },
                         rootElementStyle: {margin: 0}
@@ -102,10 +119,10 @@ const items = (state = initState, action) => {
                     })
 
             };
-        case 'SELECTACTIVEITEM':
+        case 'CHANGEACTIVEITEMID':
             return {
                 ...state,
-                activeItem: action.item
+                activeItemId: action.itemId
             };
         default:
             return state;

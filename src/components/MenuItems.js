@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import {createBasicDraggable, createListDraggable} from "../actions";
+import {createBasicDraggable, createImageDraggable, createListDraggable} from "../actions";
 import {useDispatch} from "react-redux";
 
 
@@ -25,7 +25,7 @@ const MenuItems = () => {
         {
             name: "image",
             icon: <FolderIcon />,
-            action: createBasicDraggable
+            action: createImageDraggable
         },
         {
             name: "button",

@@ -18,6 +18,13 @@ const createListDraggable = (itemType) => {
     };
 };
 
+const createImageDraggable = (itemType) => {
+    return {
+        type: 'CREATEIMAGEDRAGGABLE',
+        itemType: itemType,
+    };
+};
+
 const moveItem = (itemId, position) => {
     return {
         type: 'MOVEITEM',
@@ -51,12 +58,12 @@ const changeItemStyle = (itemId, style) => {
     }
 };
 
-const selectActiveItem = item => {
+const changeActiveItemId = itemId => {
     return {
-        type: 'SELECTACTIVEITEM',
-        item: item
+        type: 'CHANGEACTIVEITEMID',
+        itemId: itemId
     }
 };
 
 
-export {increment as default, createBasicDraggable, moveItem, resizeItem, selectActiveItem, changeItemContent, changeItemStyle, createListDraggable};
+export {increment as default, createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable};
