@@ -1,9 +1,3 @@
-const increment = () => {
-    return {
-        type: 'INCREMENT'
-    }
-};
-
 const createBasicDraggable = (itemType) => {
     return {
         type: 'CREATEBASICDRAGGABLE',
@@ -66,4 +60,4 @@ const changeActiveItemId = itemId => {
 };
 
 
-export {increment as default, createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable};
+export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable};

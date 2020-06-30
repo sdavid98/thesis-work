@@ -16,18 +16,13 @@ const Content = (props) => {
         if ([13, 8, 46, 86].indexOf(e.keyCode) !== -1) {
             const div = document.createElement('div');
             div.innerHTML = text;
-            //console.log(text);
-            //console.log([...div.childNodes].filter(node => node.tagName === 'P').length);
             setListItemNum([...div.childNodes].filter(node => node.tagName === 'P').length);
         }
     };
 
-    console.log(refs);
-
     const createBullets = () => {
         if (props.item.type === 'list') {
             let bullets = '';
-            //console.log(listItemNum);
             for (let i = 0; i < listItemNum; i++) {
                 if (props.item.content.listSymbol.signs[i]) {
                     bullets += `<div>${props.item.content.listSymbol.signs[i]}</div>`;
@@ -69,8 +64,6 @@ const Content = (props) => {
                 </div>);
         }
     }
-
-    //return activeItem.id === props.item.id ? <div><TextEditor content={props.item.content}/></div> : <div dangerouslySetInnerHTML={{__html: props.item.content}}></div>;
 };
 
 export default Content;
