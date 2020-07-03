@@ -1,13 +1,10 @@
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeItemContent} from "../actions";
-import {Editor} from "@tinymce/tinymce-react";
 import TextEditor from "./TextEditor";
 import ImageContent from "./ImageContent";
+import List from "./List";
 
 const Content = (props) => {
-    const dispatch = useDispatch();
-    const refs = useRef([]);
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const [listItemNum, setListItemNum] = useState(1);
@@ -20,49 +17,54 @@ const Content = (props) => {
         }
     };
 
-    const createBullets = () => {
-        if (props.item.type === 'list') {
-            let bullets = '';
-            for (let i = 0; i < listItemNum; i++) {
-                if (props.item.content.listSymbol.signs[i]) {
-                    bullets += `<div>${props.item.content.listSymbol.signs[i]}</div>`;
-                } else {
-                    bullets += `<div>${props.item.content.listSymbol.signs[0]}</div>`;
-                }
-            }
-            return <div style={props.item.content.listSymbol.style} dangerouslySetInnerHTML={{__html: bullets}}></div>;
+    const getPassiveItem = () => {
+        if (props.item.type === 'image') {
+            return <ImageContent item={props.item} />;
         }
+        if (props.item.type === 'list') {
+            /*return (<div style={{display: 'inline-grid', gridTemplateColumns: 'auto auto', width: '100%', justifyContent: 'left'}}>
+                        <div>{createBullets()}</div>
+                        <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>
+                    </div>);*/
+            return <List item={props.item} />;
+        }
+
+        return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;
+    };
+
+    const getActiveItem = () => {
+        if (props.item.type === 'image') {
+            return <ImageContent item={props.item} />;
+        }
+        if (props.item.type === 'list') {
+            /*return (
+                <div style={{display: 'inline-grid', gridTemplateColumns: 'auto auto', width: '100%', justifyContent: 'left'}}>
+                    {createBullets()}
+                    <div><TextEditor keyup={handleNewItem} /></div>
+                </div>);*/
+            return <List item={props.item} />;
+        }
+
+        return <div><TextEditor /></div>;
+    };
+
+    const createBullets = () => {
+        let bullets = '';
+        for (let i = 0; i < listItemNum; i++) {
+            if (props.item.content.listSymbol.signs[i]) {
+                bullets += `<div>${props.item.content.listSymbol.signs[i]}</div>`;
+            } else {
+                bullets += `<div>${props.item.content.listSymbol.signs[0]}</div>`;
+            }
+        }
+        return <div style={props.item.content.listSymbol.style} dangerouslySetInnerHTML={{__html: bullets}}></div>;
     };
 
     if (activeItemId === props.item.id) {
-        if (props.item.type === 'image') {
-            return <ImageContent item={props.item} />;
-        }
-        if (props.item.type !== 'list') {
-            return <div><TextEditor /></div>;
-        }
-        else {
-            return (
-                <div ref={elem => (refs.current[props.item.id] = elem)} style={{display: 'inline-grid', gridTemplateColumns: 'auto auto', width: '100%', justifyContent: 'left'}}>
-                    {createBullets()}
-                    <div><TextEditor keyup={handleNewItem} /></div>
-                </div>);
-        }
+        return getActiveItem();
     }
     else {
-        if (props.item.type === 'image') {
-            return <ImageContent item={props.item} />;
-        }
-        if (props.item.type !== 'list') {
-            return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;
-        }
-        else {
-            return (
-                <div style={{display: 'inline-grid', gridTemplateColumns: 'auto auto', width: '100%', justifyContent: 'left'}}>
-                    <div>{createBullets()}</div>
-                    <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>
-                </div>);
-        }
+        return getPassiveItem();
     }
 };
 

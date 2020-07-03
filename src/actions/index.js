@@ -44,6 +44,22 @@ const changeItemContent = (itemId, text) => {
     }
 };
 
+const addNewListItem = (itemId, newListItem) => {
+    return {
+        type: 'ADDNEWLISTITEM',
+        itemId: itemId,
+        newListItem: newListItem
+    }
+};
+
+const changeListItems = (itemId, listItem) => {
+    return {
+        type: 'CHANGELISTITEMS',
+        itemId: itemId,
+        listItem: listItem
+    }
+};
+
 const changeItemStyle = (itemId, style) => {
     return {
         type: 'CHANGEITEMSTYLE',
@@ -60,4 +76,4 @@ const changeActiveItemId = itemId => {
 };
 
 
-export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable};
+export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable, addNewListItem, changeListItems};

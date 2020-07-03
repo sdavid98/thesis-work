@@ -14,7 +14,7 @@ const items = (state = initState, action) => {
                         id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
                         type: action.itemType,
                         width: 100,
-                        height: 70,
+                        height: 'auto',
                         x: 0,
                         y: 0,
                         content: {
@@ -32,11 +32,11 @@ const items = (state = initState, action) => {
                         id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
                         type: action.itemType,
                         width: 100,
-                        height: 70,
+                        height: 'auto',
                         x: 0,
                         y: 0,
                         content: {
-                            text: '<p>Change me</p>',
+                            text: ['<p>Change me</p>'],
                             listSymbol: {
                                 signs: ['\u03A9'],
                                 style: {
@@ -56,7 +56,7 @@ const items = (state = initState, action) => {
                         id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
                         type: action.itemType,
                         width: 150,
-                        height: 150,
+                        height: 'auto',
                         x: 0,
                         y: 0,
                         content: {
@@ -102,6 +102,30 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, content: {...item.content, text: action.text}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'ADDNEWLISTITEM':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, text: [...item.content.text, action.newListItem]}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGELISTITEMS':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, text: action.listItem}}
                         }
                         return item;
                     })

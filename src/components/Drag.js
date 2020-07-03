@@ -71,6 +71,12 @@ const Drag = () => {
         }
     };
 
+    const setActiveItemId = id => {
+        if (activeItemId !== id) {
+            dispatch(changeActiveItemId(id));
+        }
+    };
+
     if (drags.length > 0) {
         return drags.map((item) => {
             let ratio = false;
@@ -86,12 +92,11 @@ const Drag = () => {
                 position={{ x: item.x, y: item.y }}
                 enableResizing={{top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:false, topLeft:false}}
                 className="draggable"
-                //onClick={() => dispatch(changeActiveItemId(item.id))}
-                onClick={()=>console.log(refs.current[item.id])}
-                onResizeStart={() => dispatch(changeActiveItemId(item.id))}
+                onClick={() => setActiveItemId(item.id)}
+                onResizeStart={() => setActiveItemId(item.id)}
                 onResize={() => handleResize(item.id)}
                 onResizeStop={(a, b, c, data) => dispatch(resizeItem(item.id, {width: data.width + item.width, height: data.height + item.height}))}
-                onDragStart={() => dispatch(changeActiveItemId(item.id))}
+                onDragStart={() => setActiveItemId(item.id)}
                 onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
                 onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
                 lockAspectRatio={ratio}
