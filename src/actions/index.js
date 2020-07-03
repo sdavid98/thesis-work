@@ -75,5 +75,13 @@ const changeActiveItemId = itemId => {
     }
 };
 
+const makeDragHeightReCalculate = bool => {
+    return {
+        type: 'MAKEDRAGHEIGHTRECALCULATE',
+        makeReCalculation: bool
+    }
+};
 
-export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable, createImageDraggable, addNewListItem, changeListItems};
+
+export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemStyle, createListDraggable,
+    createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate};

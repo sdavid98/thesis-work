@@ -4,7 +4,7 @@ import ListItem from "./ListItem";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from "@material-ui/core/styles";
-import {addNewListItem, changeListItems} from "../actions";
+import {addNewListItem, changeListItems, makeDragHeightReCalculate} from "../actions";
 
 const useStyles = makeStyles({
     icon: {
@@ -27,9 +27,12 @@ const List = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
     const classes = useStyles();
     const [activeListItemNum, setActiveListItemNum] = useState(null);
+    const [listItemNum, setListItemNum] = useState(1);
 
     const addNewItem = () => {
+        setListItemNum(listItemNum + 1);
         dispatch(addNewListItem(activeItemId, '<p>Change me</p>'));
+        dispatch(makeDragHeightReCalculate(true));
     };
 
     const handleListItemChange = (index, content) => {
@@ -41,6 +44,7 @@ const List = (props) => {
     const deleteListItem = (index) => {
         let items = [...props.item.content.text];
         items.splice(index, 1);
+        setListItemNum(listItemNum - 1);
         dispatch(changeListItems(activeItemId, items));
     };
 
@@ -52,11 +56,12 @@ const List = (props) => {
         return props.item.content.listSymbol.signs[0];
     };
 
-
     const listItems = props.item.content.text.map((text, index) => (
         <div key={index} className={classes.item}>
             <div>{getListSign(index)}</div>
             <ListItem
+                itemNum={listItemNum}
+                blokkId={props.item.id}
                 index={index}
                 activeListItemNum={activeListItemNum}
                 click={setActiveListItemNum}
