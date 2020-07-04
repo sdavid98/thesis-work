@@ -34,7 +34,7 @@ const Drag = () => {
             currentItem.x = currentItem.draggable.state.x;
             currentItem.y = currentItem.draggable.state.y;
             currentItem.width = currentItem.resizable.state.width;
-            currentItem.height = currentItem.resizable.state.height;
+            currentItem.height = currentItem.resizable.size.height;
         }
 
         dragsNotActive.map(item => {
@@ -86,6 +86,16 @@ const Drag = () => {
 
     if (drags.length > 0) {
         return drags.map((item) => {
+            let resizeAndDragEnabling = {
+                resize: false,
+                dragDisabled: true,
+                dragClass: 'draggable'
+            };
+            if (activeItemId === item.id) {
+                resizeAndDragEnabling.resize = {top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false};
+                resizeAndDragEnabling.dragDisabled = false;
+                resizeAndDragEnabling.dragClass = 'draggable active';
+            }
             let ratio = false;
             if (item.type === 'image') {
                 ratio = item.content.imageDimensions.width/item.content.imageDimensions.height;
@@ -97,8 +107,9 @@ const Drag = () => {
                 bounds=".canvas"
                 size={{ width: item.width,  height: 'auto' }}
                 position={{ x: item.x, y: item.y }}
-                enableResizing={{top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false}}
-                className="draggable"
+                enableResizing={resizeAndDragEnabling.resize}
+                disableDragging={resizeAndDragEnabling.dragDisabled}
+                className={resizeAndDragEnabling.dragClass}
                 onClick={() => setActiveItemId(item.id)}
                 onResizeStart={() => setActiveItemId(item.id)}
                 onResize={() => handleResize(item.id)}

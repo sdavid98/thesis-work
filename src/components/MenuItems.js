@@ -20,32 +20,27 @@ const MenuItems = () => {
         {
             name: "text",
             icon: <FolderIcon />,
-            action: createBasicDraggable
+            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
         },
         {
             name: "image",
             icon: <FolderIcon />,
-            action: createImageDraggable
+            action: (name) => createImageDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
         },
         {
             name: "button",
             icon: <FolderIcon />,
-            action: createBasicDraggable
+            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
         },
         {
             name: "list",
             icon: <FolderIcon />,
-            action: createListDraggable
+            action: (name) => createListDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
         },
         {
             name: "divider",
             icon: <FolderIcon />,
-            action: createBasicDraggable
-        },
-        {
-            name: "template block",
-            icon: <FolderIcon />,
-            action: createBasicDraggable
+            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
         }
     ];
 

@@ -1,21 +1,25 @@
-const createBasicDraggable = (itemType) => {
+const createBasicDraggable = (itemType, id) => {
+    console.log(id);
     return {
         type: 'CREATEBASICDRAGGABLE',
         itemType: itemType,
+        id: id
     };
 };
 
-const createListDraggable = (itemType) => {
+const createListDraggable = (itemType, id) => {
     return {
         type: 'CREATELISTDRAGGABLE',
         itemType: itemType,
+        id: id
     };
 };
 
-const createImageDraggable = (itemType) => {
+const createImageDraggable = (itemType, id) => {
     return {
         type: 'CREATEIMAGEDRAGGABLE',
         itemType: itemType,
+        id: id
     };
 };
 

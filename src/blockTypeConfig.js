@@ -1,5 +1,5 @@
-let blockTypeConfig = new Map();
-blockTypeConfig.set('text', ['font', 'align', 'spacing']);
-blockTypeConfig.set('list', ['font', 'spacing', 'listType', 'spaceBetween']);
+let blockTypeConfig = {
+    'text': ['color', 'fontSize', 'lineHeight', 'fontStyle', 'textAlign', 'backgroundColor', 'linkUnderline', 'border', 'blockSize', 'padding']
+};
 
 export default blockTypeConfig;

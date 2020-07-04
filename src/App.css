@@ -1,6 +1,6 @@
 .App {
     display: grid;
-    grid-template-columns: 450px auto 350px;
+    grid-template-columns: 400px auto 400px;
     background-color: whitesmoke;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .draggable.active {
-    border: 2px solid red;
+    outline: 2px solid red;
 }
 
 .canvas {
@@ -39,10 +39,18 @@
     background-color: #000000;
     bottom: 100%;
     right: 0;
+    display: none;
 }
+
+.draggable.active > .drag-handler {
+    display: block;
+}
+
 
 p {
     margin: 0;
+    font-size: 16px;
+    line-height: 18px;
 }
 
 img {

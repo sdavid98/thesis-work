@@ -1,53 +1,48 @@
 const blockStyleConfig = [
     {
-        id: 'spacing',
-        outlineText: 'Padding',
+        id: 'padding',
+        label: 'Padding',
+        type: "radio",
         validation: 'fn',
         change: 'fn',
+        childChange: 'fn',
         items: [
             {
                 text: "All same",
-                type: "radio",
+                type: "text",
                 childInputs: [
                     {
-                        text: "padding",
-                        type: "input"
+                        text: "Padding",
                     }
                 ]
             },
             {
-                text: "Horizontal & Vertical",
-                type: "radio",
+                text: "Horizontal and Vertical",
+                type: "text",
                 childInputs: [
                     {
                         text: "Horizontal padding",
-                        type: "input"
                     },
                     {
                         text: "Vertical padding",
-                        type: "input"
                     }
                 ]
             },
             {
                 text: "All different",
-                type: "radio",
+                type: "text",
                 childInputs: [
                     {
-                        text: "padding-top",
-                        type: "input"
+                        text: "Padding top",
                     },
                     {
-                        text: "padding-bottom",
-                        type: "input"
+                        text: "Padding bottom",
                     },
                     {
-                        text: "padding-left",
-                        type: "input"
+                        text: "Padding left",
                     },
                     {
-                        text: "padding-right",
-                        type: "input"
+                        text: "Padding right",
                     }
                 ]
             }

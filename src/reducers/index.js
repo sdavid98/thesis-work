@@ -12,10 +12,10 @@ const items = (state = initState, action) => {
                 ...state,
                 draggables: [ ...state.draggables,
                     {
-                        id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
+                        id: action.id,
                         type: action.itemType,
                         width: 100,
-                        height: 30,
+                        height: 18,
                         x: 0,
                         y: 0,
                         content: {
@@ -23,17 +23,18 @@ const items = (state = initState, action) => {
                         },
                         rootElementStyle: {margin: 0}
                     }
-                ]
+                ],
+                activeItemId: action.id
             };
         case 'CREATELISTDRAGGABLE':
             return {
                 ...state,
                 draggables: [ ...state.draggables,
                     {
-                        id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
+                        id: action.id,
                         type: action.itemType,
                         width: 100,
-                        height: 30,
+                        height: 18,
                         x: 0,
                         y: 0,
                         content: {
@@ -47,14 +48,15 @@ const items = (state = initState, action) => {
                         },
                         rootElementStyle: {margin: 0}
                     }
-                ]
+                ],
+                activeItemId: action.id
             };
         case 'CREATEIMAGEDRAGGABLE':
             return {
                 ...state,
                 draggables: [ ...state.draggables,
                     {
-                        id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''),
+                        id: action.id,
                         type: action.itemType,
                         width: 150,
                         height: 30,
@@ -70,7 +72,8 @@ const items = (state = initState, action) => {
                         },
                         rootElementStyle: {margin: 0}
                     }
-                ]
+                ],
+                activeItemId: action.id
             };
         case 'MOVEITEM':
             return {
