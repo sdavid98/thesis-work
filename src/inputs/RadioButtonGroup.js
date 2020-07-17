@@ -24,13 +24,17 @@ const RadioButtonGroup = (props) => {
     const classes = useStyles();
 
     const options = props.item.items.map(item => {
-       return <FormControlLabel value={item.text.replace(" ", "")} control={<Radio color="primary" />} label={item.text} />
+       return <FormControlLabel value={item.text.replace(/ /g, "")} control={<Radio color="primary" />} label={item.text} />
     });
+
+    const handleChange = (event) => {
+        props.change(event.target.value);
+    };
 
     return (
         <FormControl component="fieldset">
             <FormLabel component="legend">{props.item.label}</FormLabel>
-            <RadioGroup className={classes.radios} row name={props.item.id} defaultValue={props.item.items[0].text.replace(" ", "")}>
+            <RadioGroup onChange={handleChange} className={classes.radios} row name={props.item.id} defaultValue={props.item.items[0].text.replace(/ /g, "")}>
                 {options}
             </RadioGroup>
         </FormControl>

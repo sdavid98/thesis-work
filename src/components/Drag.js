@@ -120,7 +120,7 @@ const Drag = () => {
                 lockAspectRatio={ratio}
             >
                 <div className="drag-handler"></div>
-                <div className="content" ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
+                <div className="content" style={item.rootElementStyle} ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
             </Rnd>);
         })
     }

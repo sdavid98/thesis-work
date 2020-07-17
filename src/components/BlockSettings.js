@@ -7,6 +7,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {addNewListItem, changeListItems, makeDragHeightReCalculate} from "../actions";
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
 import blockStyleConfig from "../blockStyleConfig";
+import MultiLevelInputGroup from "./MultiLevelInputGroup";
 
 const useStyles = makeStyles({
     icon: {
@@ -32,7 +33,10 @@ const BlockSettings = () => {
     const blockOptions = ['padding'];
 
     const optionItems = blockStyleConfig.filter(item => blockOptions.indexOf(item.id) >= 0).map(item => {
-       if (item.type === 'radio') {
+        if (item.type === 'radio' && item.childChange) {
+            return <MultiLevelInputGroup item={item} />
+        }
+       else if (item.type === 'radio') {
            return <RadioButtonGroup item={item} />
        }
     });

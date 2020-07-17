@@ -21,7 +21,7 @@ const items = (state = initState, action) => {
                         content: {
                             text: '<p>Change me</p>'
                         },
-                        rootElementStyle: {margin: 0}
+                        rootElementStyle: {padding: '0px 0px 0px 0px'}
                     }
                 ],
                 activeItemId: action.id
@@ -46,7 +46,7 @@ const items = (state = initState, action) => {
                                 }
                             }
                         },
-                        rootElementStyle: {margin: 0}
+                        rootElementStyle: {padding: '0px'}
                     }
                 ],
                 activeItemId: action.id
@@ -70,7 +70,7 @@ const items = (state = initState, action) => {
                                 height: 150
                             }
                         },
-                        rootElementStyle: {margin: 0}
+                        rootElementStyle: {padding: '0px'}
                     }
                 ],
                 activeItemId: action.id
@@ -135,13 +135,13 @@ const items = (state = initState, action) => {
                     })
 
             };
-        case 'CHANGEITEMSTYLE':
+        case 'CHANGEITEMPADDING':
             return {
                 ...state,
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, rootElementStyle: action.style}
+                            return {...item, rootElementStyle: {...item.rootElementStyle, padding: action.style}}
                         }
                         return item;
                     })
