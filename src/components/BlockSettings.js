@@ -19,9 +19,8 @@ const useStyles = makeStyles({
     aloneLabel: {
         width: 'calc(50% - 20px)',
         '& .text-input-label': {
-            fontSize: '1.2rem',
+            fontSize: '0.9rem',
             color: '#0000008a',
-            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
             fontWeight: 400,
             lineHeight: 1
         }

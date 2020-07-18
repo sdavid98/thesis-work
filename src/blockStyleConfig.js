@@ -1,5 +1,11 @@
 import blockStyleValidations from "./blockStyleValidations";
-import {changeItemColor, changeItemPadding} from "./actions";
+import {
+    changeItemBackColor,
+    changeItemColor,
+    changeItemFontSize,
+    changeItemLineHeight,
+    changeItemPadding
+} from "./actions";
 
 const blockStyleConfig = [
     {
@@ -124,6 +130,44 @@ const blockStyleConfig = [
         },
         childChange: false,
         value: val => val
+    },
+    {
+        id: 'backgroundColor',
+        label: 'Background color',
+        type: 'text',
+        change: (activeItem, childItemText, value) => {
+            if (blockStyleValidations['color'](value)) {
+                return changeItemBackColor(activeItem.id, value);
+            }
+        },
+        childChange: false,
+        value: val => val
+    },
+    {
+        id: 'fontSize',
+        label: 'Font size',
+        type: 'text',
+        change: (activeItem, childItemText, value) => {
+            if (blockStyleValidations['number'](value)) {
+                return changeItemFontSize(activeItem.id, `${value}px`);
+            }
+            return changeItemFontSize(activeItem.id, activeItem.rootElementStyle.fontSize);
+        },
+        childChange: false,
+        value: val => parseInt(val)
+    },
+    {
+        id: 'lineHeight',
+        label: 'Line height',
+        type: 'text',
+        change: (activeItem, childItemText, value) => {
+            if (blockStyleValidations['number'](value)) {
+                return changeItemLineHeight(activeItem.id, `${value}px`);
+            }
+            return changeItemLineHeight(activeItem.id, activeItem.rootElementStyle.lineHeight);
+        },
+        childChange: false,
+        value: val => parseInt(val)
     }
 ];
 

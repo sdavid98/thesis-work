@@ -10,7 +10,8 @@ const useStyles = makeStyles({
         gridTemplateColumns: 'repeat(2, 50%)'
     },
     label: {
-
+        fontSize: '0.9rem',
+        color: '#0000008a'
     },
     colorPicker: {
         border: 'none',
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
         background: 'none',
         width: '30px',
         height: '24px'
-    }
+    },
 });
 
 const TextInput = (props) => {
@@ -38,8 +39,15 @@ const TextInput = (props) => {
     };
 
     const colorPicker = () => {
-        if (props.watch === 'color') {
+        if (['color', 'backgroundColor'].indexOf(props.watch) >= 0) {
             return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={getValue()} />;
+        }
+        return false;
+    };
+
+    const endAdornment = () => {
+        if (['color', 'backgroundColor'].indexOf(props.watch) < 0) {
+            return <InputAdornment position="end">px</InputAdornment>;
         }
         return false;
     };
@@ -53,10 +61,10 @@ const TextInput = (props) => {
                 <TextField
                     id={props.text.replace(/ /g, "")}
                     value={getValue()}
-                    disabled={props.watch === 'color'}
+                    disabled={['color', 'backgroundColor'].indexOf(props.watch) >= 0}
                     onChange={(e) => dispatch(props.change(activeItem, props.text, e.target.value))}
                     InputProps={{
-                        endAdornment: <InputAdornment position="end">px</InputAdornment>,
+                        endAdornment: endAdornment(),
                         startAdornment: colorPicker()
                     }}
                 />

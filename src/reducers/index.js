@@ -8,6 +8,9 @@ const initState = {
 const initTextRootStyle = {
     color: '#171717',
     padding: '0px 0px 0px 0px',
+    backgroundColor: '#ffffff',
+    fontSize: '14px',
+    lineHeight: '16px'
 };
 
 const items = (state = initState, action) => {
@@ -159,6 +162,42 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, color: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMBACKCOLOR':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, backgroundColor: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMFONTSIZE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, fontSize: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMLINEHEIGHT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, lineHeight: action.style}}
                         }
                         return item;
                     })

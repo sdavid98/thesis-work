@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         margin: '10px 0'
     },
     label: {
-        fontSize: '1.2rem',
+        fontSize: '0.9rem',
         color: '#0000008a',
         '&.Mui-focused': {
             color: '#0000008a'
@@ -23,6 +23,9 @@ const useStyles = makeStyles({
             flexBasis: '33%',
             marginLeft: 0,
             marginRight: 0
+        },
+        '& .MuiTypography-body1': {
+            fontSize: '0.9rem'
         }
     }
 });
