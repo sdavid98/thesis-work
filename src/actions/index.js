@@ -72,6 +72,14 @@ const changeItemPadding = (itemId, style) => {
     }
 };
 
+const changeItemColor = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMCOLOR',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -88,4 +96,4 @@ const makeDragHeightReCalculate = bool => {
 
 
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding, createListDraggable,
-    createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate};
+    createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate, changeItemColor};

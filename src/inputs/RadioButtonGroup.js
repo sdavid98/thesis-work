@@ -8,6 +8,16 @@ import FormLabel from '@material-ui/core/FormLabel';
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
+    group: {
+        margin: '10px 0'
+    },
+    label: {
+        fontSize: '1.2rem',
+        color: '#0000008a',
+        '&.Mui-focused': {
+            color: '#0000008a'
+        }
+    },
     radios: {
         '& .MuiFormControlLabel-root': {
             flexBasis: '33%',
@@ -32,8 +42,8 @@ const RadioButtonGroup = (props) => {
     };
 
     return (
-        <FormControl component="fieldset">
-            <FormLabel component="legend">{props.item.label}</FormLabel>
+        <FormControl className={classes.group} component="fieldset">
+            <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
             <RadioGroup onChange={handleChange} className={classes.radios} row name={props.item.id} defaultValue={props.item.items[0].text.replace(/ /g, "")}>
                 {options}
             </RadioGroup>

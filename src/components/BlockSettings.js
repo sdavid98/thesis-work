@@ -8,37 +8,48 @@ import {addNewListItem, changeListItems, makeDragHeightReCalculate} from "../act
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
 import blockStyleConfig from "../blockStyleConfig";
 import MultiLevelInputGroup from "./MultiLevelInputGroup";
+import blockTypeConfig from "../blockTypeConfig";
+import TextInput from "../inputs/TextInput";
 
 const useStyles = makeStyles({
-    icon: {
-        height: 20,
-        width: 20,
-        minHeight: 20,
-        position: 'absolute',
-        left: '50%',
-        transform: 'translateX(-50%)'
+    styleBlock: {
+        marginTop: '10px',
+        marginBottom: '20px'
     },
-    item: {
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr',
-        justifyContent: 'left'
+    aloneLabel: {
+        width: 'calc(50% - 20px)',
+        '& .text-input-label': {
+            fontSize: '1.2rem',
+            color: '#0000008a',
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+            fontWeight: 400,
+            lineHeight: 1
+        }
     }
 });
 
 const BlockSettings = () => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
+    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
 
     const blockOptions = ['padding'];
 
-    const optionItems = blockStyleConfig.filter(item => blockOptions.indexOf(item.id) >= 0).map(item => {
+    if (!activeItemId) {
+        return <div></div>;
+    }
+
+    const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map(item => {
         if (item.type === 'radio' && item.childChange) {
-            return <MultiLevelInputGroup item={item} />
+            return <div className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
         }
-       else if (item.type === 'radio') {
-           return <RadioButtonGroup item={item} />
-       }
+        if (item.type === 'radio') {
+            return <div className={classes.styleBlock}><RadioButtonGroup item={item} /></div>
+        }
+        if (item.type === 'text') {
+            return <div className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>
+        }
     });
 
 

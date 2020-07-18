@@ -5,6 +5,11 @@ const initState = {
     makeDragHeightReCalculation: false
 };
 
+const initTextRootStyle = {
+    color: '#171717',
+    padding: '0px 0px 0px 0px',
+};
+
 const items = (state = initState, action) => {
     switch (action.type) {
         case 'CREATEBASICDRAGGABLE':
@@ -21,7 +26,7 @@ const items = (state = initState, action) => {
                         content: {
                             text: '<p>Change me</p>'
                         },
-                        rootElementStyle: {padding: '0px 0px 0px 0px'}
+                        rootElementStyle: {...initTextRootStyle}
                     }
                 ],
                 activeItemId: action.id
@@ -142,6 +147,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, padding: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMCOLOR':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, color: action.style}}
                         }
                         return item;
                     })

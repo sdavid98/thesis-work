@@ -1,3 +1,7 @@
+* {
+    font-size: 14px;
+}
+
 .App {
     display: grid;
     grid-template-columns: 400px auto 400px;
@@ -30,6 +34,7 @@
 
 .panel {
     background-color: #ffffff;
+    padding: 0 15px;
 }
 
 .drag-handler {
