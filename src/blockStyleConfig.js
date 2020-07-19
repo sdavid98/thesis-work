@@ -4,7 +4,7 @@ import {
     changeItemColor, changeItemFontDecoration,
     changeItemFontSize, changeItemFontStyle, changeItemFontWeight,
     changeItemLineHeight,
-    changeItemPadding, changeItemTextDecoration, changeItemTextDecorationColor
+    changeItemPadding, changeItemTextAlign, changeItemTextDecoration, changeItemTextDecorationColor
 } from "./actions";
 
 const blockStyleConfig = [
@@ -12,6 +12,12 @@ const blockStyleConfig = [
         id: 'padding',
         label: 'Padding',
         type: "radio",
+        value: activeItem => {
+            const padding = activeItem.rootElementStyle['padding'].split(' ');
+            if (padding.every(val => val === padding[0])) return 'Allsame';
+            if (padding[0] === padding[2] && padding[1] === padding[3]) return 'HorizontalandVertical';
+            return 'Alldifferent'
+        },
         change: (activeItem, childItemText, value = null) => {
             value === '' && (value = '0');
             const storedPadding = activeItem.rootElementStyle.padding.split(' ');
@@ -217,6 +223,34 @@ const blockStyleConfig = [
             }
         ]
     },
+    {
+        id: 'textAlign',
+        label: 'Text align',
+        type: 'radio',
+        change: (activeItem, itemText, value) => {
+            return changeItemTextAlign(activeItem.id, value.toLowerCase());
+        },
+        value: activeItem => activeItem.rootElementStyle['textAlign'].replace(/^\w/, (c) => c.toUpperCase()),
+        childChange: false,
+        items: [
+            {
+                text: 'Left',
+                value: val => val === 'left',
+            },
+            {
+                text: 'Center',
+                value: val => val === 'center',
+            },
+            {
+                text: 'Right',
+                value: val => val === 'right',
+            },
+            {
+                text: 'Justify',
+                value: val => val === 'justify'
+            }
+        ]
+    }
 ];
 
 export default  blockStyleConfig;

@@ -1,5 +1,5 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
 import blockStyleConfig from "../blockStyleConfig";
@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 });
 
 const BlockSettings = () => {
+    const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
@@ -39,7 +40,7 @@ const BlockSettings = () => {
             return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
         }
         if (item.type === 'radio') {
-            return <div key={index} className={classes.styleBlock}><RadioButtonGroup item={item} /></div>
+            return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
         }
         if (item.type === 'text') {
             return <div key={index} className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>

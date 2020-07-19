@@ -5,10 +5,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import {makeStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles({
     group: {
-        margin: '10px 0'
+        margin: '10px 0',
+        display: 'block'
     },
     label: {
         fontSize: '0.9rem',
@@ -18,6 +20,7 @@ const useStyles = makeStyles({
         }
     },
     radios: {
+        flexWrap: 'nowrap',
         '& .MuiFormControlLabel-root': {
             flexBasis: '33%',
             marginLeft: 0,
@@ -30,20 +33,32 @@ const useStyles = makeStyles({
 });
 
 const RadioButtonGroup = (props) => {
+    const activeItemId = useSelector(state => state.activeItemId);
+    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     const options = props.item.items.map((item, index) => {
        return <FormControlLabel key={index} value={item.text.replace(/ /g, "")} control={<Radio color="primary" />} label={item.text} />
     });
 
-    const handleChange = (event) => {
-        props.change(event.target.value);
+    const handleChange = (event, text) => {
+        if (props.dispatchAction) {
+            dispatch(props.change(activeItem, text, event.target.value));
+        }
+        else {
+            props.change(event.target.value);
+        }
+    };
+
+    const getValue = () => {
+        return props.item.value(activeItem);
     };
 
     return (
         <FormControl className={classes.group} component="fieldset">
             <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
-            <RadioGroup onChange={handleChange} className={classes.radios} row name={props.item.id} defaultValue={props.item.items[0].text.replace(/ /g, "")}>
+            <RadioGroup onChange={(e) => handleChange(e, props.item.text)} className={classes.radios} row name={props.item.id} value={getValue()}>
                 {options}
             </RadioGroup>
         </FormControl>

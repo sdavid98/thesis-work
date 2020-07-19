@@ -135,6 +135,14 @@ const changeItemTextDecorationColor = (itemId, style) => {
     }
 };
 
+const changeItemTextAlign = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMTEXTALIGN',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -153,4 +161,4 @@ const makeDragHeightReCalculate = bool => {
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
-    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor};
+    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign};

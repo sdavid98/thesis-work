@@ -21,7 +21,7 @@ const MultiLevelInputGroup = (props) => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
-    const [activeParentValue, setActiveParentValue] = useState(props.item.items[0].text.replace(" ", ""));
+    const [activeParentValue, setActiveParentValue] = useState(props.item.value(activeItem));
 
     const childOption = props.item.items.find(item => item.text.replace(/ /g, "") === activeParentValue);
     const onParentChange = value => {

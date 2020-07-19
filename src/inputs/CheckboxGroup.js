@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     },
     label: {
         fontSize: '0.9rem',
+        marginLeft: 0,
         '& .MuiTypography-body1': {
             fontSize: '0.9rem',
         }
