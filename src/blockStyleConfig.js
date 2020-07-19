@@ -1,10 +1,10 @@
 import blockStyleValidations from "./blockStyleValidations";
 import {
     changeItemBackColor,
-    changeItemColor,
-    changeItemFontSize,
+    changeItemColor, changeItemFontDecoration,
+    changeItemFontSize, changeItemFontStyle, changeItemFontWeight,
     changeItemLineHeight,
-    changeItemPadding
+    changeItemPadding, changeItemTextDecoration, changeItemTextDecorationColor
 } from "./actions";
 
 const blockStyleConfig = [
@@ -168,7 +168,55 @@ const blockStyleConfig = [
         },
         childChange: false,
         value: val => parseInt(val)
-    }
+    },
+    {
+        id: 'fontStyle',
+        label: 'Font style',
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            const styleChanges = {
+                'Bold' : changeItemFontWeight,
+                'Italic': changeItemFontStyle,
+                'Underline': changeItemTextDecoration,
+                'Underline color': changeItemTextDecorationColor
+            };
+            const styleValues = {
+                'Bold': () => value ? 'bold' : 'normal',
+                'Italic': () => value ? 'italic' : 'normal',
+                'Underline': () => value ? 'underline' : 'none',
+                'Underline color': () => blockStyleValidations['color'](value) ? value : activeItem.rootElementStyle['textDecorationColor']
+            };
+            return styleChanges[itemText](activeItem.id, styleValues[itemText]());
+        },
+        childChange: true,
+        items: [
+            {
+                text: 'Bold',
+                watch: 'fontWeight',
+                value: val => val !== 'normal',
+                childInputs: []
+            },
+            {
+                text: 'Italic',
+                watch: 'fontStyle',
+                value: val => val !== 'normal',
+                childInputs: []
+            },
+            {
+                text: 'Underline',
+                watch: 'textDecorationLine',
+                value: val => val !== 'none',
+                type: 'text',
+                childInputs: [
+                    {
+                        text: 'Underline color',
+                        watch: 'textDecorationColor',
+                        value: val => val
+                    }
+                ]
+            }
+        ]
+    },
 ];
 
 export default  blockStyleConfig;

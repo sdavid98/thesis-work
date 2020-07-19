@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
+import {useSelector} from "react-redux";
 import {Editor} from "@tinymce/tinymce-react";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Fab from "@material-ui/core/Fab";
@@ -16,9 +16,7 @@ const useStyles = makeStyles({
 });
 
 const ListItem = (props) => {
-    const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
 
     const editor =

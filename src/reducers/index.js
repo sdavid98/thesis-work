@@ -10,7 +10,11 @@ const initTextRootStyle = {
     padding: '0px 0px 0px 0px',
     backgroundColor: '#ffffff',
     fontSize: '14px',
-    lineHeight: '16px'
+    lineHeight: '16px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    textDecorationLine: 'none',
+    textDecorationColor: '#171717'
 };
 
 const items = (state = initState, action) => {
@@ -73,6 +77,7 @@ const items = (state = initState, action) => {
                         content: {
                             text: '<p>Change me</p>',
                             imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Digital.com',
+                            imageAlt: 'default alt',
                             imageDimensions: {
                                 width: 150,
                                 height: 150
@@ -198,6 +203,54 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, lineHeight: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMFONTWEIGHT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, fontWeight: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMFONTSTYLE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, fontStyle: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMTEXTDECORATION':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, textDecorationLine: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMTEXTDECORATIONCOLOR':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, textDecorationColor: action.style}}
                         }
                         return item;
                     })

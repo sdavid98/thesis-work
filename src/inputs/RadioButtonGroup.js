@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -31,13 +30,10 @@ const useStyles = makeStyles({
 });
 
 const RadioButtonGroup = (props) => {
-    const dispatch = useDispatch();
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
 
-    const options = props.item.items.map(item => {
-       return <FormControlLabel value={item.text.replace(/ /g, "")} control={<Radio color="primary" />} label={item.text} />
+    const options = props.item.items.map((item, index) => {
+       return <FormControlLabel key={index} value={item.text.replace(/ /g, "")} control={<Radio color="primary" />} label={item.text} />
     });
 
     const handleChange = (event) => {

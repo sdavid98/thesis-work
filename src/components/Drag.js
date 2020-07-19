@@ -52,6 +52,7 @@ const Drag = () => {
                     stopDrag = true;
                 }
             }
+            return false;
         });
 
         if (stopDrag) {

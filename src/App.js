@@ -1,14 +1,18 @@
 import React from 'react';
+import {useDispatch} from "react-redux";
 import './App.css'
 import Panel from "./components/Panel";
 import MenuItems from "./components/MenuItems";
 import Drag from "./components/Drag";
 import BlockSettings from "./components/BlockSettings";
+import {changeActiveItemId} from "./actions";
 
 const App = () => {
+	const dispatch = useDispatch();
+
 	const clickHandler = (e) => {
 		if (e.target.className === 'canvas') {
-			console.log(e, e.target);
+			dispatch(changeActiveItemId(null));
 		}
 	};
 

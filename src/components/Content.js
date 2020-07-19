@@ -1,13 +1,11 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import TextEditor from "./TextEditor";
 import ImageContent from "./ImageContent";
 import List from "./List";
-import {makeDragHeightReCalculate} from "../actions";
 
 const Content = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
-    const dispatch = useDispatch();
 
     const getPassiveItem = () => {
         if (props.item.type === 'image') {

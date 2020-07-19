@@ -1,5 +1,4 @@
 const createBasicDraggable = (itemType, id) => {
-    console.log(id);
     return {
         type: 'CREATEBASICDRAGGABLE',
         itemType: itemType,
@@ -104,6 +103,38 @@ const changeItemLineHeight = (itemId, style) => {
     }
 };
 
+const changeItemFontWeight = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMFONTWEIGHT',
+        itemId: itemId,
+        style: style
+    }
+};
+
+const changeItemFontStyle = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMFONTSTYLE',
+        itemId: itemId,
+        style: style
+    }
+};
+
+const changeItemTextDecoration = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMTEXTDECORATION',
+        itemId: itemId,
+        style: style
+    }
+};
+
+const changeItemTextDecorationColor = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMTEXTDECORATIONCOLOR',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -119,5 +150,7 @@ const makeDragHeightReCalculate = bool => {
 };
 
 
-export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding, createListDraggable,
-    createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate, changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight};
+export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
+    createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
+    changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
+    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor};

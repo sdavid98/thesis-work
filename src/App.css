@@ -58,3 +58,7 @@ img {
     height: auto;
     display: block;
 }
+
+.MuiInput-underline.Mui-disabled:before {
+    border-bottom-style: solid;
+}
