@@ -39,14 +39,14 @@ const TextInput = (props) => {
     };
 
     const colorPicker = () => {
-        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0) {
+        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0 || props.displayColorPicker) {
             return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={getValue()} />;
         }
         return false;
     };
 
     const endAdornment = () => {
-        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) < 0) {
+        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) < 0 || !props.displayColorPicker) {
             return <InputAdornment position="end">px</InputAdornment>;
         }
         return false;
@@ -61,7 +61,7 @@ const TextInput = (props) => {
                 <TextField
                     id={props.text.replace(/ /g, "")}
                     value={getValue()}
-                    disabled={['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0}
+                    disabled={['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0 || props.displayColorPicker}
                     onChange={(e) => dispatch(props.change(activeItem, props.text, e.target.value))}
                     InputProps={{
                         endAdornment: endAdornment(),

@@ -15,7 +15,8 @@ const initTextRootStyle = {
     fontStyle: 'normal',
     textDecorationLine: 'none',
     textDecorationColor: '#171717',
-    textAlign: 'left'
+    textAlign: 'left',
+    border: 'none #000000 1px'
 };
 
 const items = (state = initState, action) => {
@@ -264,6 +265,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, textAlign: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMBORDER':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, border: action.style}}
                         }
                         return item;
                     })

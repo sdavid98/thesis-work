@@ -17,6 +17,12 @@ const useStyles = makeStyles({
         '& .MuiTypography-body1': {
             fontSize: '0.9rem',
         }
+    },
+    grid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 2fr)',
+        gridColumnGap: '40px',
+        gridRowGap: '10px'
     }
 });
 
@@ -26,11 +32,20 @@ const CheckboxGroup = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const childOption = props.item.items.filter(item => item.childInputs.length > 0 && item.value(activeItem.rootElementStyle[item.watch]));
+    const inputWidth = childOption.childInputs && childOption.childInputs.length % 2 === 0 ? 'grid' : 'initial';
 
     const getChildOptions = () => {
         if (childOption) {
             return childOption.map(parentItem => (
-                parentItem.childInputs.map((input, index) => <div key={index} className={classes.initial}><TextInput value={input.value} watch={input.watch} change={props.item.change} text={input.text} /></div>)
+                parentItem.childInputs.map((input, index) => (
+                    <TextInput
+                        key={index}
+                        value={input.value}
+                        watch={input.watch}
+                        change={props.item.change}
+                        text={input.text}
+                        displayColorPicker={input.displayColorPicker}
+                    />))
                 )
             );
         }
@@ -41,7 +56,19 @@ const CheckboxGroup = (props) => {
     };
 
     const options = props.item.items.map((item, index) => {
-        return <FormControlLabel className={classes.label} key={index} value={item.text.replace(/ /g, "")} control={<Checkbox onChange={(e) => onParentChange(e, item.text.replace(" ", ""))} color="primary" />} label={item.text} />
+        return <FormControlLabel
+            className={classes.label}
+            key={index}
+            value={item.text.replace(/ /g, "")}
+            control={
+                <Checkbox
+                    onChange={(e) => onParentChange(e, item.text.replace(" ", ""))}
+                    color="primary"
+                    checked={item.value(activeItem.rootElementStyle[item.watch])}
+                />
+            }
+            label={item.text}
+        />
     });
 
     return (
@@ -49,7 +76,7 @@ const CheckboxGroup = (props) => {
             <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
             <FormGroup row>
                 {options}
-                {getChildOptions()}
+                <div className={classes['grid']}>{getChildOptions()}</div>
             </FormGroup>
         </>
     );

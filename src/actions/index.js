@@ -143,6 +143,14 @@ const changeItemTextAlign = (itemId, style) => {
     }
 };
 
+const changeItemBorder = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMBORDER',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -161,4 +169,4 @@ const makeDragHeightReCalculate = bool => {
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
-    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign};
+    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder};

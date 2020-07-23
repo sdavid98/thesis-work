@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -36,6 +36,7 @@ const RadioButtonGroup = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const dispatch = useDispatch();
+    const [selectedItem, setSelectedItem] = useState(props.item.value(activeItem));
     const classes = useStyles();
 
     const options = props.item.items.map((item, index) => {
@@ -43,6 +44,7 @@ const RadioButtonGroup = (props) => {
     });
 
     const handleChange = (event, text) => {
+        setSelectedItem(event.target.value);
         if (props.dispatchAction) {
             dispatch(props.change(activeItem, text, event.target.value));
         }
@@ -51,14 +53,10 @@ const RadioButtonGroup = (props) => {
         }
     };
 
-    const getValue = () => {
-        return props.item.value(activeItem);
-    };
-
     return (
         <FormControl className={classes.group} component="fieldset">
             <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
-            <RadioGroup onChange={(e) => handleChange(e, props.item.text)} className={classes.radios} row name={props.item.id} value={getValue()}>
+            <RadioGroup onChange={(e) => handleChange(e, props.item.text)} className={classes.radios} row name={props.item.id} value={selectedItem}>
                 {options}
             </RadioGroup>
         </FormControl>

@@ -1,6 +1,6 @@
 import blockStyleValidations from "./blockStyleValidations";
 import {
-    changeItemBackColor,
+    changeItemBackColor, changeItemBorder,
     changeItemColor, changeItemFontDecoration,
     changeItemFontSize, changeItemFontStyle, changeItemFontWeight,
     changeItemLineHeight,
@@ -250,7 +250,49 @@ const blockStyleConfig = [
                 value: val => val === 'justify'
             }
         ]
-    }
+    },
+    {
+        id: 'border',
+        label: 'Border',
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            const border = {
+                'Displayborder': activeItem.rootElementStyle['border'].split(' ')[0],
+                'Border color': activeItem.rootElementStyle['border'].split(' ')[1],
+                'Border width': activeItem.rootElementStyle['border'].split(' ')[2]
+            };
+            const styleValues = {
+                'Displayborder': () => value ? 'solid' : 'none',
+                'Border width': () => blockStyleValidations['borderWidth'](value) ? `${value}px` : activeItem.rootElementStyle['border'].split(' ')[2],
+                'Border color': () => value ? value : activeItem.rootElementStyle['border'].split(' ')[1]
+            };
+            border[itemText] = styleValues[itemText]();
+
+            return changeItemBorder(activeItem.id, `${border['Displayborder']} ${border['Border color']} ${border['Border width']}`);
+        },
+        childChange: true,
+        items: [
+            {
+                text: 'Display border',
+                watch: 'border',
+                value: val => val.split(' ')[0] !== 'none',
+                type: 'text',
+                childInputs: [
+                    {
+                        text: 'Border color',
+                        watch: 'border',
+                        value: val => val.split(' ')[1],
+                        displayColorPicker: true
+                    },
+                    {
+                        text: 'Border width',
+                        watch: 'border',
+                        value: val => parseInt(val.split(' ')[2])
+                    }
+                ]
+            }
+        ]
+    },
 ];
 
 export default  blockStyleConfig;
