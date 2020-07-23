@@ -3,8 +3,18 @@ import {Rnd} from "react-rnd";
 import {useDispatch, useSelector} from "react-redux";
 import {moveItem, resizeItem, changeActiveItemId, makeDragHeightReCalculate} from "../actions";
 import Content from "./Content";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+    noLinkUnderline: {
+        '& a': {
+            textDecoration: 'none'
+        }
+    },
+});
 
 const Drag = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const drags = useSelector(state => state.draggables);
     const activeItemId = useSelector(state => state.activeItemId);
@@ -121,7 +131,7 @@ const Drag = () => {
                 lockAspectRatio={ratio}
             >
                 <div className="drag-handler"></div>
-                <div className="content" style={item.rootElementStyle} ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
+                <div className={`content ${!item.underlineLinksIfPresent && classes['noLinkUnderline']}`} style={item.rootElementStyle} ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
             </Rnd>);
         })
     }

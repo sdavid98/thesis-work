@@ -1,5 +1,6 @@
 let blockTypeConfig = {
-    'text': ['color', 'backgroundColor', 'fontSize', 'lineHeight', 'fontStyle', 'textAlign', 'border',/*    'linkUnderline', 'blockSize',*/ 'padding']
+    'text': ['color', 'backgroundColor', 'fontSize', 'lineHeight', 'fontStyle', 'textAlign', 'border', 'linkUnderline', 'padding'],
+    'list': []
 };
 
 export default blockTypeConfig;

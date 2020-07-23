@@ -35,7 +35,8 @@ const items = (state = initState, action) => {
                         content: {
                             text: '<p>Change me</p>'
                         },
-                        rootElementStyle: {...initTextRootStyle}
+                        rootElementStyle: {...initTextRootStyle},
+                        underlineLinksIfPresent: true
                     }
                 ],
                 activeItemId: action.id
@@ -277,6 +278,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, border: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGELINKUNDERLINEDISPLAY':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, underlineLinksIfPresent: action.display}
                         }
                         return item;
                     })

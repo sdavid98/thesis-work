@@ -1,10 +1,18 @@
 import blockStyleValidations from "./blockStyleValidations";
 import {
-    changeItemBackColor, changeItemBorder,
-    changeItemColor, changeItemFontDecoration,
-    changeItemFontSize, changeItemFontStyle, changeItemFontWeight,
+    changeItemBackColor,
+    changeItemBorder,
+    changeItemColor,
+    changeItemFontDecoration,
+    changeItemFontSize,
+    changeItemFontStyle,
+    changeItemFontWeight,
     changeItemLineHeight,
-    changeItemPadding, changeItemTextAlign, changeItemTextDecoration, changeItemTextDecorationColor
+    changeItemPadding,
+    changeItemTextAlign,
+    changeItemTextDecoration,
+    changeItemTextDecorationColor,
+    changeLinkUnderlineDisplay
 } from "./actions";
 
 const blockStyleConfig = [
@@ -290,6 +298,24 @@ const blockStyleConfig = [
                         value: val => parseInt(val.split(' ')[2])
                     }
                 ]
+            }
+        ]
+    },
+    {
+        id: 'linkUnderline',
+        label: 'Link underline',
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            return changeLinkUnderlineDisplay(activeItem.id, value);
+        },
+        childChange: true,
+        condition: activeItem => activeItem.content.text.indexOf('</a>') > 0,
+        items: [
+            {
+                text: 'Underline',
+                watch: 'underlineLinksIfPresent',
+                value: val => val,
+                childInputs: []
             }
         ]
     },

@@ -151,6 +151,14 @@ const changeItemBorder = (itemId, style) => {
     }
 };
 
+const changeLinkUnderlineDisplay = (itemId, display) => {
+    return {
+        type: 'CHANGELINKUNDERLINEDISPLAY',
+        itemId: itemId,
+        display: display
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -169,4 +177,5 @@ const makeDragHeightReCalculate = bool => {
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
-    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder};
+    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
+    changeLinkUnderlineDisplay};

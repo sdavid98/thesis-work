@@ -36,17 +36,19 @@ const BlockSettings = () => {
     }
 
     const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => {
-        if (item.type === 'radio' && item.childChange) {
-            return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
-        }
-        if (item.type === 'radio') {
-            return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
-        }
-        if (item.type === 'text') {
-            return <div key={index} className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>
-        }
-        if (item.type === 'checkbox') {
-            return <div key={index} className={classes.styleBlock}><CheckboxGroup item={item} /></div>
+        if (item.condition === undefined || item.condition(activeItem)) {
+            if (item.type === 'radio' && item.childChange) {
+                return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
+            }
+            if (item.type === 'radio') {
+                return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
+            }
+            if (item.type === 'text') {
+                return <div key={index} className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>
+            }
+            if (item.type === 'checkbox') {
+                return <div key={index} className={classes.styleBlock}><CheckboxGroup item={item} /></div>
+            }
         }
         return false;
     });

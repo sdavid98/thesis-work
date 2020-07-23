@@ -56,6 +56,7 @@ const CheckboxGroup = (props) => {
     };
 
     const options = props.item.items.map((item, index) => {
+        const initValue = activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
         return <FormControlLabel
             className={classes.label}
             key={index}
@@ -64,7 +65,7 @@ const CheckboxGroup = (props) => {
                 <Checkbox
                     onChange={(e) => onParentChange(e, item.text.replace(" ", ""))}
                     color="primary"
-                    checked={item.value(activeItem.rootElementStyle[item.watch])}
+                    checked={item.value(initValue)}
                 />
             }
             label={item.text}
@@ -76,7 +77,9 @@ const CheckboxGroup = (props) => {
             <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
             <FormGroup row>
                 {options}
-                <div className={classes['grid']}>{getChildOptions()}</div>
+                {childOption !== undefined &&
+                    <div className={classes['grid']}>{getChildOptions()}</div>
+                }
             </FormGroup>
         </>
     );
