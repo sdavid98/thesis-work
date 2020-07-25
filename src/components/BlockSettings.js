@@ -1,11 +1,10 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
 import blockStyleConfig from "../blockStyleConfig";
 import MultiLevelInputGroup from "./MultiLevelInputGroup";
 import blockTypeConfig from "../blockTypeConfig";
-import TextInput from "../inputs/TextInput";
 import CheckboxGroup from "../inputs/CheckboxGroup";
 import TextGroup from "../inputs/TextGroup";
 
@@ -13,20 +12,10 @@ const useStyles = makeStyles({
     styleBlock: {
         marginTop: '10px',
         marginBottom: '20px'
-    },
-    aloneLabel: {
-        width: 'calc(50% - 20px)',
-        '& .text-input-label': {
-            fontSize: '0.9rem',
-            color: '#0000008a',
-            fontWeight: 400,
-            lineHeight: 1
-        }
     }
 });
 
 const BlockSettings = () => {
-    const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
@@ -37,7 +26,7 @@ const BlockSettings = () => {
     }
 
     const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => {
-        if (item.condition === undefined || item.condition(activeItem)) {
+        if (!item.condition || item.condition(activeItem)) {
             if (item.type === 'radio' && item.childChange) {
                 return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
             }
@@ -46,9 +35,6 @@ const BlockSettings = () => {
             }
             if (item.type === 'text') {
                 return <div key={index} className={classes.styleBlock}><TextGroup item={item} /></div>
-            }
-            if (item.type === 'text') {
-                return <div key={index} className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>
             }
             if (item.type === 'checkbox') {
                 return <div key={index} className={classes.styleBlock}><CheckboxGroup item={item} /></div>

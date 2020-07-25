@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -6,9 +6,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
-    grid: {
-        gridTemplateColumns: 'repeat(2, 50%)'
-    },
     label: {
         fontSize: '0.9rem',
         color: '#0000008a'
@@ -27,48 +24,75 @@ const TextInput = (props) => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
-    const getValue = () => {
+    const [value, setValue] = useState('');
+
+    useEffect(() => {
+        setValue('');
+    }, [props.item]);
+
+    const getValue = (item) => {
+        if (value !== '') {
+            return value
+        }
         if (activeItemId) {
-            return props.value(activeItem.rootElementStyle[props.watch]);
+            return activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
         }
         return '';
     };
 
     const colorPickerChange = (e) => {
-        dispatch(props.change(activeItem, props.text, e.target.value));
+        dispatch(props.change(activeItem, props.item.label, e.target.value));
     };
 
-    const colorPicker = () => {
-        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0 || props.displayColorPicker) {
-            return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={getValue()} />;
+    const colorPicker = (item) => {
+        if (item.displayColorPicker) {
+            return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={props.item.value(getValue(item))} />;
         }
         return false;
     };
 
     const endAdornment = () => {
-        if (['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) < 0 || !props.displayColorPicker) {
+        if (!props.item.displayColorPicker) {
             return <InputAdornment position="end">px</InputAdornment>;
         }
         return false;
     };
 
+    const getLabelIfNotHidden = item => {
+        if (item.displayLabel) {
+            return (
+                <Grid item className={classes.label}>
+                    {item.label}
+                </Grid>
+            );
+        }
+        return false;
+    };
+
+    const keyup = (e, text) => {
+        if (e.keyCode === 13) {
+            dispatch(props.change(activeItem, text, e.target.value));
+
+            if (props.item.hasAfterChangeFunction) {
+                dispatch(props.item.afterChange());
+            }
+        }
+    };
+
     return (
-        <Grid className={classes.grid}>
-            <Grid item className={`${classes.label} text-input-label`}>
-                {props.text}
-            </Grid>
-            <Grid item>
-                <TextField
-                    id={props.text.replace(/ /g, "")}
-                    value={getValue()}
-                    disabled={['color', 'backgroundColor', 'textDecorationColor'].indexOf(props.watch) >= 0 || props.displayColorPicker}
-                    onChange={(e) => dispatch(props.change(activeItem, props.text, e.target.value))}
-                    InputProps={{
-                        endAdornment: endAdornment(),
-                        startAdornment: colorPicker()
-                    }}
-                />
-            </Grid>
+        <Grid item>
+            {getLabelIfNotHidden(props.item)}
+            <TextField
+                id={props.item.label.replace(/ /g, "")}
+                value={props.item.value(getValue(props.item))}
+                disabled={props.item.disabled}
+                onChange={(e) => setValue(e.target.value)}
+                InputProps={{
+                    endAdornment: endAdornment(),
+                    startAdornment: colorPicker(props.item),
+                    onKeyUp: (e) => keyup(e, props.item.label)
+                }}
+            />
         </Grid>
     );
 };

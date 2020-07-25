@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
-import TextInput from "../inputs/TextInput";
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
+import TextInput from "../inputs/TextInput";
 
 const useStyles = makeStyles({
     initial: {
@@ -23,7 +23,7 @@ const MultiLevelInputGroup = (props) => {
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const [activeParentValue, setActiveParentValue] = useState(props.item.value(activeItem));
 
-    const childOption = props.item.items.find(item => item.text.replace(/ /g, "") === activeParentValue);
+    const childOption = props.item.items.find(item => item.label.replace(/ /g, "") === activeParentValue);
     const onParentChange = value => {
         setActiveParentValue(value);
         dispatch(props.item.change(activeItem, value));
@@ -33,7 +33,7 @@ const MultiLevelInputGroup = (props) => {
 
     const getChildInputs = () => {
         if (childOption.type === 'text') {
-            return childOption.childInputs.map((input, index) => <TextInput key={index} value={input.value} watch={props.item.id} change={props.item.change} text={input.text} />);
+            return childOption.childInputs.map((input, index) => <TextInput key={index} item={input} change={props.item.change} />);
         }
     };
 

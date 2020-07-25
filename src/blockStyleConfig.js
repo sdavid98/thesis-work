@@ -3,7 +3,6 @@ import {
     changeItemBackColor,
     changeItemBorder,
     changeItemColor,
-    changeItemFontDecoration,
     changeItemFontSize,
     changeItemFontStyle,
     changeItemFontWeight,
@@ -86,48 +85,100 @@ const blockStyleConfig = [
         childChange: true,
         items: [
             {
-                text: "All same",
+                label: "All same",
                 type: "text",
+                watch: 'padding',
                 childInputs: [
                     {
-                        text: "Padding",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[0])
+                        label: "Padding",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[0]);
+                            }
+                            return val;
+                        },
                     }
                 ]
             },
             {
-                text: "Horizontal and Vertical",
+                label: "Horizontal and Vertical",
                 type: "text",
+                watch: 'padding',
                 childInputs: [
                     {
-                        text: "Vertical padding",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[0])
+                        label: "Vertical padding",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[0]);
+                            }
+                            return val;
+                        },
                     },
                     {
-                        text: "Horizontal padding",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[1])
+                        label: "Horizontal padding",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[1]);
+                            }
+                            return val;
+                        },
                     }
                 ]
             },
             {
-                text: "All different",
+                label: "All different",
                 type: "text",
+                watch: 'padding',
                 childInputs: [
                     {
-                        text: "Padding top",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[0])
+                        label: "Padding top",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[0]);
+                            }
+                            return val;
+                        },
                     },
                     {
-                        text: "Padding bottom",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[2])
+                        label: "Padding bottom",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[2]);
+                            }
+                            return val;
+                        },
                     },
                     {
-                        text: "Padding left",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[3])
+                        label: "Padding left",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[3]);
+                            }
+                            return val;
+                        },
                     },
                     {
-                        text: "Padding right",
-                        value: fullPadding => parseInt(fullPadding.split(' ')[1])
+                        label: "Padding right",
+                        watch: 'padding',
+                        displayLabel: true,
+                        value: val => {
+                            if (val.split(' ').length === 4) {
+                                return parseInt(val.split(' ')[1]);
+                            }
+                            return val;
+                        },
                     }
                 ]
             }
@@ -139,13 +190,15 @@ const blockStyleConfig = [
         displayLabel: false,
         type: 'text',
         watch: 'color',
+        disabled: true,
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['color'](value)) {
                 return changeItemColor(activeItem.id, value);
             }
         },
         childChange: false,
-        value: val => val
+        value: val => val,
+        displayColorPicker: true
     },
     {
         id: 'backgroundColor',
@@ -153,13 +206,15 @@ const blockStyleConfig = [
         displayLabel: false,
         type: 'text',
         watch: 'backgroundColor',
+        disabled: true,
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['color'](value)) {
                 return changeItemBackColor(activeItem.id, value);
             }
         },
         childChange: false,
-        value: val => val
+        value: val => val,
+        displayColorPicker: true
     },
     {
         id: 'fontSize',
@@ -213,27 +268,30 @@ const blockStyleConfig = [
         childChange: true,
         items: [
             {
-                text: 'Bold',
+                label: 'Bold',
                 watch: 'fontWeight',
                 value: val => val !== 'normal',
                 childInputs: []
             },
             {
-                text: 'Italic',
+                label: 'Italic',
                 watch: 'fontStyle',
                 value: val => val !== 'normal',
                 childInputs: []
             },
             {
-                text: 'Underline',
+                label: 'Underline',
                 watch: 'textDecorationLine',
                 value: val => val !== 'none',
                 type: 'text',
                 childInputs: [
                     {
-                        text: 'Underline color',
+                        label: 'Underline color',
+                        displayLabel: true,
                         watch: 'textDecorationColor',
-                        value: val => val
+                        disabled: true,
+                        value: val => val,
+                        displayColorPicker: true
                     }
                 ]
             }
@@ -250,19 +308,19 @@ const blockStyleConfig = [
         childChange: false,
         items: [
             {
-                text: 'Left',
+                label: 'Left',
                 value: val => val === 'left',
             },
             {
-                text: 'Center',
+                label: 'Center',
                 value: val => val === 'center',
             },
             {
-                text: 'Right',
+                label: 'Right',
                 value: val => val === 'right',
             },
             {
-                text: 'Justify',
+                label: 'Justify',
                 value: val => val === 'justify'
             }
         ]
@@ -289,21 +347,40 @@ const blockStyleConfig = [
         childChange: true,
         items: [
             {
-                text: 'Display border',
+                label: 'Display border',
                 watch: 'border',
+                disabled: false,
+                displayLabel: false,
+                hasAfterChangeFunction: false,
                 value: val => val.split(' ')[0] !== 'none',
                 type: 'text',
                 childInputs: [
                     {
-                        text: 'Border color',
+                        label: 'Border color',
                         watch: 'border',
-                        value: val => val.split(' ')[1],
+                        disabled: true,
+                        displayLabel: false,
+                        hasAfterChangeFunction: false,
+                        value: val => {
+                            if (val.split(' ').length === 3) {
+                                return val.split(' ')[1];
+                            }
+                            return val;
+                        },
                         displayColorPicker: true
                     },
                     {
-                        text: 'Border width',
+                        label: 'Border width',
                         watch: 'border',
-                        value: val => parseInt(val.split(' ')[2])
+                        disabled: false,
+                        displayLabel: false,
+                        hasAfterChangeFunction: false,
+                        value: val => {
+                            if (val.split(' ').length === 3) {
+                                return parseInt(val.split(' ')[2]);
+                            }
+                            return parseInt(val);
+                        }
                     }
                 ]
             }
@@ -312,6 +389,7 @@ const blockStyleConfig = [
     {
         id: 'linkUnderline',
         label: 'Link underline',
+        displayLabel: true,
         type: 'checkbox',
         change: (activeItem, itemText, value) => {
             return changeLinkUnderlineDisplay(activeItem.id, value);
@@ -320,8 +398,11 @@ const blockStyleConfig = [
         condition: activeItem => activeItem.content.text.indexOf('</a>') > 0,
         items: [
             {
-                text: 'Underline',
+                label: 'Underline',
                 watch: 'underlineLinksIfPresent',
+                disabled: false,
+                displayLabel: false,
+                hasAfterChangeFunction: false,
                 value: val => val,
                 childInputs: []
             }
@@ -333,10 +414,10 @@ const blockStyleConfig = [
         displayLabel: true,
         type: 'text',
         change: (activeItem, itemText, value) => {
-            //return makeDragHeightReCalculate(true);
             return resizeItem(activeItem.id, {width: parseInt(value), height: activeItem.height});
         },
         childChange: true,
+        condition: false,
         items: [
             {
                 label: 'Width',
@@ -353,6 +434,7 @@ const blockStyleConfig = [
                 watch: 'height',
                 disabled: true,
                 displayLabel: true,
+                hasAfterChangeFunction: false,
                 value: val => val,
                 childInputs: []
             }

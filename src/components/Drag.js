@@ -29,12 +29,11 @@ const Drag = () => {
 
     useEffect(() => {
         if (activeItemId && makeHeightReCalculate) {
-            dispatch(makeDragHeightReCalculate(false));console.log('RECALCULATE');
-            dispatch(resizeItem(activeItemId, {height: refs.current[activeItemId+'content'].clientHeight, width: refs.current[activeItemId+'content'].clientWidth}));
+            console.log('effect', refs.current[activeItemId].clientWidth);
+            dispatch(makeDragHeightReCalculate(false));
+            dispatch(resizeItem(activeItemId, {height: refs.current[activeItemId].clientHeight, width: refs.current[activeItemId].clientWidth}));
         }
-    }, [makeHeightReCalculate]);
-
-
+    });
 
     const stopDragOrResizeOnHit = (currentItem, id, calledForDrag = true) => {
         let stopDrag = false;
@@ -86,6 +85,10 @@ const Drag = () => {
         }
     };
 
+    const onStopResize = () => {
+        dispatch(resizeItem(activeItemId, {width: refs.current[activeItemId+'content'].offsetWidth, height: refs.current[activeItemId+'content'].offsetHeight}))
+    };
+
     const updateItemMinHeight = (itemId) => {
         if (refs.current[itemId].resizable.state.height < refs.current[itemId+'content'].clientHeight) {
             refs.current[itemId].resizable.state.isResizing = false;
@@ -126,7 +129,7 @@ const Drag = () => {
                 onClick={() => setActiveItemId(item.id)}
                 onResizeStart={() => setActiveItemId(item.id)}
                 onResize={() => handleResize(item.id)}
-                onResizeStop={(a, b, c, data) => dispatch(resizeItem(item.id, {width: data.width + item.width, height: data.height + item.height}))}
+                onResizeStop={onStopResize}
                 onDragStart={() => setActiveItemId(item.id)}
                 onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
                 onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
