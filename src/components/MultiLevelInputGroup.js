@@ -27,6 +27,10 @@ const MultiLevelInputGroup = (props) => {
     const onParentChange = value => {
         setActiveParentValue(value);
         dispatch(props.item.change(activeItem, value));
+
+        if (props.item.hasAfterChangeFunction) {
+            dispatch(props.item.afterChange());
+        }
     };
 
     const inputWidth = childOption.childInputs.length % 2 === 0 ? 'grid' : 'initial';

@@ -30,7 +30,7 @@ const items = (state = initState, action) => {
                         id: action.id,
                         type: action.itemType,
                         width: 100,
-                        height: 18,
+                        height: 16,
                         x: 0,
                         y: 0,
                         content: {

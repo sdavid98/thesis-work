@@ -46,6 +46,10 @@ const CheckboxGroup = (props) => {
 
     const onParentChange = (e, itemText) => {
         dispatch(props.item.change(activeItem, itemText, e.target.checked));
+
+        if (props.item.hasAfterChangeFunction) {
+            dispatch(props.item.afterChange());
+        }
     };
 
     const options = props.item.items.map((item, index) => {

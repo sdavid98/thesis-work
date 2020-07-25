@@ -44,7 +44,12 @@ const ListItem = (props) => {
     const deleteButton = () => {
         if (props.activeListItemNum === props.index && props.blokkId === activeItemId && props.itemNum > 1) {
             return (
-                <Fab className={classes.icon} color="primary" aria-label="delete" onClick={() => props.delete(props.index)}>
+                <Fab
+                    className={classes.icon}
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => props.delete(props.index)}
+                >
                     <HighlightOffIcon/>
                 </Fab>
             );

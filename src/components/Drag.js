@@ -31,7 +31,7 @@ const Drag = () => {
         if (activeItemId && makeHeightReCalculate) {
             console.log('effect', refs.current[activeItemId].clientWidth);
             dispatch(makeDragHeightReCalculate(false));
-            dispatch(resizeItem(activeItemId, {height: refs.current[activeItemId].clientHeight, width: refs.current[activeItemId].clientWidth}));
+            dispatch(resizeItem(activeItemId, {width: refs.current[activeItemId+'content'].offsetWidth, height: refs.current[activeItemId+'content'].offsetHeight}));
         }
     });
 
@@ -116,28 +116,36 @@ const Drag = () => {
             if (item.type === 'image') {
                 ratio = item.content.imageDimensions.width/item.content.imageDimensions.height;
             }
-            return (<Rnd
-                ref={elem => (refs.current[item.id] = elem)}
-                key={item.id}
-                dragHandleClassName="drag-handler"
-                bounds=".canvas"
-                size={{ width: item.width,  height: 'auto' }}
-                position={{ x: item.x, y: item.y }}
-                enableResizing={resizeAndDragEnabling.resize}
-                disableDragging={resizeAndDragEnabling.dragDisabled}
-                className={resizeAndDragEnabling.dragClass}
-                onClick={() => setActiveItemId(item.id)}
-                onResizeStart={() => setActiveItemId(item.id)}
-                onResize={() => handleResize(item.id)}
-                onResizeStop={onStopResize}
-                onDragStart={() => setActiveItemId(item.id)}
-                onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
-                onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
-                lockAspectRatio={ratio}
-            >
-                <div className="drag-handler"></div>
-                <div className={`content ${!item.underlineLinksIfPresent && classes['noLinkUnderline']}`} style={item.rootElementStyle} ref={elem => (refs.current[item.id+'content'] = elem)}><Content item={item} /></div>
-            </Rnd>);
+            return (
+                <Rnd
+                    ref={elem => (refs.current[item.id] = elem)}
+                    key={item.id}
+                    dragHandleClassName="drag-handler"
+                    bounds=".canvas"
+                    size={{ width: item.width,  height: 'auto' }}
+                    position={{ x: item.x, y: item.y }}
+                    enableResizing={resizeAndDragEnabling.resize}
+                    disableDragging={resizeAndDragEnabling.dragDisabled}
+                    className={resizeAndDragEnabling.dragClass}
+                    onClick={() => setActiveItemId(item.id)}
+                    onResizeStart={() => setActiveItemId(item.id)}
+                    onResize={() => handleResize(item.id)}
+                    onResizeStop={onStopResize}
+                    onDragStart={() => setActiveItemId(item.id)}
+                    onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
+                    onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
+                    lockAspectRatio={ratio}
+                >
+                    <div className="drag-handler"></div>
+                    <div
+                        className={`content ${!item.underlineLinksIfPresent && classes['noLinkUnderline']}`}
+                        style={item.rootElementStyle}
+                        ref={elem => (refs.current[item.id+'content'] = elem)}
+                    >
+                        <Content item={item} />
+                    </div>
+                </Rnd>
+            );
         })
     }
     return false;

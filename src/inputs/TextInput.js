@@ -28,7 +28,7 @@ const TextInput = (props) => {
 
     useEffect(() => {
         setValue('');
-    }, [props.item]);
+    }, [props.item, activeItem]);
 
     const getValue = (item) => {
         if (value !== '') {

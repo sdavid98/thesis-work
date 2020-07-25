@@ -40,7 +40,14 @@ const RadioButtonGroup = (props) => {
     const classes = useStyles();
 
     const options = props.item.items.map((item, index) => {
-       return <FormControlLabel key={index} value={item.label.replace(/ /g, "")} control={<Radio color="primary" />} label={item.label} />
+       return (
+           <FormControlLabel
+               key={index}
+               value={item.label.replace(/ /g, "")}
+               control={<Radio color="primary" />}
+               label={item.label}
+           />
+       )
     });
 
     const handleChange = (event, text) => {
@@ -56,7 +63,13 @@ const RadioButtonGroup = (props) => {
     return (
         <FormControl className={classes.group} component="fieldset">
             <FormLabel className={classes.label} component="legend">{props.item.label}</FormLabel>
-            <RadioGroup onChange={(e) => handleChange(e, props.item.label)} className={classes.radios} row name={props.item.id} value={selectedItem}>
+            <RadioGroup
+                onChange={(e) => handleChange(e, props.item.label)}
+                className={classes.radios}
+                row
+                name={props.item.id}
+                value={selectedItem}
+            >
                 {options}
             </RadioGroup>
         </FormControl>

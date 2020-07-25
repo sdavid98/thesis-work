@@ -75,7 +75,12 @@ const List = (props) => {
     const getAddIcon = () => {
         if (activeItemId === props.item.id) {
             return (
-                <Fab className={classes.icon} color="primary" aria-label="add" onClick={addNewItem}>
+                <Fab
+                    className={classes.icon}
+                    color="primary"
+                    aria-label="add"
+                    onClick={addNewItem}
+                >
                     <AddIcon/>
                 </Fab>
             );
