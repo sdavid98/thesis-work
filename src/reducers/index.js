@@ -20,6 +20,12 @@ const initTextRootStyle = {
     border: 'none #000000 1px'
 };
 
+const initImageRootStyle = {
+    padding: '0px 0px 0px 0px',
+    backgroundColor: '#ffffff',
+    border: 'none #000000 1px'
+};
+
 const items = (state = initState, action) => {
     switch (action.type) {
         case 'CREATEBASICDRAGGABLE':
@@ -74,20 +80,22 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
-                        width: 150,
-                        height: 30,
+                        width: 100,
+                        height: 100,
                         x: 0,
                         y: 0,
                         content: {
                             text: '<p>Change me</p>',
-                            imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Digital.com',
+                            imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Change+my+url',
                             imageAlt: 'default alt',
+                            link: false,
+                            initialLoad: true,
                             imageDimensions: {
                                 width: 150,
                                 height: 150
                             }
                         },
-                        rootElementStyle: {padding: '0px'}
+                        rootElementStyle: {...initImageRootStyle}
                     }
                 ],
                 activeItemId: action.id
@@ -284,6 +292,54 @@ const items = (state = initState, action) => {
                     })
 
             };
+        case 'CHANGEIMAGESOURCEURL':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, imageSrc: action.src}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEIMAGEALT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, imageAlt: action.alt}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEIMAGELINK':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, link: action.link}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEIMAGEDIMENSIONS':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, imageDimensions: {width: action.width, height: action.height}}}
+                        }
+                        return item;
+                    })
+
+            };
         case 'CHANGELINKUNDERLINEDISPLAY':
             return {
                 ...state,
@@ -294,6 +350,18 @@ const items = (state = initState, action) => {
                         }
                         return item;
                     })
+
+            };
+        case 'CHANGEIMAGEINITIALLOADBOOL':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, initialLoad: action.bool}}
+                        }
+                        return item;
+                    }),
 
             };
         case 'CHANGEACTIVEITEMID':

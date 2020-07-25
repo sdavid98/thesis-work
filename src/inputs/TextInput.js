@@ -35,7 +35,13 @@ const TextInput = (props) => {
             return value
         }
         if (activeItemId) {
-            return activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
+            if (activeItem.rootElementStyle[item.watch]) {
+                return activeItem.rootElementStyle[item.watch];
+            }
+            if (activeItem[item.watch]) {
+                return activeItem[item.watch];
+            }
+            return activeItem['content'][item.watch];
         }
         return '';
     };
@@ -52,7 +58,7 @@ const TextInput = (props) => {
     };
 
     const endAdornment = () => {
-        if (!props.item.displayColorPicker) {
+        if (!props.item.displayColorPicker && !props.item.hideEndAdornment) {
             return <InputAdornment position="end">px</InputAdornment>;
         }
         return false;
@@ -74,7 +80,7 @@ const TextInput = (props) => {
             dispatch(props.change(activeItem, text, e.target.value));
 
             if (props.item.hasAfterChangeFunction) {
-                dispatch(props.item.afterChange());
+                dispatch(props.item.afterChange(activeItemId));
             }
         }
     };

@@ -29,7 +29,6 @@ const Drag = () => {
 
     useEffect(() => {
         if (activeItemId && makeHeightReCalculate) {
-            console.log('effect', refs.current[activeItemId].clientWidth);
             dispatch(makeDragHeightReCalculate(false));
             dispatch(resizeItem(activeItemId, {width: refs.current[activeItemId+'content'].offsetWidth, height: refs.current[activeItemId+'content'].offsetHeight}));
         }

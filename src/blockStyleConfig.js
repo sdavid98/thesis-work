@@ -1,5 +1,9 @@
 import blockStyleValidations from "./blockStyleValidations";
 import {
+    changeImageAlt,
+    changeImageInitialLoadBool,
+    changeImageInitialLoadToFalse, changeImageLink,
+    changeImageSourceUrl,
     changeItemBackColor,
     changeItemBorder,
     changeItemColor,
@@ -418,14 +422,14 @@ const blockStyleConfig = [
         change: (activeItem, itemText, value) => {
             return changeLinkUnderlineDisplay(activeItem.id, value);
         },
-        childChange: true,
+        childChange: false,
         condition: activeItem => activeItem.content.text.indexOf('</a>') > 0,
         items: [
             {
                 label: 'Underline',
                 watch: 'underlineLinksIfPresent',
                 disabled: false,
-                displayLabel: false,
+                displayLabel: true,
                 hasAfterChangeFunction: false,
                 value: val => val,
                 childInputs: []
@@ -461,6 +465,84 @@ const blockStyleConfig = [
                 hasAfterChangeFunction: false,
                 value: val => val,
                 childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'sourceUrl',
+        label: 'Image source url',
+        displayLabel: true,
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeImageSourceUrl(activeItem.id, value);
+        },
+        childChange: false,
+        condition: false,
+        items: [
+            {
+                label: 'Url',
+                watch: 'imageSrc',
+                disabled: false,
+                displayLabel: false,
+                hideEndAdornment: true,
+                hasAfterChangeFunction: true,
+                afterChange: (id) => changeImageInitialLoadBool(id, true),
+                value: val => val,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'imageAlt',
+        label: 'Image alt description',
+        displayLabel: true,
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeImageAlt(activeItem.id, value);
+        },
+        childChange: false,
+        condition: false,
+        items: [
+            {
+                label: 'Alt',
+                watch: 'imageAlt',
+                disabled: false,
+                displayLabel: false,
+                hideEndAdornment: true,
+                hasAfterChangeFunction: false,
+                value: val => val,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'imageLink',
+        label: 'Image link',
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            const options = {
+                'Createlinking': () => value ? activeItem.content.link || 'http://example.com' : value,
+                'Link': () => value ? value : activeItem.content.link,
+            };
+            return changeImageLink(activeItem.id, options[itemText]());
+        },
+        childChange: true,
+        items: [
+            {
+                label: 'Create linking',
+                watch: 'link',
+                value: val => val !== false,
+                type: 'text',
+                childInputs: [
+                    {
+                        label: 'Link',
+                        displayLabel: true,
+                        watch: 'link',
+                        disabled: false,
+                        hideEndAdornment: true,
+                        value: val => val,
+                    }
+                ]
             }
         ]
     },

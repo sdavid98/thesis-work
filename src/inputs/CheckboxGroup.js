@@ -28,7 +28,21 @@ const CheckboxGroup = (props) => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
-    const childOption = props.item.items.filter(item => item.childInputs.length > 0 && item.value(activeItem.rootElementStyle[item.watch]));
+
+    const getValue = (item) => {
+        if (activeItemId) {
+            if (activeItem.rootElementStyle[item.watch]) {
+                return activeItem.rootElementStyle[item.watch];
+            }
+            if (activeItem[item.watch]) {
+                return activeItem[item.watch];
+            }
+            return activeItem['content'][item.watch];
+        }
+        return '';
+    };
+
+    const childOption = props.item.items.filter(item => item.childInputs.length > 0 && item.value(getValue(item)));
 
     const getChildOptions = () => {
         if (childOption) {
@@ -53,7 +67,7 @@ const CheckboxGroup = (props) => {
     };
 
     const options = props.item.items.map((item, index) => {
-        const initValue = activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
+        const initValue = getValue(item); //activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
         return <FormControlLabel
             className={classes.label}
             key={index}

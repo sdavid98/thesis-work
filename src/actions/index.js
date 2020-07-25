@@ -159,6 +159,39 @@ const changeLinkUnderlineDisplay = (itemId, display) => {
     }
 };
 
+const changeImageSourceUrl = (itemId, src) => {
+    return {
+        type: 'CHANGEIMAGESOURCEURL',
+        itemId: itemId,
+        src: src
+    }
+};
+
+const changeImageAlt = (itemId, alt) => {
+    return {
+        type: 'CHANGEIMAGEALT',
+        itemId: itemId,
+        alt: alt
+    }
+};
+
+const changeImageLink = (itemId, link) => {
+    return {
+        type: 'CHANGEIMAGELINK',
+        itemId: itemId,
+        link: link
+    }
+};
+
+const changeImageDimensions = (itemId, dimensions) => {
+    return {
+        type: 'CHANGEIMAGEDIMENSIONS',
+        itemId: itemId,
+        width: dimensions.width,
+        height: dimensions.height
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -173,9 +206,18 @@ const makeDragHeightReCalculate = bool => {
     }
 };
 
+const changeImageInitialLoadBool = (itemId, bool) => {
+    return {
+        type: 'CHANGEIMAGEINITIALLOADBOOL',
+        itemId: itemId,
+        bool: bool
+    }
+};
+
 
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
-    changeLinkUnderlineDisplay};
+    changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
+    changeImageLink};
