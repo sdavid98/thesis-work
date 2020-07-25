@@ -28,11 +28,13 @@ const Drag = () => {
     }
 
     useEffect(() => {
-        if (makeHeightReCalculate) {
-            dispatch(makeDragHeightReCalculate(false));
-            dispatch(resizeItem(activeItemId, {height: refs.current[activeItemId+'content'].clientHeight, width: refs.current[activeItemId].resizable.state.width}));
+        if (activeItemId && makeHeightReCalculate) {
+            dispatch(makeDragHeightReCalculate(false));console.log('RECALCULATE');
+            dispatch(resizeItem(activeItemId, {height: refs.current[activeItemId+'content'].clientHeight, width: refs.current[activeItemId+'content'].clientWidth}));
         }
-    });
+    }, [makeHeightReCalculate]);
+
+
 
     const stopDragOrResizeOnHit = (currentItem, id, calledForDrag = true) => {
         let stopDrag = false;

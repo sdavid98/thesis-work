@@ -7,6 +7,7 @@ import MultiLevelInputGroup from "./MultiLevelInputGroup";
 import blockTypeConfig from "../blockTypeConfig";
 import TextInput from "../inputs/TextInput";
 import CheckboxGroup from "../inputs/CheckboxGroup";
+import TextGroup from "../inputs/TextGroup";
 
 const useStyles = makeStyles({
     styleBlock: {
@@ -42,6 +43,9 @@ const BlockSettings = () => {
             }
             if (item.type === 'radio') {
                 return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
+            }
+            if (item.type === 'text') {
+                return <div key={index} className={classes.styleBlock}><TextGroup item={item} /></div>
             }
             if (item.type === 'text') {
                 return <div key={index} className={`${classes.styleBlock} ${classes.aloneLabel}`}><TextInput change={item.change} watch={item.id} value={item.value} text={item.label} /></div>

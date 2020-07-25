@@ -23,7 +23,7 @@ const TextEditor = () => {
                 menubar: false,
                 plugins: ['link charmap'],
                 toolbar:
-                    'undo redo | bold italic underline | link | superscript subscript | fontselect fontsizeselect | forecolor backcolor | charmap | removeformat'
+                    'undo redo | bold italic underline | link | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat'
             }}
             onEditorChange={content => handleChange(content)}
         />

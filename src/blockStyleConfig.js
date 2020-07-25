@@ -12,7 +12,7 @@ import {
     changeItemTextAlign,
     changeItemTextDecoration,
     changeItemTextDecorationColor,
-    changeLinkUnderlineDisplay
+    changeLinkUnderlineDisplay, makeDragHeightReCalculate, resizeItem
 } from "./actions";
 
 const blockStyleConfig = [
@@ -136,7 +136,9 @@ const blockStyleConfig = [
     {
         id: 'color',
         label: 'Color',
+        displayLabel: false,
         type: 'text',
+        watch: 'color',
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['color'](value)) {
                 return changeItemColor(activeItem.id, value);
@@ -148,7 +150,9 @@ const blockStyleConfig = [
     {
         id: 'backgroundColor',
         label: 'Background color',
+        displayLabel: false,
         type: 'text',
+        watch: 'backgroundColor',
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['color'](value)) {
                 return changeItemBackColor(activeItem.id, value);
@@ -160,7 +164,9 @@ const blockStyleConfig = [
     {
         id: 'fontSize',
         label: 'Font size',
+        displayLabel: false,
         type: 'text',
+        watch: 'fontSize',
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['number'](value)) {
                 return changeItemFontSize(activeItem.id, `${value}px`);
@@ -173,7 +179,9 @@ const blockStyleConfig = [
     {
         id: 'lineHeight',
         label: 'Line height',
+        displayLabel: false,
         type: 'text',
+        watch: 'lineHeight',
         change: (activeItem, childItemText, value) => {
             if (blockStyleValidations['number'](value)) {
                 return changeItemLineHeight(activeItem.id, `${value}px`);
@@ -314,6 +322,37 @@ const blockStyleConfig = [
             {
                 text: 'Underline',
                 watch: 'underlineLinksIfPresent',
+                value: val => val,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'size',
+        label: 'Size',
+        displayLabel: true,
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            //return makeDragHeightReCalculate(true);
+            return resizeItem(activeItem.id, {width: parseInt(value), height: activeItem.height});
+        },
+        childChange: true,
+        items: [
+            {
+                label: 'Width',
+                watch: 'width',
+                disabled: false,
+                displayLabel: true,
+                hasAfterChangeFunction: true,
+                afterChange: () => makeDragHeightReCalculate(true),
+                value: val => val,
+                childInputs: []
+            },
+            {
+                label: 'Height',
+                watch: 'height',
+                disabled: true,
+                displayLabel: true,
                 value: val => val,
                 childInputs: []
             }

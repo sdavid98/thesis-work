@@ -6,6 +6,7 @@ const initState = {
 };
 
 const initTextRootStyle = {
+    wordBreak: 'break-all',
     color: '#171717',
     padding: '0px 0px 0px 0px',
     backgroundColor: '#ffffff',
