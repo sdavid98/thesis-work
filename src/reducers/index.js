@@ -63,7 +63,14 @@ const items = (state = initState, action) => {
                         content: {
                             text: ['<p>Change me</p>'],
                             listSymbol: {
-                                signs: ['\u03A9'],
+                                type: 'Numeric',
+                                sign: '\u2022',
+                                trailingCharacters: '',
+                                signSrc: '',
+                                imageStyle: {
+                                    width: 'auto',
+                                    height: '16px'
+                                },
                                 style: {
                                     paddingLeft: '10px'
                                 }
@@ -360,6 +367,66 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, content: {...item.content, initialLoad: action.bool}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLTYPE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, type: action.symbolType}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLSIGN':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, sign: action.sign}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLSRC':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, signSrc: action.src}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLTRAILING':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, trailingCharacters: action.chars}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLIMAGESTYLE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, imageStyle: action.style}}}
                         }
                         return item;
                     }),

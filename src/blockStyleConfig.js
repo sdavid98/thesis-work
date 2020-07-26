@@ -16,6 +16,10 @@ import {
     changeItemTextDecorationColor,
     changeLink,
     changeLinkUnderlineDisplay,
+    changeListSymbolSign,
+    changeListSymbolSrc,
+    changeListSymbolTrailingChars,
+    changeListSymbolType,
     makeDragHeightReCalculate,
     resizeItem
 } from "./actions";
@@ -563,6 +567,106 @@ const blockStyleConfig = [
                 childInputs: []
             }
         ]
+    },
+    {
+        id: 'listSymbol',
+        label: 'List symbol',
+        type: 'select',
+        change: (activeItem, text, value) => {
+            if (text === 'Escape Sequence Unicode') {
+                console.log(unescape(value), /[^\u0000-\u00ff]/.test(unescape(value)));
+                // if (/[^\u0000-\u00ff]/.test(value)) {
+                     return changeListSymbolSign(activeItem.id, value);
+                // }
+                // return changeListSymbolSign(activeItem.id, activeItem.content.listSymbol.sign);
+            }
+            if (text === 'Image url') {
+                return changeListSymbolSrc(activeItem.id, value);
+            }
+            return changeListSymbolType(activeItem.id, value);
+        },
+        value: activeItem => activeItem.content.listSymbol.type,
+        childChange: true,
+        items: [
+            {
+                label: 'Numeric',
+                value: val => val === 'Numeric',
+                childInputs: []
+            },
+            {
+                label: 'Roman',
+                value: val => val === 'Roman',
+                childInputs: []
+            },
+            {
+                label: 'Roman-upper',
+                value: val => val === 'Roman-upper',
+                childInputs: []
+            },
+            {
+                label: 'Latin',
+                value: val => val === 'Latin',
+                childInputs: []
+            },
+            {
+                label: 'Latin-upper',
+                value: val => val === 'Latin-upper',
+                childInputs: []
+            },
+            {
+                label: 'Custom Unicode',
+                value: val => val === 'Custom Unicode',
+                childInputs: [
+                    {
+                        label: 'Escape Sequence Unicode',
+                        displayLabel: true,
+                        watch: 'sign',
+                        disabled: false,
+                        hideEndAdornment: true,
+                        value: val => {
+                            if (val.length === 1) {
+                                //https://stackoverflow.com/questions/21014476/javascript-convert-unicode-string-to-javascript-escape
+                                let result = "";
+                                for(let i = 0; i < val.length; i++){
+                                    result += "\\u" + ("000" + val[i].charCodeAt(0).toString(16)).substr(-4);
+                                }
+                                return result;
+                            }
+                            return val;
+                        },
+                    }
+                ]
+            },
+            {
+                label: 'Custom Image',
+                value: val => val === 'Custom Image',
+                childInputs: [
+                    {
+                        label: 'Image url',
+                        displayLabel: true,
+                        watch: 'signSrc',
+                        disabled: false,
+                        hideEndAdornment: true,
+                        value: val => val
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'trailingCharacters',
+        label: 'Trailing characters',
+        displayLabel: false,
+        type: 'text',
+        watch: 'trailingCharacters',
+        change: (activeItem, childItemText, value) => {
+            return changeListSymbolTrailingChars(activeItem.id, value);
+        },
+        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
+        hideEndAdornment: true,
+        childChange: false,
+        hasAfterChangeFunction: false,
+        value: val => val
     },
 ];
 

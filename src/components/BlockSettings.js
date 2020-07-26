@@ -7,6 +7,7 @@ import MultiLevelInputGroup from "./MultiLevelInputGroup";
 import blockTypeConfig from "../blockTypeConfig";
 import CheckboxGroup from "../inputs/CheckboxGroup";
 import TextGroup from "../inputs/TextGroup";
+import SelectGroup from "../inputs/SelectGroup";
 
 const useStyles = makeStyles({
     styleBlock: {
@@ -38,6 +39,9 @@ const BlockSettings = () => {
             }
             if (item.type === 'checkbox') {
                 return <div key={index} className={classes.styleBlock}><CheckboxGroup item={item} /></div>
+            }
+            if (item.type === 'select') {
+                return <div key={index} className={classes.styleBlock}><SelectGroup item={item} /></div>
             }
         }
         return false;

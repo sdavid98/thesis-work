@@ -41,7 +41,10 @@ const TextInput = (props) => {
             if (activeItem[item.watch]) {
                 return activeItem[item.watch];
             }
-            return activeItem['content'][item.watch];
+            if (activeItem.content.listSymbol[item.watch]) {
+                return activeItem.content.listSymbol[item.watch];
+            }
+            return activeItem.content[item.watch];
         }
         return '';
     };

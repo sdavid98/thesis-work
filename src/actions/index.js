@@ -192,6 +192,46 @@ const changeImageDimensions = (itemId, dimensions) => {
     }
 };
 
+const changeListSymbolType = (itemId, symbol) => {
+    return {
+        type: 'CHANGELISTSYMBOLTYPE',
+        itemId: itemId,
+        symbolType: symbol
+    }
+};
+
+const changeListSymbolSign = (itemId, symbol) => {
+    return {
+        type: 'CHANGELISTSYMBOLSIGN',
+        itemId: itemId,
+        sign: symbol
+    }
+};
+
+const changeListSymbolSrc = (itemId, symbol) => {
+    return {
+        type: 'CHANGELISTSYMBOLSRC',
+        itemId: itemId,
+        src: symbol
+    }
+};
+
+const changeListSymbolTrailingChars = (itemId, chars) => {
+    return {
+        type: 'CHANGELISTSYMBOLTRAILING',
+        itemId: itemId,
+        chars: chars
+    }
+};
+
+const changeListSymbolImageStyle = (itemId, style) => {
+    return {
+        type: 'CHANGELISTSYMBOLIMAGESTYLE',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -220,4 +260,5 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
-    changeLink};
+    changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
+    changeListSymbolImageStyle};
