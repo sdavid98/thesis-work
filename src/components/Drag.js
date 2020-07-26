@@ -111,10 +111,6 @@ const Drag = () => {
                 resizeAndDragEnabling.dragDisabled = false;
                 resizeAndDragEnabling.dragClass = 'draggable active';
             }
-            let ratio = false;
-            if (item.type === 'image') {
-                ratio = item.content.imageDimensions.width/item.content.imageDimensions.height;
-            }
             return (
                 <Rnd
                     ref={elem => (refs.current[item.id] = elem)}
@@ -133,7 +129,6 @@ const Drag = () => {
                     onDragStart={() => setActiveItemId(item.id)}
                     onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
                     onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
-                    lockAspectRatio={ratio}
                 >
                     <div className="drag-handler"></div>
                     <div

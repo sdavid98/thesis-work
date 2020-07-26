@@ -175,9 +175,9 @@ const changeImageAlt = (itemId, alt) => {
     }
 };
 
-const changeImageLink = (itemId, link) => {
+const changeLink = (itemId, link) => {
     return {
-        type: 'CHANGEIMAGELINK',
+        type: 'CHANGELINK',
         itemId: itemId,
         link: link
     }
@@ -220,4 +220,4 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
-    changeImageLink};
+    changeLink};

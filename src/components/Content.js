@@ -7,12 +7,19 @@ import List from "./List";
 const Content = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
 
+    const onLinkClick = (e) => {
+        e.preventDefault();
+    };
+
     const getPassiveItem = () => {
         if (props.item.type === 'image') {
             return <ImageContent item={props.item} />;
         }
         if (props.item.type === 'list') {
             return <List item={props.item} />;
+        }
+        if (props.item.type === 'button') {
+            return <div><a onClick={onLinkClick} href={props.item.content.link} target='_blank' dangerouslySetInnerHTML={{__html: props.item.content.text}}></a></div>;
         }
 
         return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;

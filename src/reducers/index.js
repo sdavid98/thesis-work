@@ -40,7 +40,8 @@ const items = (state = initState, action) => {
                         x: 0,
                         y: 0,
                         content: {
-                            text: '<p>Change me</p>'
+                            text: '<p>Change me</p>',
+                            link: 'https://example.com'
                         },
                         rootElementStyle: {...initTextRootStyle},
                         underlineLinksIfPresent: true
@@ -68,7 +69,7 @@ const items = (state = initState, action) => {
                                 }
                             }
                         },
-                        rootElementStyle: {padding: '0px'}
+                        rootElementStyle: {...initTextRootStyle}
                     }
                 ],
                 activeItemId: action.id
@@ -316,7 +317,7 @@ const items = (state = initState, action) => {
                     })
 
             };
-        case 'CHANGEIMAGELINK':
+        case 'CHANGELINK':
             return {
                 ...state,
                 draggables:

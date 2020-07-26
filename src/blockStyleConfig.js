@@ -2,7 +2,6 @@ import blockStyleValidations from "./blockStyleValidations";
 import {
     changeImageAlt,
     changeImageInitialLoadBool,
-    changeImageInitialLoadToFalse, changeImageLink,
     changeImageSourceUrl,
     changeItemBackColor,
     changeItemBorder,
@@ -15,6 +14,7 @@ import {
     changeItemTextAlign,
     changeItemTextDecoration,
     changeItemTextDecorationColor,
+    changeLink,
     changeLinkUnderlineDisplay,
     makeDragHeightReCalculate,
     resizeItem
@@ -423,7 +423,7 @@ const blockStyleConfig = [
             return changeLinkUnderlineDisplay(activeItem.id, value);
         },
         childChange: false,
-        condition: activeItem => activeItem.content.text.indexOf('</a>') > 0,
+        condition: activeItem => activeItem.content.text.indexOf('</a>') > 0 || activeItem.type === 'button',
         items: [
             {
                 label: 'Underline',
@@ -524,7 +524,7 @@ const blockStyleConfig = [
                 'Createlinking': () => value ? activeItem.content.link || 'http://example.com' : value,
                 'Link': () => value ? value : activeItem.content.link,
             };
-            return changeImageLink(activeItem.id, options[itemText]());
+            return changeLink(activeItem.id, options[itemText]());
         },
         childChange: true,
         items: [
@@ -543,6 +543,24 @@ const blockStyleConfig = [
                         value: val => val,
                     }
                 ]
+            }
+        ]
+    },
+    {
+        id: 'link',
+        label: 'Link',
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeLink(activeItem.id, value);
+        },
+        childChange: false,
+        items: [
+            {
+                label: 'Link',
+                displayLabel: false,
+                watch: 'link',
+                value: val => val,
+                childInputs: []
             }
         ]
     },

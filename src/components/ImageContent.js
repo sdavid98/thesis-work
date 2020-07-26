@@ -10,8 +10,10 @@ const ImageContent = (props) => {
     const initLoad = activeItem ? activeItem.content.initialLoad : false;
 
     useEffect(() => {
-        dispatch(changeImageInitialLoadBool(activeItemId, false));
-        dispatch(resizeItem(activeItemId, {width: props.item.width, height:  Math.floor(props.item.width * (props.item.content.imageDimensions.height / props.item.content.imageDimensions.width))}));
+        if (activeItemId === props.item.id) {
+            dispatch(changeImageInitialLoadBool(activeItemId, false));
+            dispatch(resizeItem(activeItemId, {width: props.item.width, height:  Math.floor(props.item.width * (props.item.content.imageDimensions.height / props.item.content.imageDimensions.width))}));
+        }
     }, [initLoad]);
 
     const handleLoad = () => {

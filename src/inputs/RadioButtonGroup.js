@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -38,6 +38,10 @@ const RadioButtonGroup = (props) => {
     const dispatch = useDispatch();
     const [selectedItem, setSelectedItem] = useState(props.item.value(activeItem));
     const classes = useStyles();
+
+    useEffect(() => {
+        setSelectedItem(props.item.value(activeItem));
+    }, [activeItemId]);
 
     const options = props.item.items.map((item, index) => {
        return (

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import RadioButtonGroup from "../inputs/RadioButtonGroup";
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
@@ -22,6 +22,10 @@ const MultiLevelInputGroup = (props) => {
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const [activeParentValue, setActiveParentValue] = useState(props.item.value(activeItem));
+
+    useEffect(() => {
+        setActiveParentValue(props.item.value(activeItem));
+    }, [activeItemId]);
 
     const childOption = props.item.items.find(item => item.label.replace(/ /g, "") === activeParentValue);
     const onParentChange = value => {
