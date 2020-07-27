@@ -64,7 +64,7 @@ const items = (state = initState, action) => {
                             text: ['<p>Change me</p>'],
                             listSymbol: {
                                 type: 'Numeric',
-                                sign: '\u2022',
+                                sign: 'U+2022',
                                 trailingCharacters: '',
                                 signSrc: '',
                                 imageStyle: {

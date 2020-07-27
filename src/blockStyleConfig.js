@@ -574,7 +574,7 @@ const blockStyleConfig = [
         type: 'select',
         change: (activeItem, text, value) => {
             if (text === 'Escape Sequence Unicode') {
-                console.log(unescape(value), /[^\u0000-\u00ff]/.test(unescape(value)));
+                //console.log(unescape(value), /[^\u0000-\u00ff]/.test(unescape(value)));
                 // if (/[^\u0000-\u00ff]/.test(value)) {
                      return changeListSymbolSign(activeItem.id, value);
                 // }
@@ -624,14 +624,14 @@ const blockStyleConfig = [
                         disabled: false,
                         hideEndAdornment: true,
                         value: val => {
-                            if (val.length === 1) {
+                            /*if (val.length === 1) {
                                 //https://stackoverflow.com/questions/21014476/javascript-convert-unicode-string-to-javascript-escape
                                 let result = "";
                                 for(let i = 0; i < val.length; i++){
                                     result += "\\u" + ("000" + val[i].charCodeAt(0).toString(16)).substr(-4);
                                 }
                                 return result;
-                            }
+                            }*/
                             return val;
                         },
                     }

@@ -76,7 +76,8 @@ const List = (props) => {
         if (props.item.content.listSymbol.type === 'Custom Image') {
             return <img style={{width: 'auto', height: props.item.content.listSymbol.imageStyle.symbolImageHeight}} src={props.item.content.listSymbol.signSrc} />;
         }
-        return unescape(props.item.content.listSymbol.sign);
+        return String.fromCharCode(props.item.content.listSymbol.sign.split('+')[1].toLowerCase().split('').reduce( (result, ch) =>
+            result * 16 + '0123456789abcdefgh'.indexOf(ch), 0));
     };
 
     const getTrailingCharacters = () => {
