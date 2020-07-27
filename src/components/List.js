@@ -74,7 +74,7 @@ const List = (props) => {
             return props.item.content.listSymbol.type.indexOf('upper') >= 0 ? convertToRoman(index+1) : convertToRoman(index+1).toLowerCase();
         }
         if (props.item.content.listSymbol.type === 'Custom Image') {
-            return <img style={{...props.item.content.listSymbol.imageStyle}} src={props.item.content.listSymbol.signSrc} />;
+            return <img style={{width: 'auto', height: props.item.content.listSymbol.imageStyle.symbolImageHeight}} src={props.item.content.listSymbol.signSrc} />;
         }
         return unescape(props.item.content.listSymbol.sign);
     };
@@ -87,8 +87,8 @@ const List = (props) => {
     };
 
     const listItems = props.item.content.text.map((text, index) => (
-        <div key={index} className={classes.item}>
-            <div>{getListSign(index)}{getTrailingCharacters()}</div>
+        <div key={index} className={classes.item} style={{alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign}}>
+            <div style={{paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop}}>{getListSign(index)}{getTrailingCharacters()}</div>
             <ListItem
                 itemNum={listItemNum}
                 blokkId={props.item.id}

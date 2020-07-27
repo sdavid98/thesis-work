@@ -69,10 +69,12 @@ const items = (state = initState, action) => {
                                 signSrc: '',
                                 imageStyle: {
                                     width: 'auto',
-                                    height: '16px'
+                                    symbolImageHeight: '16px'
                                 },
                                 style: {
-                                    paddingLeft: '10px'
+                                    paddingLeft: '10px',
+                                    listSymbolVerticalAlign: 'start',
+                                    listSymbolPaddingTop: '0px'
                                 }
                             }
                         },
@@ -426,7 +428,31 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, imageStyle: action.style}}}
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, imageStyle: {...item.content.listSymbol.imageStyle, symbolImageHeight: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLVERTICALALIGN':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listSymbolVerticalAlign: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLVERTICALALIGNADJUSTMENT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listSymbolPaddingTop: action.style}}}}
                         }
                         return item;
                     }),

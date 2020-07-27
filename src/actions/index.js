@@ -232,6 +232,22 @@ const changeListSymbolImageStyle = (itemId, style) => {
     }
 };
 
+const changeListSymbolVerticalAlign = (itemId, style) => {
+    return {
+        type: 'CHANGELISTSYMBOLVERTICALALIGN',
+        itemId: itemId,
+        style: style
+    }
+};
+
+const changeListSymbolVerticalAlignAdjustment = (itemId, style) => {
+    return {
+        type: 'CHANGELISTSYMBOLVERTICALALIGNADJUSTMENT',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -261,4 +277,4 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
     changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
-    changeListSymbolImageStyle};
+    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment};

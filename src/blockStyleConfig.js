@@ -15,11 +15,11 @@ import {
     changeItemTextDecoration,
     changeItemTextDecorationColor,
     changeLink,
-    changeLinkUnderlineDisplay,
+    changeLinkUnderlineDisplay, changeListSymbolImageStyle,
     changeListSymbolSign,
     changeListSymbolSrc,
     changeListSymbolTrailingChars,
-    changeListSymbolType,
+    changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
     makeDragHeightReCalculate,
     resizeItem
 } from "./actions";
@@ -654,19 +654,80 @@ const blockStyleConfig = [
         ]
     },
     {
-        id: 'trailingCharacters',
-        label: 'Trailing characters',
+        id: 'symbolImageHeight',
+        label: 'Symbol image height',
         displayLabel: false,
         type: 'text',
-        watch: 'trailingCharacters',
+        watch: 'symbolImageHeight',
         change: (activeItem, childItemText, value) => {
-            return changeListSymbolTrailingChars(activeItem.id, value);
+            return changeListSymbolImageStyle(activeItem.id, value+'px');
         },
-        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
-        hideEndAdornment: true,
+        condition: activeItem => activeItem.content.listSymbol.type === 'Custom Image',
+        hideEndAdornment: false,
         childChange: false,
         hasAfterChangeFunction: false,
-        value: val => val
+        value: val => parseInt(val)
+    },
+    {
+        id: 'listSymbolVerticalAlign',
+        label: 'Symbol vertical align',
+        type: 'radio',
+        change: (activeItem, itemText, value) => {
+            const getValue = () => {
+                if (value === 'Start') return 'start';
+                if (value === 'Center') return 'center';
+                if (value === 'End') return 'end';
+            };
+            return changeListSymbolVerticalAlign(activeItem.id, getValue());
+        },
+        value: activeItem => activeItem.content.listSymbol.style.listSymbolVerticalAlign.replace(/^\w/, (c) => c.toUpperCase()),
+        childChange: false,
+        items: [
+            {
+                label: 'Start',
+                value: val => val === 'start',
+            },
+            {
+                label: 'Center',
+                value: val => val === 'center',
+            },
+            {
+                label: 'End',
+                value: val => val === 'end',
+            }
+        ]
+    },
+    {
+        id: 'listSymbolPaddingTop',
+        label: 'Symbol vertical adjustment',
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            console.log(itemText, value);
+            const options = {
+                'Adjustsymbol spacing': () => value ? activeItem.content.listSymbol.style.listSymbolPaddingTop : 0,
+                'Extra top': () => value ? value : activeItem.content.listSymbol.style.listSymbolPaddingTop,
+            };
+            return changeListSymbolVerticalAlignAdjustment(activeItem.id, options[itemText]()+'px');
+        },
+        childChange: true,
+        items: [
+            {
+                label: 'Adjust symbol spacing',
+                watch: 'listSymbolPaddingTop',
+                value: val => val !== '0px',
+                type: 'text',
+                childInputs: [
+                    {
+                        label: 'Extra top',
+                        displayLabel: true,
+                        watch: 'listSymbolPaddingTop',
+                        disabled: false,
+                        hideEndAdornment: false,
+                        value: val => parseInt(val),
+                    }
+                ]
+            }
+        ]
     },
 ];
 

@@ -44,6 +44,12 @@ const TextInput = (props) => {
             if (activeItem.content.listSymbol[item.watch]) {
                 return activeItem.content.listSymbol[item.watch];
             }
+            if (activeItem.content.listSymbol.imageStyle[item.watch]) {
+                return activeItem.content.listSymbol.imageStyle[item.watch];
+            }
+            if (activeItem.content.listSymbol.style[item.watch]) {
+                return activeItem.content.listSymbol.style[item.watch];
+            }
             return activeItem.content[item.watch];
         }
         return '';
