@@ -74,7 +74,9 @@ const items = (state = initState, action) => {
                                 style: {
                                     listSymbolVerticalAlign: 'start',
                                     listSymbolPaddingTop: '0px',
-                                    symbolSize: '14px'
+                                    symbolSize: '14px',
+                                    listItemGap: '0px',
+                                    inlineGap: '5px'
                                 }
                             }
                         },
@@ -465,6 +467,30 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, symbolSize: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTITEMSGAP':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listItemGap: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTITEMINLINEGAP':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, inlineGap: action.style}}}}
                         }
                         return item;
                     }),

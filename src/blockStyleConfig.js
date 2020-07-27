@@ -15,7 +15,7 @@ import {
     changeItemTextDecoration,
     changeItemTextDecorationColor,
     changeLink,
-    changeLinkUnderlineDisplay, changeListSymbolImageStyle,
+    changeLinkUnderlineDisplay, changeListInlineGap, changeListItemsGap, changeListSymbolImageStyle,
     changeListSymbolSign, changeListSymbolSize,
     changeListSymbolSrc,
     changeListSymbolTrailingChars,
@@ -473,6 +473,42 @@ const blockStyleConfig = [
         ]
     },
     {
+        id: 'spacerSize',
+        label: 'Size',
+        displayLabel: true,
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            console.log(itemText, value);
+            const options = {
+                'Width': resizeItem(activeItem.id, {width: parseInt(value), height: activeItem.height}),
+                'Height': resizeItem(activeItem.id, {width: activeItem.width, height: parseInt(value)})
+            };
+            return options[itemText];
+        },
+        childChange: true,
+        condition: false,
+        items: [
+            {
+                label: 'Width',
+                watch: 'width',
+                disabled: false,
+                displayLabel: true,
+                hasAfterChangeFunction: false,
+                value: val => val,
+                childInputs: []
+            },
+            {
+                label: 'Height',
+                watch: 'height',
+                disabled: false,
+                displayLabel: true,
+                hasAfterChangeFunction: false,
+                value: val => val,
+                childInputs: []
+            }
+        ]
+    },
+    {
         id: 'sourceUrl',
         label: 'Image source url',
         displayLabel: true,
@@ -702,7 +738,6 @@ const blockStyleConfig = [
         label: 'Symbol vertical adjustment',
         type: 'checkbox',
         change: (activeItem, itemText, value) => {
-            console.log(itemText, value);
             const options = {
                 'Adjustsymbol spacing': () => value ? activeItem.content.listSymbol.style.listSymbolPaddingTop : 0,
                 'Extra top': () => value ? value : activeItem.content.listSymbol.style.listSymbolPaddingTop,
@@ -765,6 +800,44 @@ const blockStyleConfig = [
                 watch: 'trailingCharacters',
                 value: val => val,
                 hideEndAdornment: true,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'listItemsGap',
+        label: 'Gap between list items',
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeListItemsGap(activeItem.id, value+'px');
+        },
+        childChange: false,
+        items: [
+            {
+                label: 'Items gap',
+                displayLabel: false,
+                watch: 'listItemGap',
+                value: val => parseInt(val),
+                hideEndAdornment: false,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'listInlineGap',
+        label: 'Gap between symbol and text',
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeListInlineGap(activeItem.id, value+'px');
+        },
+        childChange: false,
+        items: [
+            {
+                label: 'Inline gap',
+                displayLabel: false,
+                watch: 'inlineGap',
+                value: val => parseInt(val),
+                hideEndAdornment: false,
                 childInputs: []
             }
         ]

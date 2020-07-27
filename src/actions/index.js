@@ -256,6 +256,22 @@ const changeListSymbolSize = (itemId, style) => {
     }
 };
 
+const changeListItemsGap = (itemId, style) => {
+    return {
+        type: 'CHANGELISTITEMSGAP',
+        itemId: itemId,
+        style: style
+    }
+};
+
+const changeListInlineGap = (itemId, style) => {
+    return {
+        type: 'CHANGELISTITEMINLINEGAP',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -285,4 +301,5 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
     changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
-    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment, changeListSymbolSize};
+    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
+    changeListSymbolSize, changeListInlineGap, changeListItemsGap};

@@ -88,7 +88,13 @@ const List = (props) => {
     };
 
     const listItems = props.item.content.text.map((text, index) => (
-        <div key={index} className={classes.item} style={{alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign}}>
+        <div
+            key={index}
+            className={classes.item}
+            style={{
+                alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
+                gridColumnGap: props.item.content.listSymbol.style.inlineGap
+            }}>
             <div style={{
                 lineHeight: 1,
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
@@ -126,7 +132,12 @@ const List = (props) => {
 
     return (
         <>
-            <div>
+            <div
+                style={{
+                    display: 'grid',
+                    gridRowGap: props.item.content.listSymbol.style.listItemGap
+                }}
+            >
                 {listItems}
             </div>
             {getAddIcon()}
