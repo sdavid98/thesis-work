@@ -72,9 +72,9 @@ const items = (state = initState, action) => {
                                     symbolImageHeight: '16px'
                                 },
                                 style: {
-                                    paddingLeft: '10px',
                                     listSymbolVerticalAlign: 'start',
-                                    listSymbolPaddingTop: '0px'
+                                    listSymbolPaddingTop: '0px',
+                                    symbolSize: '14px'
                                 }
                             }
                         },
@@ -453,6 +453,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listSymbolPaddingTop: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLSIZE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, symbolSize: action.style}}}}
                         }
                         return item;
                     }),

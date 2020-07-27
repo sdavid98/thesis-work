@@ -248,6 +248,14 @@ const changeListSymbolVerticalAlignAdjustment = (itemId, style) => {
     }
 };
 
+const changeListSymbolSize = (itemId, style) => {
+    return {
+        type: 'CHANGELISTSYMBOLSIZE',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -277,4 +285,4 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
     changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
-    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment};
+    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment, changeListSymbolSize};

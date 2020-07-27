@@ -88,7 +88,13 @@ const List = (props) => {
 
     const listItems = props.item.content.text.map((text, index) => (
         <div key={index} className={classes.item} style={{alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign}}>
-            <div style={{paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop}}>{getListSign(index)}{getTrailingCharacters()}</div>
+            <div style={{
+                lineHeight: 1,
+                paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
+                fontSize: props.item.content.listSymbol.style.symbolSize
+            }}>
+                {getListSign(index)}{getTrailingCharacters()}
+            </div>
             <ListItem
                 itemNum={listItemNum}
                 blokkId={props.item.id}

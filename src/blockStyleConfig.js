@@ -16,7 +16,7 @@ import {
     changeItemTextDecorationColor,
     changeLink,
     changeLinkUnderlineDisplay, changeListSymbolImageStyle,
-    changeListSymbolSign,
+    changeListSymbolSign, changeListSymbolSize,
     changeListSymbolSrc,
     changeListSymbolTrailingChars,
     changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
@@ -726,6 +726,46 @@ const blockStyleConfig = [
                         value: val => parseInt(val),
                     }
                 ]
+            }
+        ]
+    },
+    {
+        id: 'listSymbolSize',
+        label: 'Symbol size',
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeListSymbolSize(activeItem.id, value+'px');
+        },
+        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
+        childChange: false,
+        items: [
+            {
+                label: 'Size',
+                displayLabel: false,
+                watch: 'symbolSize',
+                value: val => parseInt(val),
+                hideEndAdornment: false,
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'listSymbolTrailingCharacters',
+        label: 'Symbol trailing characters',
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeListSymbolTrailingChars(activeItem.id, value);
+        },
+        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
+        childChange: false,
+        items: [
+            {
+                label: 'Trailing characters',
+                displayLabel: false,
+                watch: 'trailingCharacters',
+                value: val => val,
+                hideEndAdornment: true,
+                childInputs: []
             }
         ]
     },
