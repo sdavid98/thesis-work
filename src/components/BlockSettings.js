@@ -8,6 +8,7 @@ import blockTypeConfig from "../blockTypeConfig";
 import CheckboxGroup from "../inputs/CheckboxGroup";
 import TextGroup from "../inputs/TextGroup";
 import SelectGroup from "../inputs/SelectGroup";
+import canvasOptions from "../canvasOptions";
 
 const useStyles = makeStyles({
     styleBlock: {
@@ -21,12 +22,7 @@ const BlockSettings = () => {
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
 
-
-    if (!activeItemId) {
-        return <div></div>;
-    }
-
-    const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => {
+    const generateInputs = (item, index) => {
         if (!item.condition || item.condition(activeItem)) {
             if (item.type === 'radio' && item.childChange) {
                 return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
@@ -45,8 +41,13 @@ const BlockSettings = () => {
             }
         }
         return false;
-    });
+    };
 
+    if (!activeItemId) {
+        return canvasOptions.map((item, index) => generateInputs(item, index));
+    }
+
+    const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => generateInputs(item, index));
 
     return (
         <div>

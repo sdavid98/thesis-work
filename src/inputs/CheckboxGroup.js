@@ -26,11 +26,16 @@ const useStyles = makeStyles({
 const CheckboxGroup = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const state = useSelector(state => state);
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
 
     const getValue = (item) => {
-        if (activeItemId) {
+        if (!activeItemId) {
+            return item.value(state);
+        }
+        return item.value(activeItem);
+        /*if (activeItemId) {
             if (activeItem.rootElementStyle[item.watch]) {
                 return activeItem.rootElementStyle[item.watch];
             }
@@ -48,10 +53,10 @@ const CheckboxGroup = (props) => {
             }
             return activeItem.content[item.watch];
         }
-        return '';
+        return '';*/
     };
 
-    const childOption = props.item.items.filter(item => item.childInputs.length > 0 && item.value(getValue(item)));
+    const childOption = props.item.items.filter(item => item.childInputs.length > 0 && getValue(item));
 
     const getChildOptions = () => {
         if (childOption) {
@@ -68,15 +73,26 @@ const CheckboxGroup = (props) => {
     };
 
     const onParentChange = (e, itemText) => {
-        dispatch(props.item.change(activeItem, itemText, e.target.checked));
+        if (activeItemId) {
+            dispatch(props.item.change(activeItem, itemText, e.target.checked));
 
-        if (props.item.hasAfterChangeFunction) {
-            dispatch(props.item.afterChange());
+            if (props.item.hasAfterChangeFunction) {
+                dispatch(props.item.afterChange());
+            }
+        }
+        else {
+            try {
+                dispatch(props.item.change(state, itemText, e.target.checked));
+            }
+           catch (e) {}
+
+            if (props.item.hasAfterChangeFunction) {
+                dispatch(props.item.afterChange());
+            }
         }
     };
 
     const options = props.item.items.map((item, index) => {
-        const initValue = getValue(item); //activeItem.rootElementStyle[item.watch] ? activeItem.rootElementStyle[item.watch] : activeItem[item.watch];
         return <FormControlLabel
             className={classes.label}
             key={index}
@@ -85,7 +101,7 @@ const CheckboxGroup = (props) => {
                 <Checkbox
                     onChange={(e) => onParentChange(e, item.label.replace(" ", ""))}
                     color="primary"
-                    checked={item.value(initValue)}
+                    checked={getValue(item)}
                 />
             }
             label={item.label}

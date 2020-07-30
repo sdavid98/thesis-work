@@ -1,8 +1,15 @@
 const initState = {
-    counter: 0,
     draggables: [],
     activeItemId: null,
-    makeDragHeightReCalculation: false
+    makeDragHeightReCalculation: false,
+    makeCanvasDimensionsRecalculate: false,
+    canvasStyle: {
+        height: '800px',
+        width: '600px',
+        foreColor: '#ffffff',
+        backColor: '#F5F5F5',
+        border: 'none #000000 1px'
+    }
 };
 
 const initTextRootStyle = {
@@ -38,7 +45,7 @@ const items = (state = initState, action) => {
                         width: 100,
                         height: 16,
                         x: 0,
-                        y: 0,
+                        y: action.y,
                         content: {
                             text: '<p>Change me</p>',
                             link: 'https://example.com'
@@ -59,7 +66,7 @@ const items = (state = initState, action) => {
                         width: 100,
                         height: 18,
                         x: 0,
-                        y: 0,
+                        y: action.y,
                         content: {
                             text: ['<p>Change me</p>'],
                             listSymbol: {
@@ -95,7 +102,7 @@ const items = (state = initState, action) => {
                         width: 100,
                         height: 100,
                         x: 0,
-                        y: 0,
+                        y: action.y,
                         content: {
                             text: '<p>Change me</p>',
                             imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Change+my+url',
@@ -496,6 +503,31 @@ const items = (state = initState, action) => {
                     }),
 
             };
+        case 'CHANGECANVASWIDTH':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, width: action.style}
+            };
+        case 'CHANGECANVASHEIGHT':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, height: action.style}
+            };
+        case 'CHANGECANVASBACKCOLOR':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, backColor: action.style}
+            };
+        case 'CHANGECANVAFORECOLOR':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, foreColor: action.style}
+            };
+        case 'CHANGECANVASBORDER':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, border: action.style}
+            };
         case 'CHANGEACTIVEITEMID':
             return {
                 ...state,
@@ -505,6 +537,19 @@ const items = (state = initState, action) => {
             return {
                 ...state,
                 makeDragHeightReCalculation: action.makeReCalculation
+            };
+        case 'MAKECANVASDIMENSIONSRECALCULATE':
+            return {
+                ...state,
+                makeCanvasDimensionsRecalculate: action.makeReCalculation
+            };
+        case 'REMOVEDRAGGABLE':
+            return {
+                ...state,
+                draggables: [
+                    ...state.draggables.filter(drag => drag.id !== action.id)
+                ],
+                activeItemId: null
             };
         default:
             return state;

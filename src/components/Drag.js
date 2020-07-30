@@ -1,7 +1,14 @@
 import React, {useEffect, useRef} from "react";
 import {Rnd} from "react-rnd";
 import {useDispatch, useSelector} from "react-redux";
-import {moveItem, resizeItem, changeActiveItemId, makeDragHeightReCalculate} from "../actions";
+import {
+    moveItem,
+    resizeItem,
+    changeActiveItemId,
+    makeDragHeightReCalculate,
+    changeCanvasHeight,
+    removeDraggable
+} from "../actions";
 import Content from "./Content";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -20,6 +27,7 @@ const Drag = () => {
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
     const makeHeightReCalculate = useSelector(state => state.makeDragHeightReCalculation);
+    const canvasStyle = useSelector(state => state.canvasStyle);
     const refs = useRef([]);
 
     let dragsNotActive;
@@ -31,6 +39,9 @@ const Drag = () => {
         if (activeItemId && makeHeightReCalculate) {
             dispatch(makeDragHeightReCalculate(false));
             dispatch(resizeItem(activeItemId, {width: refs.current[activeItemId+'content'].offsetWidth, height: refs.current[activeItemId+'content'].offsetHeight}));
+            if (activeItem.y + refs.current[activeItemId+'content'].offsetHeight > parseInt(canvasStyle.height)) {
+                dispatch(changeCanvasHeight(activeItem.y + refs.current[activeItemId+'content'].offsetHeight+'px'));
+            }
         }
     });
 
@@ -99,8 +110,20 @@ const Drag = () => {
         dispatch(changeActiveItemId(id));
     };
 
+    const resizeCanvasIfDragOverflows = y => {
+        dispatch(changeCanvasHeight(y+'px'));
+    };
+
+    const handleDragDelete = (e) => {
+        e.stopPropagation();
+        dispatch(removeDraggable(activeItemId));
+    };
+
     if (drags.length > 0) {
         return drags.map((item) => {
+            if (item.y + item.height > parseInt(canvasStyle.height)) {
+                resizeCanvasIfDragOverflows(item.y + item.height);
+            }
             let resizeAndDragEnabling = {
                 resize: false,
                 dragDisabled: true,
@@ -130,6 +153,7 @@ const Drag = () => {
                     onDrag={(e, element) => stopDragOrResizeOnHit(element, item.id)}
                     onDragStop={(e,element) =>dispatch(moveItem(item.id, element))}
                 >
+                    <div className="drag-delete" onClick={(e) => handleDragDelete(e)}>x</div>
                     <div className="drag-handler"></div>
                     <div
                         className={`content ${!item.underlineLinksIfPresent && classes['noLinkUnderline']}`}

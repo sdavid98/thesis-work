@@ -1,7 +1,5 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
 import TextInput from "./TextInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";

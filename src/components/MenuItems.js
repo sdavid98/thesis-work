@@ -9,40 +9,51 @@ import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import {createBasicDraggable, createImageDraggable, createListDraggable} from "../actions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
 
 const MenuItems = () => {
     const dispatch = useDispatch();
+    const drags = useSelector(state => state.draggables);
 
     const items = [
         {
             name: "text",
             icon: <FolderIcon />,
-            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
+            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
         },
         {
             name: "image",
             icon: <FolderIcon />,
-            action: (name) => createImageDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
+            action: (name, y) => createImageDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
         },
         {
             name: "button",
             icon: <FolderIcon />,
-            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
+            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
         },
         {
             name: "list",
             icon: <FolderIcon />,
-            action: (name) => createListDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
+            action: (name, y) => createListDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
         },
         {
             name: "divider",
             icon: <FolderIcon />,
-            action: (name) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''))
+            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
         }
     ];
+
+    const handleClick = item => {
+        let newItemY = 0;
+        drags.map(drag => {
+            if (drag.y + drag.height > newItemY) {
+                newItemY = drag.y + drag.height + 1;
+            }
+        });
+        dispatch(item.action(item.name, newItemY));
+    };
 
     return (
         <List>
@@ -57,7 +68,7 @@ const MenuItems = () => {
                             primary={item.name}
                         />
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="add" onClick={() => dispatch(item.action(item.name))}>
+                            <IconButton edge="end" aria-label="add" onClick={() => handleClick(item)}>
                                 <AddCircleOutlineOutlinedIcon />
                             </IconButton>
                         </ListItemSecondaryAction>

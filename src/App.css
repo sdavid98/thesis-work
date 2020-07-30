@@ -35,6 +35,7 @@
 }
 
 .drag-handler {
+    cursor: pointer;
     position: absolute;
     width: 20px;
     height: 20px;
@@ -44,7 +45,25 @@
     display: none;
 }
 
+.drag-delete {
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    bottom: 100%;
+    right: 23px;
+    display: none;
+}
+
 .draggable.active > .drag-handler {
+    display: block;
+}
+
+.draggable.active > .drag-delete {
     display: block;
 }
 

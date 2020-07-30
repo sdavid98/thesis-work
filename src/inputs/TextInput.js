@@ -22,46 +22,37 @@ const useStyles = makeStyles({
 const TextInput = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const state = useSelector(state => state);
     const activeItemId = useSelector(state => state.activeItemId);
     const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('initialStateValue');
 
     useEffect(() => {
-        setValue('');
+        setValue('initialStateValue');
     }, [props.item, activeItem]);
 
     const getValue = (item) => {
-        if (value !== '') {
+        if (value !== 'initialStateValue') {
             return value
         }
-        if (activeItemId) {
-            if (activeItem.rootElementStyle[item.watch]) {
-                return activeItem.rootElementStyle[item.watch];
-            }
-            if (activeItem[item.watch]) {
-                return activeItem[item.watch];
-            }
-            if (activeItem.content.listSymbol[item.watch]) {
-                return activeItem.content.listSymbol[item.watch];
-            }
-            if (activeItem.content.listSymbol.imageStyle[item.watch]) {
-                return activeItem.content.listSymbol.imageStyle[item.watch];
-            }
-            if (activeItem.content.listSymbol.style[item.watch]) {
-                return activeItem.content.listSymbol.style[item.watch];
-            }
-            return activeItem.content[item.watch];
+        if (!activeItemId) {
+            return item.value(state);
         }
-        return '';
+        return item.value(activeItem);
     };
 
     const colorPickerChange = (e) => {
-        dispatch(props.change(activeItem, props.item.label, e.target.value));
+        if (activeItemId) {
+            dispatch(props.change(activeItem, props.item.label, e.target.value));
+        }
+        else {
+            dispatch(props.change(state, props.item.label, e.target.value));
+        }
     };
 
     const colorPicker = (item) => {
         if (item.displayColorPicker) {
-            return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={props.item.value(getValue(item))} />;
+            return <input type="color" className={classes.colorPicker} onChange={colorPickerChange} value={getValue(item)} />;
         }
         return false;
     };
@@ -86,10 +77,24 @@ const TextInput = (props) => {
 
     const keyup = (e, text) => {
         if (e.keyCode === 13) {
-            dispatch(props.change(activeItem, text, e.target.value));
+            if (activeItemId) {
+                dispatch(props.change(activeItem, text, e.target.value));
 
-            if (props.item.hasAfterChangeFunction) {
-                dispatch(props.item.afterChange(activeItemId));
+                if (props.item.hasAfterChangeFunction) {
+                    dispatch(props.item.afterChange(activeItemId));
+                }
+            }
+            else {
+                try {
+                    dispatch(props.change(state, text, e.target.value));
+                }
+                catch (e) {
+                    setValue('initialStateValue');
+                }
+
+                if (props.item.hasAfterChangeFunction) {
+                    dispatch(props.item.afterChange(state));
+                }
             }
         }
     };
@@ -99,7 +104,7 @@ const TextInput = (props) => {
             {getLabelIfNotHidden(props.item)}
             <TextField
                 id={props.item.label.replace(/ /g, "")}
-                value={props.item.value(getValue(props.item))}
+                value={getValue(props.item)}
                 disabled={props.item.disabled}
                 onChange={(e) => setValue(e.target.value)}
                 InputProps={{

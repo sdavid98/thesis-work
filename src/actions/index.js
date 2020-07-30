@@ -1,24 +1,27 @@
-const createBasicDraggable = (itemType, id) => {
+const createBasicDraggable = (itemType, id, y) => {
     return {
         type: 'CREATEBASICDRAGGABLE',
         itemType: itemType,
-        id: id
+        id: id,
+        y: y
     };
 };
 
-const createListDraggable = (itemType, id) => {
+const createListDraggable = (itemType, id, y) => {
     return {
         type: 'CREATELISTDRAGGABLE',
         itemType: itemType,
-        id: id
+        id: id,
+        y: y
     };
 };
 
-const createImageDraggable = (itemType, id) => {
+const createImageDraggable = (itemType, id, y) => {
     return {
         type: 'CREATEIMAGEDRAGGABLE',
         itemType: itemType,
-        id: id
+        id: id,
+        y: y
     };
 };
 
@@ -272,6 +275,41 @@ const changeListInlineGap = (itemId, style) => {
     }
 };
 
+const changeCanvasWidth = (style) => {
+    return {
+        type: 'CHANGECANVASWIDTH',
+        style: style
+    }
+};
+
+const changeCanvasHeight = (style) => {
+    return {
+        type: 'CHANGECANVASHEIGHT',
+        style: style
+    }
+};
+
+const changeCanvasBackColor = (style) => {
+    return {
+        type: 'CHANGECANVASBACKCOLOR',
+        style: style
+    }
+};
+
+const changeCanvasForeColor = (style) => {
+    return {
+        type: 'CHANGECANVAFORECOLOR',
+        style: style
+    }
+};
+
+const changeCanvasBorder = (style) => {
+    return {
+        type: 'CHANGECANVASBORDER',
+        style: style
+    }
+};
+
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
@@ -286,11 +324,25 @@ const makeDragHeightReCalculate = bool => {
     }
 };
 
+const makeCanvasDimensionsReCalculate = bool => {
+    return {
+        type: 'MAKECANVASDIMENSIONSRECALCULATE',
+        makeReCalculation: bool
+    }
+};
+
 const changeImageInitialLoadBool = (itemId, bool) => {
     return {
         type: 'CHANGEIMAGEINITIALLOADBOOL',
         itemId: itemId,
         bool: bool
+    }
+};
+
+const removeDraggable = itemId => {
+    return {
+        type: 'REMOVEDRAGGABLE',
+        id: itemId,
     }
 };
 
@@ -302,4 +354,5 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
     changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
     changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
-    changeListSymbolSize, changeListInlineGap, changeListItemsGap};
+    changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
+    changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable};

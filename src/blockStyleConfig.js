@@ -107,11 +107,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[0]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     }
                 ]
@@ -127,11 +127,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[0]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     },
                     {
@@ -140,11 +140,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[1]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[1]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     }
                 ]
@@ -160,11 +160,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[0]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     },
                     {
@@ -173,11 +173,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[2]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[2]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     },
                     {
@@ -186,11 +186,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[3]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[3]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     },
                     {
@@ -199,11 +199,11 @@ const blockStyleConfig = [
                         displayLabel: true,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 4) {
-                                return parseInt(val.split(' ')[1]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
+                                return parseInt(activeItem.rootElementStyle.padding.split(' ')[1]);
                             }
-                            return val;
+                            return activeItem.rootElementStyle.padding;
                         },
                     }
                 ]
@@ -223,7 +223,7 @@ const blockStyleConfig = [
             }
         },
         childChange: false,
-        value: val => val,
+        value: activeItem => activeItem.rootElementStyle.color,
         displayColorPicker: true
     },
     {
@@ -239,7 +239,7 @@ const blockStyleConfig = [
             }
         },
         childChange: false,
-        value: val => val,
+        value: activeItem => activeItem.rootElementStyle.backgroundColor,
         displayColorPicker: true
     },
     {
@@ -257,7 +257,7 @@ const blockStyleConfig = [
         childChange: false,
         hasAfterChangeFunction: true,
         afterChange: () => makeDragHeightReCalculate(true),
-        value: val => parseInt(val)
+        value: activeItem => parseInt(activeItem.rootElementStyle.fontSize)
     },
     {
         id: 'lineHeight',
@@ -274,7 +274,7 @@ const blockStyleConfig = [
         childChange: false,
         hasAfterChangeFunction: true,
         afterChange: () => makeDragHeightReCalculate(true),
-        value: val => parseInt(val)
+        value: activeItem => parseInt(activeItem.rootElementStyle.lineHeight)
     },
     {
         id: 'fontStyle',
@@ -300,19 +300,19 @@ const blockStyleConfig = [
             {
                 label: 'Bold',
                 watch: 'fontWeight',
-                value: val => val !== 'normal',
+                value: activeItem => activeItem.rootElementStyle.fontWeight !== 'normal',
                 childInputs: []
             },
             {
                 label: 'Italic',
                 watch: 'fontStyle',
-                value: val => val !== 'normal',
+                value: activeItem => activeItem.rootElementStyle.fontStyle !== 'normal',
                 childInputs: []
             },
             {
                 label: 'Underline',
                 watch: 'textDecorationLine',
-                value: val => val !== 'none',
+                value: activeItem => activeItem.rootElementStyle.textDecorationLine !== 'none',
                 type: 'text',
                 childInputs: [
                     {
@@ -320,7 +320,7 @@ const blockStyleConfig = [
                         displayLabel: true,
                         watch: 'textDecorationColor',
                         disabled: true,
-                        value: val => val,
+                        value: activeItem => activeItem.rootElementStyle.textDecorationColor,
                         displayColorPicker: true
                     }
                 ]
@@ -339,19 +339,19 @@ const blockStyleConfig = [
         items: [
             {
                 label: 'Left',
-                value: val => val === 'left',
+                value: activeItem => activeItem.rootElementStyle.textAlign === 'left',
             },
             {
                 label: 'Center',
-                value: val => val === 'center',
+                value: activeItem => activeItem.rootElementStyle.textAlign === 'center',
             },
             {
                 label: 'Right',
-                value: val => val === 'right',
+                value: activeItem => activeItem.rootElementStyle.textAlign === 'right',
             },
             {
                 label: 'Justify',
-                value: val => val === 'justify'
+                value: activeItem => activeItem.rootElementStyle.textAlign === 'justify'
             }
         ]
     },
@@ -383,7 +383,7 @@ const blockStyleConfig = [
                 watch: 'border',
                 disabled: false,
                 displayLabel: false,
-                value: val => val.split(' ')[0] !== 'none',
+                value: activeItem => activeItem.rootElementStyle.border.split(' ')[0] !== 'none',
                 type: 'text',
                 childInputs: [
                     {
@@ -392,11 +392,11 @@ const blockStyleConfig = [
                         disabled: true,
                         displayLabel: false,
                         hasAfterChangeFunction: false,
-                        value: val => {
-                            if (val.split(' ').length === 3) {
-                                return val.split(' ')[1];
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.border.split(' ').length === 3) {
+                                return activeItem.rootElementStyle.border.split(' ')[1];
                             }
-                            return val;
+                            return activeItem.rootElementStyle.border;
                         },
                         displayColorPicker: true
                     },
@@ -407,11 +407,11 @@ const blockStyleConfig = [
                         displayLabel: false,
                         hasAfterChangeFunction: true,
                         afterChange: () => makeDragHeightReCalculate(true),
-                        value: val => {
-                            if (val.split(' ').length === 3) {
-                                return parseInt(val.split(' ')[2]);
+                        value: activeItem => {
+                            if (activeItem.rootElementStyle.border.split(' ').length === 3) {
+                                return parseInt(activeItem.rootElementStyle.border.split(' ')[2]);
                             }
-                            return parseInt(val);
+                            return parseInt(activeItem.rootElementStyle.border);
                         }
                     }
                 ]
@@ -435,7 +435,7 @@ const blockStyleConfig = [
                 disabled: false,
                 displayLabel: true,
                 hasAfterChangeFunction: false,
-                value: val => val,
+                value: activeItem => activeItem.underlineLinksIfPresent,
                 childInputs: []
             }
         ]
@@ -458,7 +458,7 @@ const blockStyleConfig = [
                 displayLabel: true,
                 hasAfterChangeFunction: true,
                 afterChange: () => makeDragHeightReCalculate(true),
-                value: val => val,
+                value: activeItem => activeItem.width,
                 childInputs: []
             },
             {
@@ -467,7 +467,7 @@ const blockStyleConfig = [
                 disabled: true,
                 displayLabel: true,
                 hasAfterChangeFunction: false,
-                value: val => val,
+                value: activeItem => activeItem.height,
                 childInputs: []
             }
         ]
@@ -494,7 +494,7 @@ const blockStyleConfig = [
                 disabled: false,
                 displayLabel: true,
                 hasAfterChangeFunction: false,
-                value: val => val,
+                value: activeItem => activeItem.width,
                 childInputs: []
             },
             {
@@ -503,7 +503,7 @@ const blockStyleConfig = [
                 disabled: false,
                 displayLabel: true,
                 hasAfterChangeFunction: false,
-                value: val => val,
+                value: activeItem => activeItem.height,
                 childInputs: []
             }
         ]
@@ -527,7 +527,7 @@ const blockStyleConfig = [
                 hideEndAdornment: true,
                 hasAfterChangeFunction: true,
                 afterChange: (id) => changeImageInitialLoadBool(id, true),
-                value: val => val,
+                value: activeItem => activeItem.content.imageSrc,
                 childInputs: []
             }
         ]
@@ -550,7 +550,7 @@ const blockStyleConfig = [
                 displayLabel: false,
                 hideEndAdornment: true,
                 hasAfterChangeFunction: false,
-                value: val => val,
+                value: activeItem => activeItem.content.imageAlt,
                 childInputs: []
             }
         ]
@@ -571,7 +571,7 @@ const blockStyleConfig = [
             {
                 label: 'Create linking',
                 watch: 'link',
-                value: val => val !== false,
+                value: activeItem => activeItem.content.link !== false,
                 type: 'text',
                 childInputs: [
                     {
@@ -580,7 +580,7 @@ const blockStyleConfig = [
                         watch: 'link',
                         disabled: false,
                         hideEndAdornment: true,
-                        value: val => val,
+                        value: activeItem => activeItem.content.link,
                     }
                 ]
             }
@@ -599,7 +599,8 @@ const blockStyleConfig = [
                 label: 'Link',
                 displayLabel: false,
                 watch: 'link',
-                value: val => val,
+                value:  activeItem => activeItem.content.link,
+                hideEndAdornment: true,
                 childInputs: []
             }
         ]
@@ -626,32 +627,32 @@ const blockStyleConfig = [
         items: [
             {
                 label: 'Numeric',
-                value: val => val === 'Numeric',
+                value: activeItem => activeItem.content.listSymbol.type === 'Numeric',
                 childInputs: []
             },
             {
                 label: 'Roman',
-                value: val => val === 'Roman',
+                value: activeItem => activeItem.content.listSymbol.type === 'Roman',
                 childInputs: []
             },
             {
                 label: 'Roman-upper',
-                value: val => val === 'Roman-upper',
+                value: activeItem => activeItem.content.listSymbol.type === 'Roman-upper',
                 childInputs: []
             },
             {
                 label: 'Latin',
-                value: val => val === 'Latin',
+                value: activeItem => activeItem.content.listSymbol.type === 'Latin',
                 childInputs: []
             },
             {
                 label: 'Latin-upper',
-                value: val => val === 'Latin-upper',
+                value: activeItem => activeItem.content.listSymbol.type === 'Latin-upper',
                 childInputs: []
             },
             {
                 label: 'Custom Unicode',
-                value: val => val === 'Custom Unicode',
+                value: activeItem => activeItem.content.listSymbol.type === 'Custom Unicode',
                 childInputs: [
                     {
                         label: 'Escape Sequence Unicode',
@@ -659,23 +660,13 @@ const blockStyleConfig = [
                         watch: 'sign',
                         disabled: false,
                         hideEndAdornment: true,
-                        value: val => {
-                            /*if (val.length === 1) {
-                                //https://stackoverflow.com/questions/21014476/javascript-convert-unicode-string-to-javascript-escape
-                                let result = "";
-                                for(let i = 0; i < val.length; i++){
-                                    result += "\\u" + ("000" + val[i].charCodeAt(0).toString(16)).substr(-4);
-                                }
-                                return result;
-                            }*/
-                            return val;
-                        },
+                        value: activeItem => activeItem.content.listSymbol.sign
                     }
                 ]
             },
             {
                 label: 'Custom Image',
-                value: val => val === 'Custom Image',
+                value: activeItem => activeItem.content.listSymbol.type === 'Custom Image',
                 childInputs: [
                     {
                         label: 'Image url',
@@ -683,7 +674,7 @@ const blockStyleConfig = [
                         watch: 'signSrc',
                         disabled: false,
                         hideEndAdornment: true,
-                        value: val => val
+                        value: activeItem => activeItem.content.listSymbol.signSrc
                     }
                 ]
             }
@@ -702,7 +693,7 @@ const blockStyleConfig = [
         hideEndAdornment: false,
         childChange: false,
         hasAfterChangeFunction: false,
-        value: val => parseInt(val)
+        value: activeItem => parseInt(activeItem.content.listSymbol.imageStyle.symbolImageHeight)
     },
     {
         id: 'listSymbolVerticalAlign',
@@ -721,15 +712,15 @@ const blockStyleConfig = [
         items: [
             {
                 label: 'Start',
-                value: val => val === 'start',
+                value: activeItem => activeItem.content.listSymbol.style.listSymbolVerticalAlign === 'start',
             },
             {
                 label: 'Center',
-                value: val => val === 'center',
+                value: activeItem => activeItem.content.listSymbol.style.listSymbolVerticalAlign === 'center',
             },
             {
                 label: 'End',
-                value: val => val === 'end',
+                value: activeItem => activeItem.content.listSymbol.style.listSymbolVerticalAlign === 'end',
             }
         ]
     },
@@ -749,7 +740,7 @@ const blockStyleConfig = [
             {
                 label: 'Adjust symbol spacing',
                 watch: 'listSymbolPaddingTop',
-                value: val => val !== '0px',
+                value: activeItem => activeItem.content.listSymbol.style.listSymbolPaddingTop !== '0px',
                 type: 'text',
                 childInputs: [
                     {
@@ -758,7 +749,7 @@ const blockStyleConfig = [
                         watch: 'listSymbolPaddingTop',
                         disabled: false,
                         hideEndAdornment: false,
-                        value: val => parseInt(val),
+                        value: activeItem => parseInt(activeItem.content.listSymbol.style.listSymbolPaddingTop),
                     }
                 ]
             }
@@ -778,7 +769,7 @@ const blockStyleConfig = [
                 label: 'Size',
                 displayLabel: false,
                 watch: 'symbolSize',
-                value: val => parseInt(val),
+                value: activeItem => parseInt(activeItem.content.listSymbol.style.symbolSize),
                 hideEndAdornment: false,
                 childInputs: []
             }
@@ -798,7 +789,7 @@ const blockStyleConfig = [
                 label: 'Trailing characters',
                 displayLabel: false,
                 watch: 'trailingCharacters',
-                value: val => val,
+                value: activeItem => activeItem.content.listSymbol.trailingCharacters,
                 hideEndAdornment: true,
                 childInputs: []
             }
@@ -817,7 +808,7 @@ const blockStyleConfig = [
                 label: 'Items gap',
                 displayLabel: false,
                 watch: 'listItemGap',
-                value: val => parseInt(val),
+                value: activeItem => parseInt(activeItem.content.listSymbol.style.listItemGap),
                 hideEndAdornment: false,
                 childInputs: []
             }
@@ -836,7 +827,7 @@ const blockStyleConfig = [
                 label: 'Inline gap',
                 displayLabel: false,
                 watch: 'inlineGap',
-                value: val => parseInt(val),
+                value: activeItem => parseInt(activeItem.content.listSymbol.style.inlineGap),
                 hideEndAdornment: false,
                 childInputs: []
             }
