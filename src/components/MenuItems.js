@@ -55,8 +55,13 @@ const MenuItems = () => {
         dispatch(item.action(item.name, newItemY));
     };
 
+    const buttonClick = () => {
+        console.log('button');
+    };
+
     return (
-        <List>
+        <button onClick={buttonClick} >ADD</button>
+        /*<List>
             {items.map((item, index) => (
                     <ListItem key={index} classes={{container: "list-item"}}>
                         <ListItemAvatar>
@@ -75,7 +80,7 @@ const MenuItems = () => {
                     </ListItem>
                 )
             )}
-        </List>
+        </List>*/
     )
 };
 

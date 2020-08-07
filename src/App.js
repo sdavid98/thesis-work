@@ -6,6 +6,7 @@ import MenuItems from "./components/MenuItems";
 import Drag from "./components/Drag";
 import BlockSettings from "./components/BlockSettings";
 import {changeActiveItemId, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate} from "./actions";
+import SandBox from "./SandBox";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const App = () => {
 			</Panel>
 
 			<div style={{width: canvasStyle.width, height: canvasStyle.height, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className="canvas">
-				<Drag></Drag>
+				<SandBox/>
 			</div>
 
 			<Panel>
