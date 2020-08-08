@@ -118,19 +118,6 @@ const content = [
     }
 ];
 
-const data = [
-    {
-        id: 'row1',
-        children: [
-            {
-                id: 'col1',
-                width: '40%',
-
-            }
-        ]
-    }
-];
-
 const renderItem = (item, index) => (
     <Draggable key={index} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
@@ -142,7 +129,6 @@ const renderItem = (item, index) => (
         )}
     </Draggable>
 );
-
 
 const renderDnD = (renderDndLowerLevel, row, index) => (
     <Droppable droppableId={`${index}`} type={row.type} key={row.id}>
@@ -173,8 +159,6 @@ const renderDnD = (renderDndLowerLevel, row, index) => (
         )}
     </Droppable>
 );
-
-
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -230,138 +214,8 @@ const getListStyle = isDraggingOver => ({
 const SandBox = () => {
     const [state, setState] = useState([getItems(3), getItems(2, 3)]);
 
-    function onDragEnd(result) {
-        console.log(result);
-        const { source, destination } = result;
-
-        // dropped outside the list
-        if (!destination) {
-            return;
-        }
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
-        console.log(sInd, dInd);
-
-        if (sInd === dInd) {
-            console.log('REORDER');
-            const items = reorder(state[sInd], source.index, destination.index);
-            const newState = [...state];
-            newState[sInd] = items;
-            setState(newState);
-        } else {
-            console.log('MOVE');
-            const result = move(state[sInd], state[dInd], source, destination);
-            const newState = [...state];
-            newState[sInd] = result[sInd];
-            newState[dInd] = result[dInd];
-
-            setState(newState);
-        }
-    }
-
     return (
-        <div>
-            <button
-                type="button"
-                onClick={() => {
-                    setState([...state, []]);
-                }}
-            >
-                Add new group
-            </button>
-            <button
-                type="button"
-                onClick={() => {
-                    setState([[...state[0], ...getItems(1)], ...state.slice(1)]);
-                }}
-            >
-                Add new item
-            </button>
-            <div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {rows.filter(row => row.type === 'main').map((row, index) => renderDnD(renderDnD, row, index))}
-                </DragDropContext>
-            </div>
-        </div>
-    );
-
-    return (
-        <div>
-            <button
-                type="button"
-                onClick={() => {
-                    setState([...state, []]);
-                }}
-            >
-                Add new group
-            </button>
-            <button
-                type="button"
-                onClick={() => {
-                    setState([[...state[0], ...getItems(1)], ...state.slice(1)]);
-                }}
-            >
-                Add new item
-            </button>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {state.map((el, ind) => (
-                        <Droppable key={ind} droppableId={`${ind}`}>
-                            {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    style={getListStyle(snapshot.isDraggingOver)}
-                                    {...provided.droppableProps}
-                                >
-                                    {console.log(state, ind, el)}
-                                    {el.map((item, index) => (
-                                        <Draggable
-                                            key={item.id}
-                                            draggableId={item.id}
-                                            index={index}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={getItemStyle(
-                                                        snapshot.isDragging,
-                                                        provided.draggableProps.style
-                                                    )}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-around"
-                                                        }}
-                                                    >
-                                                        {item.content}
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => {
-                                                                const newState = [...state];
-                                                                newState[ind].splice(index, 1);
-                                                                setState(
-                                                                    newState.filter(group => group.length)
-                                                                );
-                                                            }}
-                                                        >
-                                                            delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    ))}
-                </DragDropContext>
-            </div>
-        </div>
+        <div></div>
     );
 };
 

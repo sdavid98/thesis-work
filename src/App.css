@@ -1,8 +1,11 @@
 .App {
-    display: grid;
-    grid-template-columns: 400px auto 400px;
     background-color: whitesmoke;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.ui {
+    display: grid;
+    grid-template-columns: 400px auto 400px;
 }
 
 .draggable {

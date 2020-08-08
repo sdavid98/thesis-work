@@ -7,6 +7,8 @@ import Drag from "./components/Drag";
 import BlockSettings from "./components/BlockSettings";
 import {changeActiveItemId, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate} from "./actions";
 import SandBox from "./SandBox";
+import Popup from "./components/Popup";
+import StructureEditor from "./components/StructureEditor";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -33,19 +35,32 @@ const App = () => {
 		}
 	};
 
+	const [open, setOpen] = React.useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	return (
 		<div className="App" onClick={clickHandler} style={{backgroundColor: canvasStyle.backColor}}>
-			<Panel>
-				<MenuItems/>
-			</Panel>
-
-			<div style={{width: canvasStyle.width, height: canvasStyle.height, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className="canvas">
-				<SandBox/>
+			<div className="ui">
+				<Panel>
+					<MenuItems modalOpener={handleOpen} />
+				</Panel>
+				<div style={{width: canvasStyle.width, height: canvasStyle.height, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className="canvas">
+					<SandBox/>
+				</div>
+				<Panel>
+					<BlockSettings/>
+				</Panel>
 			</div>
-
-			<Panel>
-				<BlockSettings/>
-			</Panel>
+			<Popup open={open} modalCloser={handleClose}>
+				<StructureEditor/>
+			</Popup>
 		</div>
 	);
 };

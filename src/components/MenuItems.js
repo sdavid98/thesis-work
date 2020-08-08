@@ -13,7 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 
 
-const MenuItems = () => {
+const MenuItems = (props) => {
     const dispatch = useDispatch();
     const drags = useSelector(state => state.draggables);
 
@@ -55,12 +55,8 @@ const MenuItems = () => {
         dispatch(item.action(item.name, newItemY));
     };
 
-    const buttonClick = () => {
-        console.log('button');
-    };
-
     return (
-        <button onClick={buttonClick} >ADD</button>
+        <button onClick={props.modalOpener} >ADD</button>
         /*<List>
             {items.map((item, index) => (
                     <ListItem key={index} classes={{container: "list-item"}}>
