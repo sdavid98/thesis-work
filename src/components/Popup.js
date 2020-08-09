@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     paper: {
-        width: '400px',
+        width: '600px',
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
@@ -24,9 +24,6 @@ const Popup = (props) => {
 
     return (
         <div>
-            <button type="button" onClick={props.modalCloser}>
-                react-transition-group
-            </button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
