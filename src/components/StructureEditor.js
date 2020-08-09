@@ -23,21 +23,33 @@ const useStyles = makeStyles((theme) => ({
 const StructureEditor = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [data, setData] = useState([
+    /*const [data, setData] = useState([
         {
             id: 'id1',
             columns: [
                 {
+                    id: 'col0',
+                    level: 0,
+                    width: '300',
+                    rows: ['row0', 'row1']
+                },
+                {
                     id: 'col1',
                     level: 0,
                     width: '300',
-                    rows: ['row1', 'row2']
+                    rows: ['row5', 'row2']
                 },
                 {
                     id: 'col2',
-                    level: 0,
-                    width: '300',
-                    rows: ['row6', 'row3']
+                    level: 1,
+                    width: '150',
+                    rows: ['row3']
+                },
+                {
+                    id: 'col3',
+                    level: 1,
+                    width: '150',
+                    rows: ['row4']
                 },
                 {
                     id: 'col4',
@@ -45,43 +57,58 @@ const StructureEditor = () => {
                     width: '150',
                     rows: ['row4']
                 },
-                {
-                    id: 'col5',
-                    level: 1,
-                    width: '150',
-                    rows: ['row5']
-                },
             ],
             rows: [
                 {
-                    id: 'row1',
+                    id: 'row0',
                     columns: false,
                     content: 'content1'
                 },
                 {
-                    id: 'row2',
+                    id: 'row1',
                     columns: false,
                     content: 'content2'
                 },
                 {
-                    id: 'row3',
-                    columns: ['col4', 'col5'],
+                    id: 'row2',
+                    columns: ['col3', 'col4'],
                     content: false
                 },
                 {
-                    id: 'row4',
+                    id: 'row3',
                     columns: false,
                     content: 'content4'
                 },
                 {
-                    id: 'row5',
+                    id: 'row4',
                     columns: false,
                     content: 'content5'
                 },
                 {
-                    id: 'row6',
+                    id: 'row5',
                     columns: false,
                     content: 'content6'
+                },
+            ]
+        }
+    ]);*/
+
+    const [data, setData] = useState([
+        {
+            id: 'id1',
+            columns: [
+                {
+                    id: 'col0',
+                    level: 0,
+                    width: '600',
+                    rows: ['row0']
+                },
+            ],
+            rows: [
+                {
+                    id: 'row0',
+                    columns: false,
+                    content: 'content1'
                 },
             ]
         }
@@ -121,13 +148,81 @@ const StructureEditor = () => {
         setActiveDataRow(false);
     };
 
-    const renderRowListItm = (row) => (
+    const addRow = (dataId, colId) => {
+        setData(data.map(item => item.id === dataId ?
+            {
+                ...item,
+                columns: item.columns.map(col => col.id === colId ?
+                    {...col, rows: [...col.rows, 'row'+item.rows.length]}
+                    : {...col}),
+                rows: [...item.rows, {id: 'row'+item.rows.length, columns: false, content: 'content'+item.rows.length}]
+            }
+            : {...item}
+        ));
+    };
+
+    const generateColumn = (intColId, intRowId, width, level) => (
+        {
+            id: 'col'+intColId,
+            level: level,
+            width: width,
+            rows: ['row'+intRowId]
+        }
+    );
+
+    const generateRow = (intId) => (
+        {
+            id: 'row'+intId,
+            columns: false,
+            content: 'content'+intId
+        }
+    );
+
+    const addColumn = (dataId, rowId = null, colId = null) => {
+        data.map(item => item.id === dataId && console.log(item.columns));
+
+        const getColumns = (item, newColId) => {
+            if (!rowId) {
+                return generateColumn(newColId, item.rows.length, `0`, 0);
+            }
+            if (item.rows.find(row => row.id === rowId).columns) {
+                return generateColumn(newColId, item.rows.length, `0`, 1);
+            }
+            return generateColumn(newColId, item.rows.length, `${parseInt(item.columns.find(col => col.id === colId).width) / 2}`, 1);
+        };
+        setData(data.map(item => item.id === dataId ?
+            {
+                ...item,
+                columns: [...item.columns,
+                    getColumns(item, item.columns.length),
+                    rowId && !item.rows.find(row => row.id === rowId).columns ?
+                    getColumns(item, item.columns.length+1) : {}
+
+                ],
+                rows: [
+                    ...item.rows.map(row => row.id === rowId ?
+                        {
+                            ...row,
+                            columns: row.columns ? [...row.columns, 'col'+item.columns.length] : ['col'+item.columns.length, 'col'+(item.columns.length+1)]
+                        }
+                        : {...row}
+                    ),
+                    generateRow(item.rows.length),
+                    rowId && !item.rows.find(row => row.id === rowId).columns ?
+                        generateRow(item.rows.length+1) : {}
+                ]
+            }
+            : {...item}
+        ));
+    };
+
+    const renderRowListItm = (row, colId) => (
         <Grid container className={classes.grid} onMouseEnter={() => handleMouseEnter(row.id)} onMouseLeave={handleMouseLeave}>
             <Grid item xs={9}>
                 Row
             </Grid>
             <Grid item xs={3}>
-                <Chip style={activeDataRow === row.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Column" variant="outlined" onClick={console.log} icon={<AddCircleOutlineOutlinedIcon />} />
+                <Chip style={activeDataRow === row.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Column" variant="outlined" onClick={e => addColumn('id1', row.id, colId)} icon={<AddCircleOutlineOutlinedIcon />} />
             </Grid>
         </Grid>
     );
@@ -147,7 +242,7 @@ const StructureEditor = () => {
                             <TextField id={col.id} value={col.width} onChange={(e) => console.log(e)} InputProps={{endAdornment: 'px'}}/>
                         </Grid>
                         <Grid item xs={2}>
-                            <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={console.log} icon={<AddCircleOutlineOutlinedIcon />} />
+                            <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={e => addRow('id1', col.id)} icon={<AddCircleOutlineOutlinedIcon />} />
                         </Grid>
                     </Grid>
                     {col.rows.map((colRow, ind) => (
@@ -157,7 +252,7 @@ const StructureEditor = () => {
                                     <div key={index} onMouseEnter={() => handleMouseEnter(row.id)} onMouseLeave={handleMouseLeave}>
                                         <ol key={index}>
                                             <li value={ind+1}>
-                                                {renderRowListItm(row, index, ind)}
+                                                {renderRowListItm(row, col.id)}
                                             </li>
                                             <ol>
                                                 {self(data.find(data => data.id === 'id1').columns.filter(col => row.columns.indexOf(col.id) >= 0), allRows, self)}
@@ -170,7 +265,7 @@ const StructureEditor = () => {
                                 return (
                                     <ol key={index}>
                                         <li value={ind+1}>
-                                            {renderRowListItm(row, index, ind)}
+                                            {renderRowListItm(row, col.id)}
                                         </li>
                                     </ol>
                                 )
@@ -181,13 +276,15 @@ const StructureEditor = () => {
             ))
         }
     };
-
+    console.log(data);
     const columns = data.find(data => data.id === 'id1').columns.filter(col => col.level === 0);
+
     return (
         <>
             <ol>
                 {renderStructureList(columns, data.find(data => data.id === 'id1').rows, renderStructureList)}
             </ol>
+            <button onClick={() => addColumn('id1')}>Add column</button>
             {renderColumns(columns, data.find(data => data.id === 'id1').rows, renderColumns)}
         </>
     );
