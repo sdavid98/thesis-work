@@ -188,13 +188,29 @@ const StructureEditor = () => {
         ]
     };
 
-    const generateRow = (intId) => (
-        {
-            id: 'row'+intId,
-            columns: false,
-            content: 'content'+intId
+    const generateRow = (intId, double) => {
+        if (double) {
+            return [
+                {
+                    id: 'row'+intId,
+                    columns: false,
+                    content: 'content'+intId
+                },
+                {
+                    id: 'row'+(intId+1),
+                    columns: false,
+                    content: 'content'+(intId+1)
+                }
+            ]
         }
-    );
+        return [
+            {
+                id: 'row'+intId,
+                columns: false,
+                content: 'content'+intId
+            }
+        ]
+    };
 
     const addColumn = (dataId, rowId = null, colId = null) => {
         data.map(item => item.id === dataId && console.log(item.columns));
@@ -222,9 +238,7 @@ const StructureEditor = () => {
                         }
                         : {...row}
                     ),
-                    generateRow(item.rows.length),
-                    rowId && !item.rows.find(row => row.id === rowId).columns ?
-                        generateRow(item.rows.length+1) : {}
+                    ...(rowId && !item.rows.find(row => row.id === rowId).columns ? generateRow(item.rows.length, false) : generateRow(item.rows.length, true))
                 ]
             }
             : {...item}
