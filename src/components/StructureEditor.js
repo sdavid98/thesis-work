@@ -161,14 +161,32 @@ const StructureEditor = () => {
         ));
     };
 
-    const generateColumn = (intColId, intRowId, width, level) => (
-        {
-            id: 'col'+intColId,
-            level: level,
-            width: width,
-            rows: ['row'+intRowId]
+    const generateColumn = (intColId, intRowId, width, level, double) => {
+        if (double) {
+            return [
+                {
+                    id: 'col'+intColId,
+                    level: level,
+                    width: width,
+                    rows: ['row'+intRowId]
+                },
+                {
+                    id: 'col'+(intColId+1),
+                    level: level,
+                    width: width,
+                    rows: ['row'+(intRowId+1)]
+                }
+            ]
         }
-    );
+        return [
+            {
+                id: 'col'+intColId,
+                level: level,
+                width: width,
+                rows: ['row'+intRowId]
+            }
+        ]
+    };
 
     const generateRow = (intId) => (
         {
@@ -181,23 +199,20 @@ const StructureEditor = () => {
     const addColumn = (dataId, rowId = null, colId = null) => {
         data.map(item => item.id === dataId && console.log(item.columns));
 
-        const getColumns = (item, newColId) => {
+        const getColumns = (item, newColId, double) => {
             if (!rowId) {
-                return generateColumn(newColId, item.rows.length, `0`, 0);
+                return generateColumn(newColId, item.rows.length, `0`, 0, double);
             }
             if (item.rows.find(row => row.id === rowId).columns) {
-                return generateColumn(newColId, item.rows.length, `0`, 1);
+                return generateColumn(newColId, item.rows.length, `0`, 1, double);
             }
-            return generateColumn(newColId, item.rows.length, `${parseInt(item.columns.find(col => col.id === colId).width) / 2}`, 1);
+            return generateColumn(newColId, item.rows.length, `${parseInt(item.columns.find(col => col.id === colId).width) / 2}`, 1, double);
         };
         setData(data.map(item => item.id === dataId ?
             {
                 ...item,
                 columns: [...item.columns,
-                    getColumns(item, item.columns.length),
-                    rowId && !item.rows.find(row => row.id === rowId).columns ?
-                    getColumns(item, item.columns.length+1) : {}
-
+                    ...(rowId && !item.rows.find(row => row.id === rowId).columns) ? getColumns(item, item.columns.length, true) : getColumns(item, item.columns.length, false)
                 ],
                 rows: [
                     ...item.rows.map(row => row.id === rowId ?
