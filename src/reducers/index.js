@@ -556,4 +556,109 @@ const items = (state = initState, action) => {
     }
 };
 
-export {items};
+const structure = (state = {activeDataId: null, data: []}, action) => {
+    switch (action.type) {
+        case 'INIT':
+            return {
+                activeDataId: action.id,
+                data: [
+                    ...state.data,
+                    {
+                        id: action.id,
+                        colIndex: 1,
+                        rowIndex: 1,
+                        columns: [
+                            {
+                                id: 'col0',
+                                level: 0,
+                                width: '600',
+                                rows: ['row0']
+                            },
+                        ],
+                        rows: [
+                            {
+                                id: 'row0',
+                                columns: false,
+                                content: false
+                            },
+                        ]
+                    }
+                ]
+            };
+        case 'CHANGEACTIVEDATAID':
+            return {
+                ...state,
+                activeDataId: action.id,
+            };
+        case 'ADDCOLUMN':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.id === state.activeDataId ?
+                        {
+                            ...item,
+                            colIndex: item.colIndex + action.indexChange,
+                            rowIndex: item.rowIndex + action.indexChange,
+                            columns: [...item.columns,
+                                ...action.columns
+                            ],
+                            rows: [
+                                ...item.rows.map(row => row.id === action.rowId ?
+                                    {
+                                        ...row,
+                                        columns: action.colIdArray
+                                    }
+                                    : {...row}
+                                ),
+                                ...action.rows
+                            ]
+                        }
+                        : {...item}
+                    )
+                ]
+            };
+        case 'ADDROW':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.id === state.activeDataId ?
+                        {
+                            ...item,
+                            rowIndex: item.rowIndex+1,
+                            columns: item.columns.map(col => col.id === action.colId ?
+                                {...col, rows: [...col.rows, 'row'+item.rowIndex]}
+                                : {...col}),
+                            rows: [...item.rows, {id: 'row'+item.rowIndex, columns: false, content: false}]
+                        }
+                        : {...item}
+                    )
+                ]
+            };
+        case 'DELETESUBITEM':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.id === state.activeDataId ?
+                        {
+                            ...item,
+                            columns: item.columns.filter(col => action.deleteColumnIdsArray.indexOf(col.id) < 0).map(col => {
+                                col.rows = col.rows.filter(row => action.deleteRowIdsArray.indexOf(row) < 0);
+                                return col;
+                            }),
+                            rows: item.rows.filter(row => action.deleteRowIdsArray.indexOf(row.id) < 0).map(row => {
+                                if (row.columns) {
+                                    row.columns = row.columns.filter(col => action.deleteColumnIdsArray.indexOf(col) < 0);
+                                }
+                                return row;
+                            }),
+                        }
+                        : {...item}
+                    )
+                ]
+            };
+        default:
+            return state;
+    }
+};
+
+export {items, structure};

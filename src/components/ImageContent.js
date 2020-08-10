@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 const ImageContent = (props) => {
     const dispatch = useDispatch();
     const ref = useRef();
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const initLoad = activeItem ? activeItem.content.initialLoad : false;
 
     useEffect(() => {

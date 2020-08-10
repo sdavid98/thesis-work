@@ -39,7 +39,7 @@ const convertToRoman = (num) => {
 
 const List = (props) => {
     const dispatch = useDispatch();
-    const activeItemId = useSelector(state => state.activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
     const classes = useStyles();
     const [activeListItemNum, setActiveListItemNum] = useState(null);
     const [listItemNum, setListItemNum] = useState(1);

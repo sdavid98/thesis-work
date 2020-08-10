@@ -346,6 +346,46 @@ const removeDraggable = itemId => {
     }
 };
 
+const createStructure = id => {
+    return {
+        type: 'INIT',
+        id: id
+    }
+};
+
+const changeActiveStructureId = id => {
+    return {
+        type: 'CHANGEACTIVEDATAID',
+        id: id
+    }
+};
+
+const addStructureColumn = ({indexChange, columns, rows, rowId, colIdArray}) => {
+    return {
+        type: 'ADDCOLUMN',
+        columns: columns,
+        indexChange: indexChange,
+        rows: rows,
+        rowId: rowId,
+        colIdArray: colIdArray
+    }
+};
+
+const deleteStructureSubItem = (deleteColumnIdsArray, deleteRowIdsArray) => {
+    return {
+        type: 'DELETESUBITEM',
+        deleteColumnIdsArray: deleteColumnIdsArray,
+        deleteRowIdsArray: deleteRowIdsArray
+    }
+};
+
+const addStructureRow = (colId) => {
+    return {
+        type: 'ADDROW',
+        colId: colId
+    }
+};
+
 
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
@@ -355,4 +395,5 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
     changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
     changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
-    changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable};
+    changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable,
+    createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem};

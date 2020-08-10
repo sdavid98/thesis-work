@@ -12,8 +12,8 @@ import StructureEditor from "./components/StructureEditor";
 
 const App = () => {
 	const dispatch = useDispatch();
-	const canvasStyle = useSelector(state => state.canvasStyle);
-	const makeDimensionsReCalculate = useSelector(state => state.makeCanvasDimensionsRecalculate);
+	const canvasStyle = useSelector(state => state.items.canvasStyle);
+	const makeDimensionsReCalculate = useSelector(state => state.items.makeCanvasDimensionsRecalculate);
 
 	useEffect(() => {
 		if (makeDimensionsReCalculate) {

@@ -18,8 +18,8 @@ const useStyles = makeStyles({
 });
 
 const BlockSettings = () => {
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
 
     const generateInputs = (item, index) => {

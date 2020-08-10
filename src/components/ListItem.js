@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 const ListItem = (props) => {
-    const activeItemId = useSelector(state => state.activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
     const classes = useStyles();
 
     const editor =

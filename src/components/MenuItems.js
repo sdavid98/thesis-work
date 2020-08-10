@@ -8,14 +8,14 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import {createBasicDraggable, createImageDraggable, createListDraggable} from "../actions";
+import {createBasicDraggable, createImageDraggable, createListDraggable, createStructure} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 
 
 
 const MenuItems = (props) => {
     const dispatch = useDispatch();
-    const drags = useSelector(state => state.draggables);
+    const drags = useSelector(state => state.items.draggables);
 
     const items = [
         {
@@ -55,8 +55,13 @@ const MenuItems = (props) => {
         dispatch(item.action(item.name, newItemY));
     };
 
+    const customStructureClick = () => {
+        props.modalOpener();
+        dispatch(createStructure(Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('')));
+    };
+
     return (
-        <button onClick={props.modalOpener} >ADD</button>
+        <button onClick={customStructureClick} >ADD</button>
         /*<List>
             {items.map((item, index) => (
                     <ListItem key={index} classes={{container: "list-item"}}>

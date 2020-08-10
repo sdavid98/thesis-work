@@ -6,7 +6,7 @@ import List from "./List";
 import Spacer from "./Spacer";
 
 const Content = (props) => {
-    const activeItemId = useSelector(state => state.activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
 
     const onLinkClick = (e) => {
         e.preventDefault();

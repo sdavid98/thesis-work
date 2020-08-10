@@ -26,34 +26,15 @@ const useStyles = makeStyles({
 const CheckboxGroup = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const state = useSelector(state => state);
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const state = useSelector(state => state.items);
+    const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
 
     const getValue = (item) => {
         if (!activeItemId) {
             return item.value(state);
         }
         return item.value(activeItem);
-        /*if (activeItemId) {
-            if (activeItem.rootElementStyle[item.watch]) {
-                return activeItem.rootElementStyle[item.watch];
-            }
-            if (activeItem[item.watch]) {
-                return activeItem[item.watch];
-            }
-            if (activeItem.content.listSymbol[item.watch]) {
-                return activeItem.content.listSymbol[item.watch];
-            }
-            if (activeItem.content.listSymbol.imageStyle[item.watch]) {
-                return activeItem.content.listSymbol.imageStyle[item.watch];
-            }
-            if (activeItem.content.listSymbol.style[item.watch]) {
-                return activeItem.content.listSymbol.style[item.watch];
-            }
-            return activeItem.content[item.watch];
-        }
-        return '';*/
     };
 
     const childOption = props.item.items.filter(item => item.childInputs.length > 0 && getValue(item));

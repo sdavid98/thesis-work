@@ -19,8 +19,8 @@ const useStyles = makeStyles({
 const MultiLevelInputGroup = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const [activeParentValue, setActiveParentValue] = useState(props.item.value(activeItem));
 
     useEffect(() => {

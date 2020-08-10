@@ -6,10 +6,10 @@ import Chip from "@material-ui/core/Chip";
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import CancelIcon from '@material-ui/icons/Cancel';
 import TextField from "@material-ui/core/TextField";
+import {addStructureColumn, addStructureRow, deleteStructureSubItem} from "../actions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     grid: {
-
         '&:hover': {
             backgroundColor: '#e6f2fd'
         },
@@ -24,101 +24,12 @@ const useStyles = makeStyles((theme) => ({
 const StructureEditor = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    /*const [data, setData] = useState([
-        {
-            id: 'id1',
-            columns: [
-                {
-                    id: 'col0',
-                    level: 0,
-                    width: '300',
-                    rows: ['row0', 'row1']
-                },
-                {
-                    id: 'col1',
-                    level: 0,
-                    width: '300',
-                    rows: ['row5', 'row2']
-                },
-                {
-                    id: 'col2',
-                    level: 1,
-                    width: '150',
-                    rows: ['row3']
-                },
-                {
-                    id: 'col3',
-                    level: 1,
-                    width: '150',
-                    rows: ['row4']
-                },
-                {
-                    id: 'col4',
-                    level: 1,
-                    width: '150',
-                    rows: ['row4']
-                },
-            ],
-            rows: [
-                {
-                    id: 'row0',
-                    columns: false,
-                    content: 'content1'
-                },
-                {
-                    id: 'row1',
-                    columns: false,
-                    content: 'content2'
-                },
-                {
-                    id: 'row2',
-                    columns: ['col3', 'col4'],
-                    content: false
-                },
-                {
-                    id: 'row3',
-                    columns: false,
-                    content: 'content4'
-                },
-                {
-                    id: 'row4',
-                    columns: false,
-                    content: 'content5'
-                },
-                {
-                    id: 'row5',
-                    columns: false,
-                    content: 'content6'
-                },
-            ]
-        }
-    ]);*/
+    const activeStructureItem = useSelector(state => state.structure.activeDataId);
+    const structureData = useSelector(state => state.structure.data);
 
-    const [data, setData] = useState([
-        {
-            id: 'id1',
-            colIndex: 1,
-            rowIndex: 1,
-            columns: [
-                {
-                    id: 'col0',
-                    level: 0,
-                    width: '600',
-                    rows: ['row0']
-                },
-            ],
-            rows: [
-                {
-                    id: 'row0',
-                    columns: false,
-                    content: 'content1'
-                },
-            ]
-        }
-    ]);
     const [activeDataRow, setActiveDataRow] = useState(false);
 
-    const renderColumns = (columns, rows, render) => {
+    const renderColumns = (columns, rows, render, index = 0) => {
         const widths = columns.map(col => col.width+'px');
         const style = {
             display: 'grid',
@@ -126,13 +37,13 @@ const StructureEditor = () => {
         };
 
         return (
-            <div style={{...style}}>
+            <div key={index} style={{...style}}>
                 {columns.map((col, index) => (
                     <div key={index} style={{display: 'grid'}}>
                         {col.rows.map(colRow => (
                             rows.filter(row => row.id === colRow).map((row, index) => {
                                 if (row.columns) {
-                                    return render(data.find(data => data.id === 'id1').columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, render);
+                                    return render(structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, render, index);
                                 }
                                 return <div key={index} style={{border: 'black', boxShadow: 'inset 0 0 0 5px #4275d2', padding: '20px 5px', margin: '1px'}}></div>
                             })
@@ -151,18 +62,8 @@ const StructureEditor = () => {
         setActiveDataRow(false);
     };
 
-    const addRow = (dataId, colId) => {
-        setData(data.map(item => item.id === dataId ?
-            {
-                ...item,
-                rowIndex: item.rowIndex+1,
-                columns: item.columns.map(col => col.id === colId ?
-                    {...col, rows: [...col.rows, 'row'+item.rowIndex]}
-                    : {...col}),
-                rows: [...item.rows, {id: 'row'+item.rowIndex, columns: false, content: 'content'+item.rowIndex}]
-            }
-            : {...item}
-        ));
+    const addRow = (colId) => {
+        dispatch(addStructureRow(colId));
     };
 
     const generateColumn = (intColId, intRowId, width, level, double) => {
@@ -198,12 +99,12 @@ const StructureEditor = () => {
                 {
                     id: 'row'+intId,
                     columns: false,
-                    content: 'content'+intId
+                    content: false
                 },
                 {
                     id: 'row'+(intId+1),
                     columns: false,
-                    content: 'content'+(intId+1)
+                    content: false
                 }
             ]
         }
@@ -211,12 +112,12 @@ const StructureEditor = () => {
             {
                 id: 'row'+intId,
                 columns: false,
-                content: 'content'+intId
+                content: false
             }
         ]
     };
 
-    const addColumn = (dataId, rowId = null, colId = null) => {
+    const addColumn = (rowId = null, colId = null) => {
         const getColumns = (item, newColId, double) => {
             if (!rowId) {
                 return generateColumn(newColId, item.rowIndex, `0`, 0, double);
@@ -226,78 +127,38 @@ const StructureEditor = () => {
             }
             return generateColumn(newColId, item.rowIndex, `${parseInt(item.columns.find(col => col.id === colId).width) / 2}`, 1, double);
         };
-        setData(data.map(item => item.id === dataId ?
-            {
-                ...item,
-                colIndex: rowId && !item.rows.find(row => row.id === rowId).columns ? item.colIndex+2 : item.colIndex+1,
-                rowIndex: rowId && !item.rows.find(row => row.id === rowId).columns ? item.rowIndex+2 : item.rowIndex+1,
-                columns: [...item.columns,
-                    ...(rowId && !item.rows.find(row => row.id === rowId).columns) ? getColumns(item, item.colIndex, true) : getColumns(item, item.colIndex, false)
-                ],
-                rows: [
-                    ...item.rows.map(row => row.id === rowId ?
-                        {
-                            ...row,
-                            columns: row.columns ? [...row.columns, 'col'+item.colIndex] : ['col'+item.colIndex, 'col'+(item.colIndex+1)]
-                        }
-                        : {...row}
-                    ),
-                    ...(rowId && !item.rows.find(row => row.id === rowId).columns ? generateRow(item.rowIndex, true) : generateRow(item.rowIndex, false))
-                ]
-            }
-            : {...item}
-        ));
+        const currentItem = structureData.find(item => item.id === activeStructureItem);
+        console.log(currentItem);
+        const dataToSend = {
+            indexChange: rowId && !currentItem.rows.find(row => row.id === rowId).columns ? 2 : 1,
+            rowId: rowId,
+            columns: (rowId && !currentItem.rows.find(row => row.id === rowId).columns) ? getColumns(currentItem, currentItem.colIndex, true) : getColumns(currentItem, currentItem.colIndex, false),
+            colIdArray: rowId && currentItem.rows.find(row => row.id === rowId).columns ? [...currentItem.rows.find(row => row.id === rowId).columns, 'col'+currentItem.colIndex] : ['col'+currentItem.colIndex, 'col'+(currentItem.colIndex+1)],
+            rows: rowId && !currentItem.rows.find(row => row.id === rowId).columns ? generateRow(currentItem.rowIndex, true) : generateRow(currentItem.rowIndex, false),
+        };
+        dispatch(addStructureColumn(dataToSend));
     };
 
     let deleteRowIdsArray = [];
     let deleteColumnIdsArray = [];
 
     const deleteData = () => {
-        setData(data.map(item => item.id === 'id1' ?
-           {
-               ...item,
-               columns: item.columns.filter(col => deleteColumnIdsArray.indexOf(col.id) < 0).map(col => {
-                   col.rows = col.rows.filter(row => deleteRowIdsArray.indexOf(row) < 0);
-                   return col;
-               }),
-               rows: item.rows.filter(row => deleteRowIdsArray.indexOf(row.id) < 0).map(row => {
-                   if (row.columns) {
-                       row.columns = row.columns.filter(col => deleteColumnIdsArray.indexOf(col) < 0);
-                   }
-                   return row;
-               }),
-           }
-           : {...item}
-       ));
+        dispatch(deleteStructureSubItem(deleteColumnIdsArray, deleteRowIdsArray));
     };
 
-    const deleteColumn = (colId, dataId) => {
+    const deleteColumn = (colId) => {
         deleteColumnIdsArray.push(colId);
-        data.find(data => data.id === 'id1').columns.find(col => col.id === colId).rows.map(row => deleteRow(row, dataId));
-        /*setData(data.map(item => item.id === dataId ?
-            {
-                ...item,
-                columns: item.columns.filter(col => col.id !== colId)
-            }
-            : {...item}
-        ));*/
+        structureData.find(data => data.id === activeStructureItem).columns.find(col => col.id === colId).rows.map(row => deleteRow(row));
     };
 
-    const deleteRow = (rowId, dataId) => {
+    const deleteRow = (rowId) => {
         deleteRowIdsArray.push(rowId);
-        if (data.find(data => data.id === 'id1').rows.find(row => row.id === rowId).columns) {
-            data.find(data => data.id === 'id1').rows.find(row => row.id === rowId).columns.map(col => deleteColumn(col, dataId));
+        if (structureData.find(data => data.id === activeStructureItem).rows.find(row => row.id === rowId).columns) {
+            structureData.find(data => data.id === activeStructureItem).rows.find(row => row.id === rowId).columns.map(col => deleteColumn(col));
         }
         else {
             deleteData();
         }
-        /*setData(data.map(item => item.id === dataId ?
-            {
-                ...item,
-                rows: item.rows.filter(row => row.id !== rowId)
-            }
-            : {...item}
-        ));*/
     };
 
     const renderRowListItm = (row, colId) => (
@@ -306,10 +167,10 @@ const StructureEditor = () => {
                 Row
             </Grid>
             <Grid item xs={3}>
-                <Chip style={activeDataRow === row.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Column" variant="outlined" onClick={e => addColumn('id1', row.id, colId)} icon={<AddCircleOutlineOutlinedIcon />} />
+                <Chip style={activeDataRow === row.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Column" variant="outlined" onClick={e => addColumn(row.id, colId)} icon={<AddCircleOutlineOutlinedIcon />} />
             </Grid>
             <Grid item xs={1}>
-                <CancelIcon style={activeDataRow === row.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteRow(row.id, 'id1')} />
+                <CancelIcon style={activeDataRow === row.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteRow(row.id)} />
             </Grid>
         </Grid>
     );
@@ -329,15 +190,15 @@ const StructureEditor = () => {
                             <TextField id={col.id} value={col.width} onChange={(e) => console.log(e)} InputProps={{endAdornment: 'px'}}/>
                         </Grid>
                         <Grid item xs={2}>
-                            <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={e => addRow('id1', col.id)} icon={<AddCircleOutlineOutlinedIcon />} />
+                            <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={e => addRow(col.id)} icon={<AddCircleOutlineOutlinedIcon />} />
                          </Grid>
                         <Grid item xs={1}>
-                            <CancelIcon style={activeDataRow === col.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteColumn(col.id, 'id1')} />
+                            <CancelIcon style={activeDataRow === col.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteColumn(col.id)} />
                         </Grid>
                     </Grid>
                     {col.rows.map((colRow, ind) => (
                         allRows.filter(row => row.id === colRow).map((row, index) => {
-                            if (row.columns && row.columns.length > 1) {
+                            if (row.columns && row.columns.length > 0) {
                                 return (
                                     <div key={index} onMouseEnter={() => handleMouseEnter(row.id)} onMouseLeave={handleMouseLeave}>
                                         <ol key={index}>
@@ -345,7 +206,7 @@ const StructureEditor = () => {
                                                 {renderRowListItm(row, col.id)}
                                             </li>
                                             <ol>
-                                                {self(data.find(data => data.id === 'id1').columns.filter(col => row.columns.indexOf(col.id) >= 0), allRows, self)}
+                                                {self(structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0), allRows, self)}
                                             </ol>
                                         </ol>
                                     </div>
@@ -366,16 +227,19 @@ const StructureEditor = () => {
             ))
         }
     };
-    console.log(data);
-    const columns = data.find(data => data.id === 'id1').columns.filter(col => col.level === 0);
+
+    const columns = structureData.find(data => data.id === activeStructureItem).columns.length > 0 ? structureData.find(data => data.id === activeStructureItem).columns.filter(col => col.level === 0) : false;
 
     return (
         <>
+            {columns &&
             <ol>
-                {renderStructureList(columns, data.find(data => data.id === 'id1').rows, renderStructureList)}
-            </ol>
-            <button onClick={() => addColumn('id1')}>Add column</button>
-            {renderColumns(columns, data.find(data => data.id === 'id1').rows, renderColumns)}
+                {renderStructureList(columns, structureData.find(data => data.id === activeStructureItem).rows, renderStructureList)}
+            </ol>}
+            <button onClick={() => addColumn()}>Add column</button>
+            {columns &&
+                renderColumns(columns, structureData.find(data => data.id === activeStructureItem).rows, renderColumns)
+            }
         </>
     );
 };

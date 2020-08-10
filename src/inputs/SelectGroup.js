@@ -23,8 +23,8 @@ const useStyles = makeStyles({
 const SelectGroup = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const activeItemId = useSelector(state => state.activeItemId);
-    const activeItem = useSelector(state => state.draggables).find(drag => drag.id === activeItemId);
+    const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
 
     const mapSelectOptions = () => {
         return props.item.items.map((item, index) => <MenuItem key={index} value={item.label}>{item.label}</MenuItem>);
