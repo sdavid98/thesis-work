@@ -7,6 +7,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import CancelIcon from '@material-ui/icons/Cancel';
 import TextField from "@material-ui/core/TextField";
 import {addStructureColumn, addStructureRow, deleteStructureSubItem} from "../actions";
+import StructureTextInput from "../inputs/StructureTextInput";
 
 const useStyles = makeStyles(() => ({
     grid: {
@@ -42,7 +43,7 @@ const StructureEditor = () => {
                     <div key={index} style={{display: 'grid'}}>
                         {col.rows.map(colRow => (
                             rows.filter(row => row.id === colRow).map((row, index) => {
-                                if (row.columns) {
+                                if (row.columns && row.columns.length > 0) {
                                     return render(structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, render, index);
                                 }
                                 return <div key={index} style={{border: 'black', boxShadow: 'inset 0 0 0 5px #4275d2', padding: '20px 5px', margin: '1px'}}></div>
@@ -128,7 +129,7 @@ const StructureEditor = () => {
             return generateColumn(newColId, item.rowIndex, `${parseInt(item.columns.find(col => col.id === colId).width) / 2}`, 1, double);
         };
         const currentItem = structureData.find(item => item.id === activeStructureItem);
-        console.log(currentItem);
+
         const dataToSend = {
             indexChange: rowId && !currentItem.rows.find(row => row.id === rowId).columns ? 2 : 1,
             rowId: rowId,
@@ -187,7 +188,7 @@ const StructureEditor = () => {
                             width:
                         </Grid>
                         <Grid item xs={2}>
-                            <TextField id={col.id} value={col.width} onChange={(e) => console.log(e)} InputProps={{endAdornment: 'px'}}/>
+                            <StructureTextInput colId={col.id}/>
                         </Grid>
                         <Grid item xs={2}>
                             <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={e => addRow(col.id)} icon={<AddCircleOutlineOutlinedIcon />} />

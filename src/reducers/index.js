@@ -656,6 +656,21 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
                     )
                 ]
             };
+        case 'CHANGECOLUMNWIDTH':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.id === state.activeDataId ?
+                        {
+                            ...item,
+                            columns: item.columns.map(col => col.id === action.colId ?
+                                {...col, width: action.width}
+                                : {...col}),
+                        }
+                        : {...item}
+                    )
+                ]
+            };
         default:
             return state;
     }

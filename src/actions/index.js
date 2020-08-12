@@ -386,6 +386,13 @@ const addStructureRow = (colId) => {
     }
 };
 
+const changeColumnWidth = (colId, width) => {
+    return {
+        type: 'CHANGECOLUMNWIDTH',
+        colId: colId,
+        width: width
+    }
+};
 
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
@@ -396,4 +403,5 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
     changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
     changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable,
-    createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem};
+    createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
+    changeColumnWidth};
