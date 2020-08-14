@@ -171,6 +171,9 @@ const StructureEditor = () => {
                     columns={columns}
                     rows={structureData.find(data => data.id === activeStructureItem).rows}
                     index={0}
+                    active={true}
+                    isOnCanvas={false}
+                    dataId={activeStructureItem}
                 />
             }
         </>

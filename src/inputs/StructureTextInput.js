@@ -2,9 +2,19 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import {changeColumnWidth} from "../actions";
+import {makeStyles} from "@material-ui/core/styles";
 
+const useStyles = makeStyles(() => ({
+    input: {
+        '& .MuiInputBase-input': {
+            color: 'red',
+            fontWeight: 'bold'
+        }
+    }
+}));
 
 const StructureTextInput = (props) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const canvasWidth = useSelector(state => parseInt(state.items.canvasStyle.width));
     const activeStructureItemId = useSelector(state => state.structure.activeDataId);
@@ -44,6 +54,7 @@ const StructureTextInput = (props) => {
 
     return (
         <TextField
+            className={(value === 0 || value === '0') ? classes.input : ''}
             id={props.colId}
             value={value}
             onKeyUp={keyup}

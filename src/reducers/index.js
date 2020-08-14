@@ -561,6 +561,7 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
         case 'INIT':
             return {
                 activeDataId: action.id,
+                showRegions: true,
                 data: [
                     ...state.data,
                     {
@@ -606,7 +607,8 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
                                 ...item.rows.map(row => row.id === action.rowId ?
                                     {
                                         ...row,
-                                        columns: action.colIdArray
+                                        columns: action.colIdArray,
+                                        content: false
                                     }
                                     : {...row}
                                 ),
@@ -666,6 +668,27 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
                             columns: item.columns.map(col => col.id === action.colId ?
                                 {...col, width: action.width}
                                 : {...col}),
+                        }
+                        : {...item}
+                    )
+                ]
+            };
+        case 'ADDCONTENT':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.id === state.activeDataId ?
+                        {
+                            ...item,
+                            rows: [
+                                ...item.rows.map(row => row.id === action.rowId ?
+                                    {
+                                        ...row,
+                                        content: action.contentId
+                                    }
+                                    : {...row}
+                                )
+                            ]
                         }
                         : {...item}
                     )

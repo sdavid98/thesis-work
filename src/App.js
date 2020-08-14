@@ -9,6 +9,7 @@ import {changeActiveItemId, changeCanvasHeight, changeCanvasWidth, makeCanvasDim
 import SandBox from "./SandBox";
 import Popup from "./components/Popup";
 import StructureEditor from "./components/StructureEditor";
+import Canvas from "./components/Canvas";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -51,9 +52,7 @@ const App = () => {
 				<Panel>
 					<MenuItems modalOpener={handleOpen} />
 				</Panel>
-				<div style={{width: canvasStyle.width, height: canvasStyle.height, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className="canvas">
-					<SandBox/>
-				</div>
+				<Canvas/>
 				<Panel>
 					<BlockSettings/>
 				</Panel>

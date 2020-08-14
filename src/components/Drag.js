@@ -21,26 +21,6 @@ const useStyles = makeStyles({
         }
     },
 });
-const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
-const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-    destClone.splice(droppableDestination.index, 0, removed);
-
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-
-    return result;
-};
 const Drag = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -140,94 +120,7 @@ const Drag = () => {
         dispatch(removeDraggable(activeItemId));
     };
 
-    const dragList = [
-        [
-            {
-                id: 'aaa',
-                width: '400px',
-                type: 'text'
-            },
-            {
-                id: 'bbb',
-                width: '200px',
-                type: 'image'
-            }
-        ],
-        [
-            {
-                id: 'ccc',
-                width: '300px',
-                type: 'divider'
-            },
-            {
-                id: 'ddd',
-                width: '300px',
-                type: 'divider2'
-            }
-        ],
-    ];
-    const [state, setState] = useState(dragList);
-    const onDragEnd = (result) => {
-        console.log(result);
-        const { source, destination } = result;
-
-        // dropped outside the list
-        if (!destination) {
-            return;
-        }
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
-
-        if (sInd === dInd) {
-            const items = reorder(state[sInd], source.index, destination.index);
-            const newState = [...state];
-            newState[sInd] = items;
-            setState(newState);
-        } else {
-            const result = move(state[sInd], state[dInd], source, destination);
-            const newState = [...state];
-            newState[sInd] = result[sInd];
-            newState[dInd] = result[dInd];
-
-            setState(newState.filter(group => group.length));
-        }
-    };
-    return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            {state.map((el, index) => (
-                <Droppable key={index} droppableId={`${index}`}>
-                    {(provided) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={{display: 'flex', width: '100%'}}
-                        >
-                            {el.map((item, ind) => (
-                                <Draggable
-                                    key={item.id}
-                                    draggableId={item.id}
-                                    index={ind}
-                                >
-                                    {provided => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={{width: item.width, border: '1px solid blue', padding: '15px'}}
-                                        >
-                                            {item.type}
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            ))}
-        </DragDropContext>
-    );
-
-    /*if (drags.length > 0) {
+    if (drags.length > 0) {
         return drags.map((item) => {
             if (item.y + item.height > parseInt(canvasStyle.height)) {
                 resizeCanvasIfDragOverflows(item.y + item.height);
@@ -274,7 +167,7 @@ const Drag = () => {
             );
         })
     }
-    return false;*/
+    return false;
 
 };
 

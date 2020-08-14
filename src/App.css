@@ -6,6 +6,7 @@
 .ui {
     display: grid;
     grid-template-columns: 400px auto 400px;
+    height: 100vh;
 }
 
 .draggable {
@@ -26,10 +27,9 @@
 .canvas {
     background-color: #ffffff;
     width: 600px;
-    height: 800px;
     position: relative;
     overflow: visible;
-    margin: 50px auto;
+    margin: 50px auto auto;
 }
 
 .panel {

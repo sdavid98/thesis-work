@@ -1,12 +1,76 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
+import Popover from "@material-ui/core/Popover";
+import ContentTypeSelect from "../inputs/ContentTypeSelect";
+import IconButton from "@material-ui/core/IconButton";
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import Content from "./Content";
+
+const useStyles = makeStyles(() => ({
+    showRegionsOnCanvas: {
+        boxShadow: 'inset 0 0 0 3px #4275d2',
+    },
+    showRegionsOnEditor: {
+        boxShadow: 'inset 0 0 0 5px #4275d2',
+        margin: '1px'
+    },
+    placeHolder: {
+        padding: '20px 5px'
+    }
+}));
 
 const StructureBuild = (props) => {
-    const activeStructureItem = useSelector(state => state.structure.activeDataId);
+    const classes = useStyles();
+    const contentItems = useSelector(state => state.items.draggables);
+    const showRegions = useSelector(state => state.structure.showRegions);
     const structureData = useSelector(state => state.structure.data);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [openId, setOpenId] = useState(null);
     const style = {
         display: 'grid',
         gridTemplateColumns: props.columns.map(col => col.width+'px').join(' '),
+    };
+
+    const handlePopoverOpen = (event, dataId, rowId) => {
+        setOpenId(`${dataId}-${rowId}`);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setOpenId(null);
+        setAnchorEl(null);
+    };
+
+    const getContent = (contentId, rowId) => {
+        if (contentId && contentItems.find(item => item.id === contentId)) {
+            return <Content item={contentItems.find(item => item.id === contentId)} />
+        }
+        if (props.isOnCanvas && props.active) {
+            return (
+                <div style={{display: 'grid', justifyContent: 'center'}}>
+                    <IconButton edge="end" aria-label="add" onClick={(e) => handlePopoverOpen(e, props.dataId, rowId)}>
+                        <AddCircleOutlineOutlinedIcon />
+                    </IconButton>
+                    <Popover
+                        open={openId === `${props.dataId}-${rowId}`}
+                        anchorEl={anchorEl}
+                        onClose={handlePopoverClose}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                    >
+                        <ContentTypeSelect rowId={rowId} />
+                    </Popover>
+                </div>
+            )
+        }
+        return <div className={classes.placeHolder}></div>
     };
 
     return (
@@ -18,13 +82,16 @@ const StructureBuild = (props) => {
                             if (row.columns && row.columns.length > 0) {
                                 return (
                                     <StructureBuild
-                                        columns={structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0)}
+                                        key={index}
+                                        columns={structureData.find(data => data.id === props.dataId).columns.filter(col => row.columns.indexOf(col.id) >= 0)}
                                         rows={props.rows}
                                         index={index}
+                                        isOnCanvas={props.isOnCanvas}
+                                        active={props.active}
                                     />
                                 )
                              }
-                            return <div key={index} style={{border: 'black', boxShadow: 'inset 0 0 0 5px #4275d2', padding: '20px 5px', margin: '1px'}}></div>
+                            return <div key={index} className={(props.active && showRegions) ? (props.isOnCanvas ? classes.showRegionsOnCanvas : classes.showRegionsOnEditor) : ''}>{getContent(row.content, row.id)}</div>
                         })
                     ))}
                 </div>

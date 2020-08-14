@@ -1,27 +1,24 @@
-const createBasicDraggable = (itemType, id, y) => {
+const createBasicDraggable = (itemType, id) => {
     return {
         type: 'CREATEBASICDRAGGABLE',
         itemType: itemType,
-        id: id,
-        y: y
+        id: id
     };
 };
 
-const createListDraggable = (itemType, id, y) => {
+const createListDraggable = (itemType, id) => {
     return {
         type: 'CREATELISTDRAGGABLE',
         itemType: itemType,
-        id: id,
-        y: y
+        id: id
     };
 };
 
-const createImageDraggable = (itemType, id, y) => {
+const createImageDraggable = (itemType, id) => {
     return {
         type: 'CREATEIMAGEDRAGGABLE',
         itemType: itemType,
-        id: id,
-        y: y
+        id: id
     };
 };
 
@@ -394,6 +391,14 @@ const changeColumnWidth = (colId, width) => {
     }
 };
 
+const addContent = (rowId, contentId) => {
+    return {
+        type: 'ADDCONTENT',
+        rowId: rowId,
+        contentId: contentId
+    }
+};
+
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
@@ -404,4 +409,4 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
     changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable,
     createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
-    changeColumnWidth};
+    changeColumnWidth, addContent};
