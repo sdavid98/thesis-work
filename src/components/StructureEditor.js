@@ -1,59 +1,48 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {makeStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Chip from "@material-ui/core/Chip";
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import CancelIcon from '@material-ui/icons/Cancel';
-import TextField from "@material-ui/core/TextField";
 import {addStructureColumn, addStructureRow, deleteStructureSubItem} from "../actions";
-import StructureTextInput from "../inputs/StructureTextInput";
+import StructureDataRowItem from "./StructureDataRowItem";
+import StructureDataColumnItem from "./StructureDataColumnItem";
+import StructureBuild from "./StructureBuild";
 
-const useStyles = makeStyles(() => ({
-    grid: {
-        '&:hover': {
-            backgroundColor: '#e6f2fd'
-        },
-        '& .MuiGrid-item': {
-            alignSelf: 'center',
-            padding: '2px 6px',
-        }
-    },
-}));
+const generateColumn = (intColId, intRowId, width, level, double) => {
+    const qty = double ? 2 : 1;
+    let result = [];
+    for (let i = 0; i < qty; i++ ) {
+        result.push(
+            {
+                id: 'col'+(intColId+i),
+                level: level,
+                width: width,
+                rows: ['row'+(intRowId+i)]
+            }
+        )
+    }
+    return result;
+};
 
+const generateRow = (intId, double) => {
+    const qty = double ? 2 : 1;
+    let result = [];
+    for (let i = 0; i < qty; i++ ) {
+        result.push(
+            {
+                id: 'row'+(intId+i),
+                columns: false,
+                content: false
+            }
+        )
+    }
+    return result;
+};
 
 const StructureEditor = () => {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const activeStructureItem = useSelector(state => state.structure.activeDataId);
     const structureData = useSelector(state => state.structure.data);
-
     const [activeDataRow, setActiveDataRow] = useState(false);
-
-    const renderColumns = (columns, rows, render, index = 0) => {
-        const widths = columns.map(col => col.width+'px');
-        const style = {
-            display: 'grid',
-            gridTemplateColumns: widths.join(' '),
-        };
-
-        return (
-            <div key={index} style={{...style}}>
-                {columns.map((col, index) => (
-                    <div key={index} style={{display: 'grid'}}>
-                        {col.rows.map(colRow => (
-                            rows.filter(row => row.id === colRow).map((row, index) => {
-                                if (row.columns && row.columns.length > 0) {
-                                    return render(structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, render, index);
-                                }
-                                return <div key={index} style={{border: 'black', boxShadow: 'inset 0 0 0 5px #4275d2', padding: '20px 5px', margin: '1px'}}></div>
-                            })
-                        ))}
-                    </div>
-                ))}
-            </div>
-        );
-    };
+    let deleteRowIdsArray = [];
+    let deleteColumnIdsArray = [];
 
     const handleMouseEnter = (id) => {
         setActiveDataRow(id);
@@ -65,57 +54,6 @@ const StructureEditor = () => {
 
     const addRow = (colId) => {
         dispatch(addStructureRow(colId));
-    };
-
-    const generateColumn = (intColId, intRowId, width, level, double) => {
-        if (double) {
-            return [
-                {
-                    id: 'col'+intColId,
-                    level: level,
-                    width: width,
-                    rows: ['row'+intRowId]
-                },
-                {
-                    id: 'col'+(intColId+1),
-                    level: level,
-                    width: width,
-                    rows: ['row'+(intRowId+1)]
-                }
-            ]
-        }
-        return [
-            {
-                id: 'col'+intColId,
-                level: level,
-                width: width,
-                rows: ['row'+intRowId]
-            }
-        ]
-    };
-
-    const generateRow = (intId, double) => {
-        if (double) {
-            return [
-                {
-                    id: 'row'+intId,
-                    columns: false,
-                    content: false
-                },
-                {
-                    id: 'row'+(intId+1),
-                    columns: false,
-                    content: false
-                }
-            ]
-        }
-        return [
-            {
-                id: 'row'+intId,
-                columns: false,
-                content: false
-            }
-        ]
     };
 
     const addColumn = (rowId = null, colId = null) => {
@@ -140,9 +78,6 @@ const StructureEditor = () => {
         dispatch(addStructureColumn(dataToSend));
     };
 
-    let deleteRowIdsArray = [];
-    let deleteColumnIdsArray = [];
-
     const deleteData = () => {
         dispatch(deleteStructureSubItem(deleteColumnIdsArray, deleteRowIdsArray));
     };
@@ -162,41 +97,18 @@ const StructureEditor = () => {
         }
     };
 
-    const renderRowListItm = (row, colId) => (
-        <Grid container className={classes.grid} onMouseEnter={() => handleMouseEnter(row.id)} onMouseLeave={handleMouseLeave}>
-            <Grid item xs={8}>
-                Row
-            </Grid>
-            <Grid item xs={3}>
-                <Chip style={activeDataRow === row.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Column" variant="outlined" onClick={e => addColumn(row.id, colId)} icon={<AddCircleOutlineOutlinedIcon />} />
-            </Grid>
-            <Grid item xs={1}>
-                <CancelIcon style={activeDataRow === row.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteRow(row.id)} />
-            </Grid>
-        </Grid>
-    );
-
     const renderStructureList = (columns, allRows, self) => {
         if (columns.length > 0 || columns[0].level === 0) {
             return columns.map((col, index) => (
                 <li key={index}>
-                    <Grid container className={classes.grid} onMouseEnter={() => handleMouseEnter(col.id)} onMouseLeave={handleMouseLeave}>
-                        <Grid item xs={4}>
-                            Column
-                        </Grid>
-                        <Grid item xs={3} style={{textAlign: 'end'}}>
-                            width:
-                        </Grid>
-                        <Grid item xs={2}>
-                            <StructureTextInput colId={col.id}/>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Chip style={activeDataRow === col.id ? {visibility: 'visible'} : {visibility: 'hidden'}} size="small" label="Row" variant="outlined" onClick={e => addRow(col.id)} icon={<AddCircleOutlineOutlinedIcon />} />
-                         </Grid>
-                        <Grid item xs={1}>
-                            <CancelIcon style={activeDataRow === col.id ? {visibility: 'visible', cursor: 'pointer'} : {visibility: 'hidden'}} size="small" onClick={e => deleteColumn(col.id)} />
-                        </Grid>
-                    </Grid>
+                    <StructureDataColumnItem
+                        colId={col.id}
+                        handleMouseEnter={handleMouseEnter}
+                        handleMouseLeave={handleMouseLeave}
+                        addRow={addRow}
+                        deleteColumn={deleteColumn}
+                        active={activeDataRow === col.id}
+                    />
                     {col.rows.map((colRow, ind) => (
                         allRows.filter(row => row.id === colRow).map((row, index) => {
                             if (row.columns && row.columns.length > 0) {
@@ -204,7 +116,15 @@ const StructureEditor = () => {
                                     <div key={index} onMouseEnter={() => handleMouseEnter(row.id)} onMouseLeave={handleMouseLeave}>
                                         <ol key={index}>
                                             <li value={ind+1}>
-                                                {renderRowListItm(row, col.id)}
+                                                <StructureDataRowItem
+                                                    colId={col.id}
+                                                    rowId={row.id}
+                                                    handleMouseEnter={handleMouseEnter}
+                                                    handleMouseLeave={handleMouseLeave}
+                                                    addColumn={addColumn}
+                                                    deleteRow={deleteRow}
+                                                    active={activeDataRow === row.id}
+                                                />
                                             </li>
                                             <ol>
                                                 {self(structureData.find(data => data.id === activeStructureItem).columns.filter(col => row.columns.indexOf(col.id) >= 0), allRows, self)}
@@ -217,7 +137,15 @@ const StructureEditor = () => {
                                 return (
                                     <ol key={index}>
                                         <li value={ind+1}>
-                                            {renderRowListItm(row, col.id)}
+                                            <StructureDataRowItem
+                                                colId={col.id}
+                                                rowId={row.id}
+                                                handleMouseEnter={handleMouseEnter}
+                                                handleMouseLeave={handleMouseLeave}
+                                                addColumn={addColumn}
+                                                deleteRow={deleteRow}
+                                                active={activeDataRow === row.id}
+                                            />
                                         </li>
                                     </ol>
                                 )
@@ -239,7 +167,11 @@ const StructureEditor = () => {
             </ol>}
             <button onClick={() => addColumn()}>Add column</button>
             {columns &&
-                renderColumns(columns, structureData.find(data => data.id === activeStructureItem).rows, renderColumns)
+                <StructureBuild
+                    columns={columns}
+                    rows={structureData.find(data => data.id === activeStructureItem).rows}
+                    index={0}
+                />
             }
         </>
     );
