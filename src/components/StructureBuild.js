@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
@@ -9,7 +9,8 @@ import Content from "./Content";
 
 const useStyles = makeStyles(() => ({
     showRegionsOnCanvas: {
-        boxShadow: 'inset 0 0 0 3px #4275d2',
+        border: '1px solid #4275d2',
+        //boxShadow: '0 0 0 3px #4275d2',
     },
     showRegionsOnEditor: {
         boxShadow: 'inset 0 0 0 5px #4275d2',
@@ -65,7 +66,7 @@ const StructureBuild = (props) => {
                             horizontal: 'center',
                         }}
                     >
-                        <ContentTypeSelect rowId={rowId} />
+                        <ContentTypeSelect rowId={rowId} closePopup={handlePopoverClose} />
                     </Popover>
                 </div>
             )

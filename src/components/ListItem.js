@@ -12,6 +12,7 @@ const useStyles = makeStyles({
         minHeight: 20,
         position: 'absolute',
         right: -20,
+        zIndex: 99
     }
 });
 

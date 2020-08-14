@@ -1,12 +1,29 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TextEditor from "./TextEditor";
 import ImageContent from "./ImageContent";
 import List from "./List";
 import Spacer from "./Spacer";
+import {changeActiveItemId, removeDraggable} from "../actions";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+    noLinkUnderline: {
+        '& a': {
+            textDecoration: 'none'
+        }
+    },
+});
 
 const Content = (props) => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
+
+    const handleDragDelete = (e) => {
+        e.stopPropagation();
+        dispatch(removeDraggable(activeItemId));
+    };
 
     const onLinkClick = (e) => {
         e.preventDefault();
@@ -43,12 +60,18 @@ const Content = (props) => {
         return <div><TextEditor /></div>;
     };
 
-    if (activeItemId === props.item.id) {
-        return getActiveItem();
-    }
-    else {
-        return getPassiveItem();
-    }
+
+    return (
+        <div className={props.item.id === activeItemId ? 'active-content' : ''} style={{height: '100%', position: 'relative'}} onClick={() => dispatch(changeActiveItemId(props.item.id))}>
+            <div className="drag-delete" onClick={(e) => handleDragDelete(e)}>x</div>
+            <div
+                className={`content ${!props.item.underlineLinksIfPresent && classes['noLinkUnderline']}`}
+                style={props.item.rootElementStyle}
+            >
+                {activeItemId === props.item.id ? getActiveItem() : getPassiveItem()}
+            </div>
+        </div>
+    );
 };
 
 export default Content;

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .App {
     background-color: whitesmoke;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -62,14 +66,17 @@
     display: none;
 }
 
-.draggable.active > .drag-handler {
+.active-content > .drag-handler {
     display: block;
 }
 
-.draggable.active > .drag-delete {
+.active-content > .drag-delete {
     display: block;
 }
 
+.content {
+    height: 100%;
+}
 
 .content p {
     margin: 0;
