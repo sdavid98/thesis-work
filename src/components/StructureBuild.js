@@ -10,7 +10,6 @@ import Content from "./Content";
 const useStyles = makeStyles(() => ({
     showRegionsOnCanvas: {
         border: '1px solid #4275d2',
-        //boxShadow: '0 0 0 3px #4275d2',
     },
     showRegionsOnEditor: {
         boxShadow: 'inset 0 0 0 5px #4275d2',

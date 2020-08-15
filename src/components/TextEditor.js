@@ -1,17 +1,12 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeItemContent, makeDragHeightReCalculate} from "../actions";
+import {changeItemContent} from "../actions";
 import {Editor} from "@tinymce/tinymce-react";
 
 const TextEditor = () => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
-
-    const handleChange = (content) => {
-        dispatch(changeItemContent(activeItemId, content));
-        dispatch(makeDragHeightReCalculate(true));
-    };
 
     return (
         <Editor
@@ -25,7 +20,7 @@ const TextEditor = () => {
                 toolbar:
                     'undo redo | bold italic underline | link | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat'
             }}
-            onEditorChange={content => handleChange(content)}
+            onEditorChange={content => dispatch(changeItemContent(activeItemId, content))}
         />
     );
 

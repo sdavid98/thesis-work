@@ -4,6 +4,7 @@ import {addStructureColumn, addStructureRow, deleteStructureSubItem} from "../ac
 import StructureDataRowItem from "./StructureDataRowItem";
 import StructureDataColumnItem from "./StructureDataColumnItem";
 import StructureBuild from "./StructureBuild";
+import Button from "@material-ui/core/Button";
 
 const generateColumn = (intColId, intRowId, width, level, double) => {
     const qty = double ? 2 : 1;
@@ -150,6 +151,7 @@ const StructureEditor = () => {
                                     </ol>
                                 )
                             }
+                            return false;
                         })
                     ))}
                 </li>
@@ -165,7 +167,7 @@ const StructureEditor = () => {
             <ol>
                 {renderStructureList(columns, structureData.find(data => data.id === activeStructureItem).rows, renderStructureList)}
             </ol>}
-            <button onClick={() => addColumn()}>Add column</button>
+            <Button size='small' variant="contained" color="primary" onClick={() => addColumn()}>Add column</Button>
             {columns &&
                 <StructureBuild
                     columns={columns}

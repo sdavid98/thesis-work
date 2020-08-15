@@ -1,7 +1,31 @@
-import {changeRowBackColor} from "./actions";
+import {changeRowAlign, changeRowBackColor} from "./actions";
 import blockStyleValidations from "./blockStyleValidations";
 
 const rowOptions = [
+    {
+        id: 'justifyContent',
+        label: 'Horizontal align',
+        type: 'radio',
+        change: (activeItem, itemText, value) => {
+            return changeRowAlign(activeItem.id, value.toLowerCase());
+        },
+        value: activeItem => activeItem.justifyContent.replace(/^\w/, (c) => c.toUpperCase()),
+        childChange: false,
+        items: [
+            {
+                label: 'Left',
+                value: activeItem => activeItem.justifyContent === 'left',
+            },
+            {
+                label: 'Center',
+                value: activeItem => activeItem.justifyContent === 'center',
+            },
+            {
+                label: 'Right',
+                value: activeItem => activeItem.justifyContent === 'right',
+            }
+        ]
+    },
     {
         id: 'background',
         label: 'Background color',

@@ -4,7 +4,7 @@ import ListItem from "./ListItem";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from "@material-ui/core/styles";
-import {addNewListItem, changeListItems, makeDragHeightReCalculate} from "../actions";
+import {addNewListItem, changeListItems} from "../actions";
 
 const useStyles = makeStyles({
     icon: {
@@ -48,7 +48,6 @@ const List = (props) => {
     const addNewItem = () => {
         setListItemNum(listItemNum + 1);
         dispatch(addNewListItem(activeItemId, '<p>Change me</p>'));
-        dispatch(makeDragHeightReCalculate(true));
     };
 
     const handleListItemChange = (index, content) => {
@@ -75,7 +74,7 @@ const List = (props) => {
             return props.item.content.listSymbol.type.indexOf('upper') >= 0 ? convertToRoman(index+1) : convertToRoman(index+1).toLowerCase();
         }
         if (props.item.content.listSymbol.type === 'Custom Image') {
-            return <img style={{width: 'auto', height: props.item.content.listSymbol.imageStyle.symbolImageHeight}} src={props.item.content.listSymbol.signSrc} />;
+            return <img style={{width: 'auto', height: props.item.content.listSymbol.imageStyle.symbolImageHeight}} src={props.item.content.listSymbol.signSrc} alt='*' />;
         }
         return String.fromCharCode(props.item.content.listSymbol.sign.split('+')[1].toLowerCase().split('').reduce( (result, ch) =>
             result * 16 + '0123456789abcdefgh'.indexOf(ch), 0));

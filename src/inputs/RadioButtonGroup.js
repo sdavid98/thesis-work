@@ -35,13 +35,15 @@ const useStyles = makeStyles({
 const RadioButtonGroup = (props) => {
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
+    const rowItemId = useSelector(state => state.structure.activeDataId);
+    const rowItemStyle = useSelector(state => state.items.rowStyles).find(style => style.id === rowItemId);
     const dispatch = useDispatch();
-    const [selectedItem, setSelectedItem] = useState(activeItem);
+    const [selectedItem, setSelectedItem] = useState(props.item.value(props.rowSetting ? rowItemStyle : activeItem));
     const classes = useStyles();
 
     useEffect(() => {
-        setSelectedItem(props.item.value(activeItem));
-    }, [activeItemId]);
+        setSelectedItem(props.item.value(props.rowSetting ? rowItemStyle : activeItem));
+    }, [activeItem, activeItemId, props.item, props.rowSetting, rowItemId, rowItemStyle]);
 
     const options = props.item.items.map((item, index) => {
        return (
@@ -57,7 +59,7 @@ const RadioButtonGroup = (props) => {
     const handleChange = (event, text) => {
         setSelectedItem(event.target.value);
         if (props.dispatchAction) {
-            dispatch(props.change(activeItem, text, event.target.value));
+            dispatch(props.change(props.rowSetting ? rowItemStyle : activeItem, text, event.target.value));
         }
         else {
             props.change(event.target.value);

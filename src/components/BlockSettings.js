@@ -15,7 +15,13 @@ const useStyles = makeStyles({
     styleBlock: {
         marginTop: '10px',
         marginBottom: '20px'
-    }
+    },
+    label: {
+        fontSize: '1.2rem',
+        color: '#505050',
+        fontWeight: 'bold',
+        paddingTop: '8px'
+    },
 });
 
 const BlockSettings = (props) => {
@@ -30,7 +36,7 @@ const BlockSettings = (props) => {
                 return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup rowSetting={props.rowSettings} item={item} /></div>
             }
             if (item.type === 'radio') {
-                return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><RadioButtonGroup rowSetting={props.rowSettings} dispatchAction={true} change={item.change} item={item} /></div>
             }
             if (item.type === 'text') {
                 return <div key={index} className={classes.styleBlock}><TextGroup rowSetting={props.rowSettings} item={item} /></div>
@@ -50,13 +56,14 @@ const BlockSettings = (props) => {
     }
 
     if (!activeItemId) {
-        return canvasOptions.map((item, index) => generateInputs(item, index));
+        return <><div className={classes.label}>CANVAS SETTINGS</div>{canvasOptions.map((item, index) => generateInputs(item, index))}</>;
     }
 
     const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => generateInputs(item, index));
 
     return (
         <div>
+            <div className={classes.label}>CONTENT BLOCK SETTINGS</div>
             {optionItems}
         </div>
     );

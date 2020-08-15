@@ -3,7 +3,6 @@ import {
     changeCanvasBackColor,
     changeCanvasBorder,
     changeCanvasForeColor,
-    changeCanvasHeight,
     changeCanvasWidth,
     makeCanvasDimensionsReCalculate,
 } from "./actions";
@@ -15,18 +14,7 @@ const canvasOptions = [
         displayLabel: true,
         type: 'text',
         change: (state, itemText, value) => {
-            const options = {
-                'Width': changeCanvasWidth(parseInt(value)+'px'),
-                'Height': changeCanvasHeight(parseInt(value)+'px')
-            };
-
-            if (state.draggables.length > 0) {
-                if (blockStyleValidations['canvasHeight'](state.draggables, value)) {
-                    return options[itemText];
-                }
-                return false;
-            }
-            return options[itemText];
+            return changeCanvasWidth(parseInt(value)+'px');
         },
         childChange: true,
         condition: false,
@@ -38,15 +26,6 @@ const canvasOptions = [
                 displayLabel: true,
                 hasAfterChangeFunction: false,
                 value: activeItem => parseInt(activeItem.canvasStyle.width),
-                childInputs: []
-            },
-            {
-                label: 'Height',
-                watch: 'height',
-                disabled: false,
-                displayLabel: true,
-                hasAfterChangeFunction: false,
-                value: activeItem => parseInt(activeItem.canvasStyle.height),
                 childInputs: []
             }
         ]

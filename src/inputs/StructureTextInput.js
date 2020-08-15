@@ -24,7 +24,7 @@ const StructureTextInput = (props) => {
 
     useEffect(() => {
         setValue(activeStructure.columns.find(col => col.id === props.colId).width);
-    }, [props.colId]);
+    }, [activeStructure.columns, props.colId]);
 
     const keyup = (e) => {
         if (e.keyCode === 13) {

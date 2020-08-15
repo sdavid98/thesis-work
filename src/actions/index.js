@@ -22,14 +22,6 @@ const createImageDraggable = (itemType, id) => {
     };
 };
 
-const moveItem = (itemId, position) => {
-    return {
-        type: 'MOVEITEM',
-        itemId: itemId,
-        newPosition: position
-    }
-};
-
 const resizeItem = (itemId, itemData) => {
     return {
         type: 'RESIZEITEM',
@@ -183,15 +175,6 @@ const changeLink = (itemId, link) => {
     }
 };
 
-const changeImageDimensions = (itemId, dimensions) => {
-    return {
-        type: 'CHANGEIMAGEDIMENSIONS',
-        itemId: itemId,
-        width: dimensions.width,
-        height: dimensions.height
-    }
-};
-
 const changeListSymbolType = (itemId, symbol) => {
     return {
         type: 'CHANGELISTSYMBOLTYPE',
@@ -279,13 +262,6 @@ const changeCanvasWidth = (style) => {
     }
 };
 
-const changeCanvasHeight = (style) => {
-    return {
-        type: 'CHANGECANVASHEIGHT',
-        style: style
-    }
-};
-
 const changeCanvasBackColor = (style) => {
     return {
         type: 'CHANGECANVASBACKCOLOR',
@@ -314,25 +290,10 @@ const changeActiveItemId = itemId => {
     }
 };
 
-const makeDragHeightReCalculate = bool => {
-    return {
-        type: 'MAKEDRAGHEIGHTRECALCULATE',
-        makeReCalculation: bool
-    }
-};
-
 const makeCanvasDimensionsReCalculate = bool => {
     return {
         type: 'MAKECANVASDIMENSIONSRECALCULATE',
         makeReCalculation: bool
-    }
-};
-
-const changeImageInitialLoadBool = (itemId, bool) => {
-    return {
-        type: 'CHANGEIMAGEINITIALLOADBOOL',
-        itemId: itemId,
-        bool: bool
     }
 };
 
@@ -343,10 +304,44 @@ const removeDraggable = itemId => {
     }
 };
 
-const createStructure = id => {
-    return {
-        type: 'INIT',
-        id: id
+const createStructure = (id, type, width) => {
+    switch (type) {
+        case 'custom':
+            return {
+                type: 'INITCUSTOM',
+                id: id,
+                width: width
+            };
+        case 1:
+            return {
+                type: 'INITCOL1',
+                id: id,
+                width: width
+            };
+        case 2:
+            return {
+                type: 'INITCOL2',
+                id: id,
+                width: width
+            };
+        case 3:
+            return {
+                type: 'INITCOL3',
+                id: id,
+                width: width
+            };
+        case 4:
+            return {
+                type: 'INITCOL4',
+                id: id,
+                width: width
+            };
+        default:
+            return {
+                type: 'INITCUSTOM',
+                id: id,
+                width: width
+            };
     }
 };
 
@@ -414,14 +409,33 @@ const changeRowBackColor = (id, value) => {
     }
 };
 
-export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
-    createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
-    changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
-    changeItemFontStyle, changeItemTextDecoration, changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder,
-    changeLinkUnderlineDisplay, changeImageInitialLoadBool, changeImageSourceUrl, changeImageDimensions, changeImageAlt,
-    changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc, changeListSymbolTrailingChars,
-    changeListSymbolImageStyle, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
-    changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
-    changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable,
-    createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
-    changeColumnWidth, addContent, initRowStyle, changeRowBackColor};
+const changeRowAlign = (id, value) => {
+    return {
+        type: 'CHANGEROWALIGN',
+        id: id,
+        value: value
+    }
+};
+
+const deleteRow = () => {
+    return {
+        type: 'DELETEROW',
+    }
+};
+
+const toggleRegions = () => {
+    return {
+        type: 'SHOWREGIONS',
+    }
+};
+
+export {createBasicDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
+    createListDraggable, createImageDraggable, addNewListItem, changeListItems, changeItemColor, changeItemBackColor,
+    changeItemFontSize, changeItemLineHeight, changeItemFontWeight, changeItemFontStyle, changeItemTextDecoration,
+    changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder, changeLinkUnderlineDisplay,
+    changeImageSourceUrl, changeImageAlt, changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc,
+    changeListSymbolTrailingChars, changeListSymbolImageStyle, changeListSymbolVerticalAlign,
+    changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
+    changeCanvasBackColor, changeCanvasBorder, changeCanvasForeColor, changeCanvasWidth, makeCanvasDimensionsReCalculate,
+    removeDraggable, createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
+    changeColumnWidth, addContent, initRowStyle, changeRowBackColor, deleteRow, toggleRegions, changeRowAlign};

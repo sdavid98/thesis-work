@@ -1,7 +1,6 @@
 import blockStyleValidations from "./blockStyleValidations";
 import {
     changeImageAlt,
-    changeImageInitialLoadBool,
     changeImageSourceUrl,
     changeItemBackColor,
     changeItemBorder,
@@ -19,8 +18,7 @@ import {
     changeListSymbolSign, changeListSymbolSize,
     changeListSymbolSrc,
     changeListSymbolTrailingChars,
-    changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment, changeRowBackColor,
-    makeDragHeightReCalculate,
+    changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
     resizeItem
 } from "./actions";
 
@@ -93,8 +91,7 @@ const blockStyleConfig = [
             return changeItemPadding(activeItem.id, `${paddingValues['top']} ${paddingValues['right']} ${paddingValues['bottom']} ${paddingValues['left']}`);
         },
         childChange: true,
-        hasAfterChangeFunction: true,
-        afterChange: () => makeDragHeightReCalculate(true),
+        hasAfterChangeFunction: false,
         items: [
             {
                 label: "All same",
@@ -105,8 +102,7 @@ const blockStyleConfig = [
                         label: "Padding",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
@@ -125,8 +121,7 @@ const blockStyleConfig = [
                         label: "Vertical padding",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
@@ -138,8 +133,7 @@ const blockStyleConfig = [
                         label: "Horizontal padding",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[1]);
@@ -158,8 +152,7 @@ const blockStyleConfig = [
                         label: "Padding top",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[0]);
@@ -171,8 +164,7 @@ const blockStyleConfig = [
                         label: "Padding bottom",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[2]);
@@ -184,8 +176,7 @@ const blockStyleConfig = [
                         label: "Padding left",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[3]);
@@ -197,8 +188,7 @@ const blockStyleConfig = [
                         label: "Padding right",
                         watch: 'padding',
                         displayLabel: true,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.padding.split(' ').length === 4) {
                                 return parseInt(activeItem.rootElementStyle.padding.split(' ')[1]);
@@ -279,8 +269,7 @@ const blockStyleConfig = [
             return changeItemFontSize(activeItem.id, activeItem.rootElementStyle.fontSize);
         },
         childChange: false,
-        hasAfterChangeFunction: true,
-        afterChange: () => makeDragHeightReCalculate(true),
+        hasAfterChangeFunction: false,
         value: activeItem => parseInt(activeItem.rootElementStyle.fontSize)
     },
     {
@@ -296,8 +285,7 @@ const blockStyleConfig = [
             return changeItemLineHeight(activeItem.id, activeItem.rootElementStyle.lineHeight);
         },
         childChange: false,
-        hasAfterChangeFunction: true,
-        afterChange: () => makeDragHeightReCalculate(true),
+        hasAfterChangeFunction: false,
         value: activeItem => parseInt(activeItem.rootElementStyle.lineHeight)
     },
     {
@@ -398,8 +386,7 @@ const blockStyleConfig = [
 
             return changeItemBorder(activeItem.id, `${border['Displayborder']} ${border['Border color']} ${border['Border width']}`);
         },
-        hasAfterChangeFunction: true,
-        afterChange: () => makeDragHeightReCalculate(true),
+        hasAfterChangeFunction: false,
         childChange: true,
         items: [
             {
@@ -429,8 +416,7 @@ const blockStyleConfig = [
                         watch: 'border',
                         disabled: false,
                         displayLabel: false,
-                        hasAfterChangeFunction: true,
-                        afterChange: () => makeDragHeightReCalculate(true),
+                        hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.border.split(' ').length === 3) {
                                 return parseInt(activeItem.rootElementStyle.border.split(' ')[2]);
@@ -465,62 +451,16 @@ const blockStyleConfig = [
         ]
     },
     {
-        id: 'size',
-        label: 'Size',
-        displayLabel: true,
-        type: 'text',
-        change: (activeItem, itemText, value) => {
-            return resizeItem(activeItem.id, {width: parseInt(value), height: activeItem.height});
-        },
-        childChange: true,
-        condition: false,
-        items: [
-            {
-                label: 'Width',
-                watch: 'width',
-                disabled: false,
-                displayLabel: true,
-                hasAfterChangeFunction: true,
-                afterChange: () => makeDragHeightReCalculate(true),
-                value: activeItem => activeItem.width,
-                childInputs: []
-            },
-            {
-                label: 'Height',
-                watch: 'height',
-                disabled: true,
-                displayLabel: true,
-                hasAfterChangeFunction: false,
-                value: activeItem => activeItem.height,
-                childInputs: []
-            }
-        ]
-    },
-    {
         id: 'spacerSize',
         label: 'Size',
         displayLabel: true,
         type: 'text',
         change: (activeItem, itemText, value) => {
-            console.log(itemText, value);
-            const options = {
-                'Width': resizeItem(activeItem.id, {width: parseInt(value), height: activeItem.height}),
-                'Height': resizeItem(activeItem.id, {width: activeItem.width, height: parseInt(value)})
-            };
-            return options[itemText];
+            return resizeItem(activeItem.id, {width: activeItem.width, height: parseInt(value)});
         },
         childChange: true,
         condition: false,
         items: [
-            {
-                label: 'Width',
-                watch: 'width',
-                disabled: false,
-                displayLabel: true,
-                hasAfterChangeFunction: false,
-                value: activeItem => activeItem.width,
-                childInputs: []
-            },
             {
                 label: 'Height',
                 watch: 'height',
@@ -549,8 +489,7 @@ const blockStyleConfig = [
                 disabled: false,
                 displayLabel: false,
                 hideEndAdornment: true,
-                hasAfterChangeFunction: true,
-                afterChange: (id) => changeImageInitialLoadBool(id, true),
+                hasAfterChangeFunction: false,
                 value: activeItem => activeItem.content.imageSrc,
                 childInputs: []
             }

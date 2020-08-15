@@ -30,7 +30,7 @@ const initTextRootStyle = {
 
 const initImageRootStyle = {
     padding: '0px 0px 0px 0px',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'none #ffffff',
     border: 'none #000000 1px'
 };
 
@@ -105,11 +105,10 @@ const items = (state = initState, action) => {
                         x: 0,
                         y: action.y,
                         content: {
-                            text: '<p>Change me</p>',
+                            text: '',
                             imageSrc: 'https://via.placeholder.com/150/0000FF/FFFFFF/?text=Change+my+url',
                             imageAlt: 'default alt',
                             link: false,
-                            initialLoad: true,
                             imageDimensions: {
                                 width: 150,
                                 height: 150
@@ -119,18 +118,6 @@ const items = (state = initState, action) => {
                     }
                 ],
                 activeItemId: action.id
-            };
-        case 'MOVEITEM':
-            return {
-                ...state,
-                draggables:
-                    state.draggables.map(item => {
-                        if (item.id === action.itemId) {
-                            return {...item, x: action.newPosition.x, y: action.newPosition.y}
-                        }
-                        return item;
-                    })
-                
             };
         case 'RESIZEITEM':
             return {
@@ -348,18 +335,6 @@ const items = (state = initState, action) => {
                     })
 
             };
-        case 'CHANGEIMAGEDIMENSIONS':
-            return {
-                ...state,
-                draggables:
-                    state.draggables.map(item => {
-                        if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, imageDimensions: {width: action.width, height: action.height}}}
-                        }
-                        return item;
-                    })
-
-            };
         case 'CHANGELINKUNDERLINEDISPLAY':
             return {
                 ...state,
@@ -370,18 +345,6 @@ const items = (state = initState, action) => {
                         }
                         return item;
                     })
-
-            };
-        case 'CHANGEIMAGEINITIALLOADBOOL':
-            return {
-                ...state,
-                draggables:
-                    state.draggables.map(item => {
-                        if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, initialLoad: action.bool}}
-                        }
-                        return item;
-                    }),
 
             };
         case 'CHANGELISTSYMBOLTYPE':
@@ -509,11 +472,6 @@ const items = (state = initState, action) => {
                 ...state,
                 canvasStyle: {...state.canvasStyle, width: action.style}
             };
-        case 'CHANGECANVASHEIGHT':
-            return {
-                ...state,
-                canvasStyle: {...state.canvasStyle, height: action.style}
-            };
         case 'CHANGECANVASBACKCOLOR':
             return {
                 ...state,
@@ -533,11 +491,6 @@ const items = (state = initState, action) => {
             return {
                 ...state,
                 activeItemId: action.itemId
-            };
-        case 'MAKEDRAGHEIGHTRECALCULATE':
-            return {
-                ...state,
-                makeDragHeightReCalculation: action.makeReCalculation
             };
         case 'MAKECANVASDIMENSIONSRECALCULATE':
             return {
@@ -560,6 +513,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         backgroundColor: 'none #ffffff',
+                        justifyContent: 'center'
                     }
                 ]
             };
@@ -576,6 +530,19 @@ const items = (state = initState, action) => {
                     return style;
                 })
             };
+        case 'CHANGEROWALIGN':
+            return {
+                ...state,
+                rowStyles: state.rowStyles.map(style => {
+                    if (style.id === action.id) {
+                        return {
+                            ...style,
+                            justifyContent: action.value
+                        }
+                    }
+                    return style;
+                })
+            };
         default:
             return state;
     }
@@ -583,7 +550,8 @@ const items = (state = initState, action) => {
 
 const structure = (state = {activeDataId: null, data: []}, action) => {
     switch (action.type) {
-        case 'INIT':
+        case 'INITCUSTOM':
+        case 'INITCOL1':
             return {
                 activeDataId: action.id,
                 showRegions: true,
@@ -597,13 +565,163 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
                             {
                                 id: 'col0',
                                 level: 0,
-                                width: '600',
+                                width: action.width,
                                 rows: ['row0']
                             },
                         ],
                         rows: [
                             {
                                 id: 'row0',
+                                columns: false,
+                                content: false
+                            },
+                        ]
+                    }
+                ]
+            };
+        case 'INITCOL2':
+            return {
+                activeDataId: action.id,
+                showRegions: true,
+                data: [
+                    ...state.data,
+                    {
+                        id: action.id,
+                        colIndex: 2,
+                        rowIndex: 2,
+                        columns: [
+                            {
+                                id: 'col0',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row0']
+                            },
+                            {
+                                id: 'col1',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row1']
+                            },
+                        ],
+                        rows: [
+                            {
+                                id: 'row0',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row1',
+                                columns: false,
+                                content: false
+                            },
+                        ]
+                    }
+                ]
+            };
+        case 'INITCOL3':
+            return {
+                activeDataId: action.id,
+                showRegions: true,
+                data: [
+                    ...state.data,
+                    {
+                        id: action.id,
+                        colIndex: 3,
+                        rowIndex: 3,
+                        columns: [
+                            {
+                                id: 'col0',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row0']
+                            },
+                            {
+                                id: 'col1',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row1']
+                            },
+                            {
+                                id: 'col2',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row2']
+                            },
+                        ],
+                        rows: [
+                            {
+                                id: 'row0',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row1',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row2',
+                                columns: false,
+                                content: false
+                            },
+                        ]
+                    }
+                ]
+            };
+        case 'INITCOL4':
+            return {
+                activeDataId: action.id,
+                showRegions: true,
+                data: [
+                    ...state.data,
+                    {
+                        id: action.id,
+                        colIndex: 4,
+                        rowIndex: 4,
+                        columns: [
+                            {
+                                id: 'col0',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row0']
+                            },
+                            {
+                                id: 'col1',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row1']
+                            },
+                            {
+                                id: 'col2',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row2']
+                            },
+                            {
+                                id: 'col3',
+                                level: 0,
+                                width: action.width,
+                                rows: ['row3']
+                            },
+                        ],
+                        rows: [
+                            {
+                                id: 'row0',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row1',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row2',
+                                columns: false,
+                                content: false
+                            },
+                            {
+                                id: 'row3',
                                 columns: false,
                                 content: false
                             },
@@ -718,6 +836,17 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
                         : {...item}
                     )
                 ]
+            };
+        case 'DELETEROW':
+            return {
+                ...state,
+                activeDataId: null,
+                data: state.data.filter(item => item.id !== state.activeDataId)
+            };
+        case 'SHOWREGIONS':
+            return {
+                ...state,
+                showRegions: !state.showRegions,
             };
         default:
             return state;

@@ -21,7 +21,7 @@ const Canvas = () => {
         <div style={{width: canvasStyle.width, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className='canvas'>
             {structureData.length > 0 &&
             structureData.map((data, index) => (
-                <div style={{backgroundColor: getBgColor(data.id)}} onClick={() => dispatch(changeActiveStructureId(data.id))} key={index}>
+                <div style={{backgroundColor: getBgColor(data.id), display: 'grid', justifyContent: rowStyles.find(style => style.id === data.id).justifyContent}} onClick={() => dispatch(changeActiveStructureId(data.id))} key={index}>
                     <StructureBuild
                         columns={data.columns.filter(col => col.level === 0)}
                         rows={data.rows}

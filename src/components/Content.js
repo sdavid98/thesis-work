@@ -37,7 +37,7 @@ const Content = (props) => {
             return <List item={props.item} />;
         }
         if (props.item.type === 'button') {
-            return <div><a onClick={onLinkClick} href={props.item.content.link} target='_blank' dangerouslySetInnerHTML={{__html: props.item.content.text}}></a></div>;
+            return <div><a onClick={onLinkClick} href={props.item.content.link} rel='noopener noreferrer' target='_blank' dangerouslySetInnerHTML={{__html: props.item.content.text}}></a></div>;
         }
         if (props.item.type === 'divider') {
             return <Spacer item={props.item} />;

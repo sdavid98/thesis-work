@@ -1,95 +1,102 @@
 import React from "react";
 import List from "@material-ui/core/List";
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import FolderIcon from '@material-ui/icons/Folder';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import {
-    createBasicDraggable,
-    createImageDraggable,
-    createListDraggable,
     createStructure,
     initRowStyle
 } from "../actions";
 import {useDispatch, useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 
-
+const useStyles = makeStyles(() => ({
+    grid: {
+        cursor: 'pointer',
+        display: 'grid',
+        '&:hover': {
+            boxShadow: '0px 0px 10px #3f51b5',
+            '& .hover-text': {
+                display: 'block'
+            }
+        }
+    },
+    text: {
+        display: 'none',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        fontWeight: 'bold',
+        textShadow: '0px 0px 25px #3f51b5',
+        padding: '5px 20px',
+        backgroundColor: '#4275d2',
+        color: '#ffffff',
+        fontSize: '1.2rem',
+        borderRadius: '5px',
+        boxShadow: '2px 2px 8px black'
+    },
+    label: {
+        fontSize: '1.2rem',
+        color: '#505050',
+        fontWeight: 'bold'
+    },
+    col: {
+        boxShadow: 'inset 0 0 0 5px #4275d2',
+        margin: '1px',
+        padding: '25px 0',
+        textAlign: 'center',
+        fontWeight: 'bold'
+    }
+}));
 
 const MenuItems = (props) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
-    const drags = useSelector(state => state.items.draggables);
+    const canvasWidth = parseInt(useSelector(state => state.items.canvasStyle.width));
 
-    const items = [
-        {
-            name: "text",
-            icon: <FolderIcon />,
-            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
-        },
-        {
-            name: "image",
-            icon: <FolderIcon />,
-            action: (name, y) => createImageDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
-        },
-        {
-            name: "button",
-            icon: <FolderIcon />,
-            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
-        },
-        {
-            name: "list",
-            icon: <FolderIcon />,
-            action: (name, y) => createListDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
-        },
-        {
-            name: "divider",
-            icon: <FolderIcon />,
-            action: (name, y) => createBasicDraggable(name, Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join(''), y)
-        }
-    ];
-
-    const handleClick = item => {
-        let newItemY = 0;
-        drags.map(drag => {
-            if (drag.y + drag.height > newItemY) {
-                newItemY = drag.y + drag.height + 1;
-            }
-        });
-        dispatch(item.action(item.name, newItemY));
-    };
-
-    const customStructureClick = () => {
-        props.modalOpener();
+    const onCreateStructureClick = (type) => {
         const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('');
         dispatch(initRowStyle(newId));
-        dispatch(createStructure(newId));
+
+        let colWidth = canvasWidth;
+        if (type !== 'custom') {
+            colWidth = Math.floor(colWidth / type);
+        }
+
+        dispatch(createStructure(newId, type, colWidth));
+
+        if (type === 'custom') {
+            props.modalOpener();
+        }
+    };
+
+    const getCols = num => {
+        let result = [];
+        for (let i = 0; i < num; i++) {
+            result.push(<div key={i} className={classes.col} />);
+        }
+        return result;
     };
 
     return (
-        <button onClick={customStructureClick} >ADD</button>
-        /*<List>
-            {items.map((item, index) => (
-                    <ListItem key={index} classes={{container: "list-item"}}>
-                        <ListItemAvatar>
-                            <Avatar>
-                                {item.icon}
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={item.name}
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="add" onClick={() => handleClick(item)}>
-                                <AddCircleOutlineOutlinedIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
+        <List>
+            <div className={classes.label}>ADD NEW</div>
+            {[1, 2, 3, 4].map((item, index) => (
+                    <ListItem key={index} disableGutters={true} classes={{container: "list-item"}}>
+                        <div style={{gridTemplateColumns: `repeat(${item}, 1fr) auto`, width: '100%'}} onClick={() => onCreateStructureClick(item)} className={classes.grid}>
+                            {getCols(item)}
+                            <div className={`${classes.text} hover-text`}>ADD</div>
+                        </div>
                     </ListItem>
                 )
             )}
-        </List>*/
+            <ListItem disableGutters={true} classes={{container: "list-item"}}>
+                <div style={{display: 'grid', width: '100%'}} onClick={() => onCreateStructureClick('custom')} className={classes.grid}>
+                    <div className={classes.col} style={{padding: '16px 0'}}>CUSTOM</div>
+                    <div className={`${classes.text} hover-text`}>ADD</div>
+                </div>
+            </ListItem>
+
+        </List>
     )
 };
 
