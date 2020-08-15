@@ -60,13 +60,20 @@ const Content = (props) => {
         return <div><TextEditor /></div>;
     };
 
+    const getBgColor = () => {
+        if (props.item.rootElementStyle.backgroundColor.split(' ')[0] !== 'none') {
+            return props.item.rootElementStyle.backgroundColor.split(' ')[1];
+        }
+        return 'unset';
+    };
+
 
     return (
         <div className={props.item.id === activeItemId ? 'active-content' : ''} style={{height: '100%', position: 'relative'}} onClick={() => dispatch(changeActiveItemId(props.item.id))}>
             <div className="drag-delete" onClick={(e) => handleDragDelete(e)}>x</div>
             <div
                 className={`content ${!props.item.underlineLinksIfPresent && classes['noLinkUnderline']}`}
-                style={props.item.rootElementStyle}
+                style={{...props.item.rootElementStyle, backgroundColor: getBgColor()}}
             >
                 {activeItemId === props.item.id ? getActiveItem() : getPassiveItem()}
             </div>

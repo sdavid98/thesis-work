@@ -8,7 +8,13 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import {createBasicDraggable, createImageDraggable, createListDraggable, createStructure} from "../actions";
+import {
+    createBasicDraggable,
+    createImageDraggable,
+    createListDraggable,
+    createStructure,
+    initRowStyle
+} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 
 
@@ -57,7 +63,9 @@ const MenuItems = (props) => {
 
     const customStructureClick = () => {
         props.modalOpener();
-        dispatch(createStructure(Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('')));
+        const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('');
+        dispatch(initRowStyle(newId));
+        dispatch(createStructure(newId));
     };
 
     return (

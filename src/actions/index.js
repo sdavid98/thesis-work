@@ -399,6 +399,21 @@ const addContent = (rowId, contentId) => {
     }
 };
 
+const initRowStyle = (rowId) => {
+    return {
+        type: 'INITROWSTYLE',
+        id: rowId,
+    }
+};
+
+const changeRowBackColor = (id, value) => {
+    return {
+        type: 'CHANGEROWBACKCOLOR',
+        id: id,
+        value: value
+    }
+};
+
 export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, makeDragHeightReCalculate,
     changeItemColor, changeItemBackColor, changeItemFontSize, changeItemLineHeight, changeItemFontWeight,
@@ -409,4 +424,4 @@ export {createBasicDraggable, moveItem, resizeItem, changeActiveItemId, changeIt
     changeListSymbolSize, changeListInlineGap, changeListItemsGap, changeCanvasBackColor, changeCanvasBorder,
     changeCanvasForeColor, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate, removeDraggable,
     createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
-    changeColumnWidth, addContent};
+    changeColumnWidth, addContent, initRowStyle, changeRowBackColor};

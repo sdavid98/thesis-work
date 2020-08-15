@@ -41,13 +41,13 @@ const MultiLevelInputGroup = (props) => {
 
     const getChildInputs = () => {
         if (childOption.type === 'text') {
-            return childOption.childInputs.map((input, index) => <TextInput key={index} item={input} change={props.item.change} />);
+            return childOption.childInputs.map((input, index) => <TextInput key={index} rowSetting={props.rowSetting} item={input} change={props.item.change} />);
         }
     };
 
     return (
         <>
-            <RadioButtonGroup change={onParentChange} item={props.item} />
+            <RadioButtonGroup change={onParentChange} rowSetting={props.rowSetting} item={props.item} />
             {childOption !== undefined &&
                 <div className={classes[inputWidth]}>{getChildInputs()}</div>
             }

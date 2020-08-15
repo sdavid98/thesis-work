@@ -9,6 +9,7 @@ import CheckboxGroup from "../inputs/CheckboxGroup";
 import TextGroup from "../inputs/TextGroup";
 import SelectGroup from "../inputs/SelectGroup";
 import canvasOptions from "../canvasOptions";
+import rowOptions from "../rowOptions";
 
 const useStyles = makeStyles({
     styleBlock: {
@@ -17,24 +18,25 @@ const useStyles = makeStyles({
     }
 });
 
-const BlockSettings = () => {
+const BlockSettings = (props) => {
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
+    const activeRow = useSelector(state => state.structure.activeDataId);
     const classes = useStyles();
 
     const generateInputs = (item, index) => {
         if (!item.condition || item.condition(activeItem)) {
             if (item.type === 'radio' && item.childChange) {
-                return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup rowSetting={props.rowSettings} item={item} /></div>
             }
             if (item.type === 'radio') {
                 return <div key={index} className={classes.styleBlock}><RadioButtonGroup dispatchAction={true} change={item.change} item={item} /></div>
             }
             if (item.type === 'text') {
-                return <div key={index} className={classes.styleBlock}><TextGroup item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><TextGroup rowSetting={props.rowSettings} item={item} /></div>
             }
             if (item.type === 'checkbox') {
-                return <div key={index} className={classes.styleBlock}><CheckboxGroup item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><CheckboxGroup rowSetting={props.rowSettings} item={item} /></div>
             }
             if (item.type === 'select') {
                 return <div key={index} className={classes.styleBlock}><SelectGroup item={item} /></div>
@@ -42,6 +44,10 @@ const BlockSettings = () => {
         }
         return false;
     };
+
+    if (props.rowSettings) {
+        return activeRow ? rowOptions.map((item, index) => generateInputs(item, index)) : false;
+    }
 
     if (!activeItemId) {
         return canvasOptions.map((item, index) => generateInputs(item, index));

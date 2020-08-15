@@ -29,8 +29,13 @@ const CheckboxGroup = (props) => {
     const state = useSelector(state => state.items);
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
+    const rowItemId = useSelector(state => state.structure.activeDataId);
+    const rowItemStyle = useSelector(state => state.items.rowStyles).find(style => style.id === rowItemId);
 
     const getValue = (item) => {
+        if (rowItemId && props.rowSetting) {
+            return item.value(rowItemStyle);
+        }
         if (!activeItemId) {
             return item.value(state);
         }
@@ -47,6 +52,7 @@ const CheckboxGroup = (props) => {
                         key={index}
                         item={input}
                         change={props.item.change}
+                        rowSetting={props.rowSetting}
                     />))
                 )
             );
@@ -54,7 +60,10 @@ const CheckboxGroup = (props) => {
     };
 
     const onParentChange = (e, itemText) => {
-        if (activeItemId) {
+        if (rowItemId && props.rowSetting) {
+            dispatch(props.item.change(rowItemStyle, itemText, e.target.checked));
+        }
+        else if (activeItemId) {
             dispatch(props.item.change(activeItem, itemText, e.target.checked));
 
             if (props.item.hasAfterChangeFunction) {

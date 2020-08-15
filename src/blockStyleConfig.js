@@ -19,7 +19,7 @@ import {
     changeListSymbolSign, changeListSymbolSize,
     changeListSymbolSrc,
     changeListSymbolTrailingChars,
-    changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment,
+    changeListSymbolType, changeListSymbolVerticalAlign, changeListSymbolVerticalAlignAdjustment, changeRowBackColor,
     makeDragHeightReCalculate,
     resizeItem
 } from "./actions";
@@ -229,18 +229,42 @@ const blockStyleConfig = [
     {
         id: 'backgroundColor',
         label: 'Background color',
-        displayLabel: false,
-        type: 'text',
-        watch: 'backgroundColor',
-        disabled: true,
-        change: (activeItem, childItemText, value) => {
-            if (blockStyleValidations['color'](value)) {
-                return changeItemBackColor(activeItem.id, value);
-            }
+        type: 'checkbox',
+        change: (activeItem, itemText, value) => {
+            const getValue = () => {
+                if (value) {
+                    if (!blockStyleValidations['color'](value)) {
+                        return 'true ' + activeItem.rootElementStyle.backgroundColor.split(' ')[1];
+                    }
+                    return 'true ' + value;
+                }
+                return 'none ' + activeItem.rootElementStyle.backgroundColor.split(' ')[1];
+            };
+            return changeItemBackColor(activeItem.id, getValue());
         },
-        childChange: false,
-        value: activeItem => activeItem.rootElementStyle.backgroundColor,
-        displayColorPicker: true
+        hasAfterChangeFunction: false,
+        childChange: true,
+        items: [
+            {
+                label: 'Colored Background',
+                watch: 'border',
+                disabled: false,
+                displayLabel: false,
+                value: activeItem => activeItem.rootElementStyle.backgroundColor.split(' ')[0] !== 'none',
+                type: 'text',
+                childInputs: [
+                    {
+                        label: 'Background color',
+                        watch: 'border',
+                        disabled: true,
+                        displayLabel: false,
+                        hasAfterChangeFunction: false,
+                        value: activeItem => activeItem.rootElementStyle.backgroundColor.split(' ')[1],
+                        displayColorPicker: true
+                    }
+                ]
+            }
+        ]
     },
     {
         id: 'fontSize',

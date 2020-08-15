@@ -3,6 +3,7 @@ const initState = {
     activeItemId: null,
     makeDragHeightReCalculation: false,
     makeCanvasDimensionsRecalculate: false,
+    rowStyles: [],
     canvasStyle: {
         height: '800px',
         width: '600px',
@@ -16,7 +17,7 @@ const initTextRootStyle = {
     wordBreak: 'break-all',
     color: '#171717',
     padding: '0px 0px 0px 0px',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'none #ffffff',
     fontSize: '14px',
     lineHeight: '16px',
     fontWeight: 'normal',
@@ -550,6 +551,30 @@ const items = (state = initState, action) => {
                     ...state.draggables.filter(drag => drag.id !== action.id)
                 ],
                 activeItemId: null
+            };
+        case 'INITROWSTYLE':
+            return {
+                ...state,
+                rowStyles: [
+                    ...state.rowStyles,
+                    {
+                        id: action.id,
+                        backgroundColor: 'none #ffffff',
+                    }
+                ]
+            };
+        case 'CHANGEROWBACKCOLOR':
+            return {
+                ...state,
+                rowStyles: state.rowStyles.map(style => {
+                    if (style.id === action.id) {
+                        return {
+                            ...style,
+                            backgroundColor: action.value
+                        }
+                    }
+                    return style;
+                })
             };
         default:
             return state;

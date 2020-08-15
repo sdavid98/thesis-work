@@ -25,6 +25,8 @@ const TextInput = (props) => {
     const state = useSelector(state => state.items);
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
+    const rowItemId = useSelector(state => state.structure.activeDataId);
+    const rowItemStyle = useSelector(state => state.items.rowStyles).find(style => style.id === rowItemId);
     const [value, setValue] = useState('initialStateValue');
 
     useEffect(() => {
@@ -35,6 +37,9 @@ const TextInput = (props) => {
         if (value !== 'initialStateValue') {
             return value
         }
+        if (rowItemId && props.rowSetting) {
+            return item.value(rowItemStyle);
+        }
         if (!activeItemId) {
             return item.value(state);
         }
@@ -43,10 +48,10 @@ const TextInput = (props) => {
 
     const colorPickerChange = (e) => {
         if (activeItemId) {
-            dispatch(props.change(activeItem, props.item.label, e.target.value));
+            dispatch(props.change(props.rowSetting ? rowItemStyle : activeItem, props.item.label, e.target.value));
         }
         else {
-            dispatch(props.change(state, props.item.label, e.target.value));
+            dispatch(props.change(props.rowSetting ? rowItemStyle : state, props.item.label, e.target.value));
         }
     };
 
@@ -77,6 +82,9 @@ const TextInput = (props) => {
 
     const keyup = (e, text) => {
         if (e.keyCode === 13) {
+            if (props.rowSetting && rowItemId) {
+                dispatch(props.change(rowItemStyle, rowItemId, text, e.target.value));
+            }
             if (activeItemId) {
                 dispatch(props.change(activeItem, text, e.target.value));
 

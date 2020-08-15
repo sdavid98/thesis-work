@@ -3,10 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import './App.css'
 import Panel from "./components/Panel";
 import MenuItems from "./components/MenuItems";
-import Drag from "./components/Drag";
 import BlockSettings from "./components/BlockSettings";
 import {changeActiveItemId, changeCanvasHeight, changeCanvasWidth, makeCanvasDimensionsReCalculate} from "./actions";
-import SandBox from "./SandBox";
 import Popup from "./components/Popup";
 import StructureEditor from "./components/StructureEditor";
 import Canvas from "./components/Canvas";
@@ -51,10 +49,11 @@ const App = () => {
 			<div className="ui">
 				<Panel>
 					<MenuItems modalOpener={handleOpen} />
+					<BlockSettings rowSettings={true} />
 				</Panel>
 				<Canvas/>
 				<Panel>
-					<BlockSettings/>
+					<BlockSettings rowSettings={false} />
 				</Panel>
 			</div>
 			<Popup open={open} modalCloser={handleClose}>
