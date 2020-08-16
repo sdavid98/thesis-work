@@ -276,24 +276,10 @@ const changeCanvasForeColor = (style) => {
     }
 };
 
-const changeCanvasBorder = (style) => {
-    return {
-        type: 'CHANGECANVASBORDER',
-        style: style
-    }
-};
-
 const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
         itemId: itemId
-    }
-};
-
-const makeCanvasDimensionsReCalculate = bool => {
-    return {
-        type: 'MAKECANVASDIMENSIONSRECALCULATE',
-        makeReCalculation: bool
     }
 };
 
@@ -436,6 +422,6 @@ export {createBasicDraggable, resizeItem, changeActiveItemId, changeItemContent,
     changeImageSourceUrl, changeImageAlt, changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc,
     changeListSymbolTrailingChars, changeListSymbolImageStyle, changeListSymbolVerticalAlign,
     changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
-    changeCanvasBackColor, changeCanvasBorder, changeCanvasForeColor, changeCanvasWidth, makeCanvasDimensionsReCalculate,
-    removeDraggable, createStructure, addStructureRow, addStructureColumn, changeActiveStructureId, deleteStructureSubItem,
-    changeColumnWidth, addContent, initRowStyle, changeRowBackColor, deleteRow, toggleRegions, changeRowAlign};
+    changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
+    addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
+    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign};

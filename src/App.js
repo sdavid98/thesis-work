@@ -1,31 +1,22 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import './App.css'
 import Panel from "./components/Panel";
 import MenuItems from "./components/MenuItems";
 import BlockSettings from "./components/BlockSettings";
-import {changeActiveItemId, changeCanvasWidth, makeCanvasDimensionsReCalculate} from "./actions";
+import {changeActiveItemId} from "./actions";
 import Popup from "./components/Popup";
 import StructureEditor from "./components/StructureEditor";
 import Canvas from "./components/Canvas";
 import RowActions from "./components/RowActions";
+import Button from "@material-ui/core/Button";
+import Generator from "./components/Generator";
 
 const App = () => {
 	const dispatch = useDispatch();
 	const canvasStyle = useSelector(state => state.items.canvasStyle);
-	const makeDimensionsReCalculate = useSelector(state => state.items.makeCanvasDimensionsRecalculate);
-
-	useEffect(() => {
-		if (makeDimensionsReCalculate) {
-			dispatch(makeCanvasDimensionsReCalculate(false));
-			if (canvasStyle.border.split(' ')[0] !== 'none') {
-				dispatch(changeCanvasWidth(parseInt(canvasStyle.width) - 2 * parseInt(canvasStyle.border.split(' ')[2])));
-			}
-			else {
-				dispatch(changeCanvasWidth(parseInt(canvasStyle.width) + 2 * parseInt(canvasStyle.border.split(' ')[2])));
-			}
-		}
-	}, [canvasStyle.border, canvasStyle.width, dispatch, makeDimensionsReCalculate]);
+	const activeStructureItem = useSelector(state => state.structure.activeDataId);
+	const structureData = useSelector(state => state.structure.data);
 
 	const clickHandler = (e) => {
 		if(e.target.className === 'ui') {
@@ -35,18 +26,27 @@ const App = () => {
 
 	const [open, setOpen] = React.useState(false);
 
-	const handleOpen = () => {
-		setOpen(true);
+	const handleOpen = (num) => {
+		setOpen(num);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
 
+	const generateClick = (
+		<Generator
+			columns={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).columns.filter(col => col.level === 0)}
+			rows={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).rows}
+			dataId={activeStructureItem}
+		/>
+	);
+
 	return (
 		<div className="App" style={{backgroundColor: canvasStyle.backColor}}>
 			<div className="ui" onClick={clickHandler}>
 				<Panel>
+					<Button onClick={() => handleOpen(2)} color='primary' variant='contained'>GENERATE</Button>
 					<MenuItems modalOpener={handleOpen} />
 					<RowActions modalOpener={handleOpen}/>
 					<BlockSettings rowSettings={true} />
@@ -56,8 +56,11 @@ const App = () => {
 					<BlockSettings rowSettings={false} />
 				</Panel>
 			</div>
-			<Popup open={open} modalCloser={handleClose}>
+			<Popup open={open === 1} modalCloser={handleClose}>
 				<StructureEditor/>
+			</Popup>
+			<Popup open={open === 2} modalCloser={handleClose}>
+				{generateClick}
 			</Popup>
 		</div>
 	);

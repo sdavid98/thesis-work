@@ -43,7 +43,7 @@ const RowActions = (props) => {
         <div>
             <div className={classes.label}>ROW SETTINGS</div>
             <div className={classes.grid}>
-                <Button onClick={props.modalOpener} size='medium' variant='contained' color='primary'>
+                <Button onClick={() => props.modalOpener(1)} size='medium' variant='contained' color='primary'>
                     Change structure
                 </Button>
                 <Button onClick={() => dispatch(deleteRow())} size='medium' variant="outlined" color='secondary'>

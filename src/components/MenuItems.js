@@ -65,7 +65,7 @@ const MenuItems = (props) => {
         dispatch(createStructure(newId, type, colWidth));
 
         if (type === 'custom') {
-            props.modalOpener();
+            props.modalOpener(1);
         }
     };
 

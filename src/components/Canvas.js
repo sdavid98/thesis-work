@@ -18,7 +18,7 @@ const Canvas = () => {
     };
 
     return (
-        <div style={{width: canvasStyle.width, backgroundColor: canvasStyle.foreColor, outline: canvasStyle.border}} className='canvas'>
+        <div style={{width: canvasStyle.width, backgroundColor: canvasStyle.foreColor}} className='canvas'>
             {structureData.length > 0 &&
             structureData.map((data, index) => (
                 <div style={{backgroundColor: getBgColor(data.id), display: 'grid', justifyContent: rowStyles.find(style => style.id === data.id).justifyContent}} onClick={() => dispatch(changeActiveStructureId(data.id))} key={index}>

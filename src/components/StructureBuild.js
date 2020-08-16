@@ -43,7 +43,7 @@ const StructureBuild = (props) => {
     };
 
     const getContent = (contentId, rowId) => {
-        if (contentId && contentItems.find(item => item.id === contentId)) {
+        if (props.isOnCanvas && contentId && contentItems.find(item => item.id === contentId)) {
             return <Content item={contentItems.find(item => item.id === contentId)} />
         }
         if (props.isOnCanvas && props.active) {

@@ -1,15 +1,11 @@
 const initState = {
     draggables: [],
     activeItemId: null,
-    makeDragHeightReCalculation: false,
-    makeCanvasDimensionsRecalculate: false,
     rowStyles: [],
     canvasStyle: {
-        height: '800px',
         width: '600px',
         foreColor: '#ffffff',
         backColor: '#F5F5F5',
-        border: 'none #000000 1px'
     }
 };
 
@@ -482,20 +478,10 @@ const items = (state = initState, action) => {
                 ...state,
                 canvasStyle: {...state.canvasStyle, foreColor: action.style}
             };
-        case 'CHANGECANVASBORDER':
-            return {
-                ...state,
-                canvasStyle: {...state.canvasStyle, border: action.style}
-            };
         case 'CHANGEACTIVEITEMID':
             return {
                 ...state,
                 activeItemId: action.itemId
-            };
-        case 'MAKECANVASDIMENSIONSRECALCULATE':
-            return {
-                ...state,
-                makeCanvasDimensionsRecalculate: action.makeReCalculation
             };
         case 'REMOVEDRAGGABLE':
             return {
