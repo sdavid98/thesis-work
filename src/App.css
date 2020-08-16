@@ -13,21 +13,6 @@
     height: 100vh;
 }
 
-.draggable {
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    background-color: #74ee81;
-}
-
-.draggable:last-of-type {
-    background-color: darkgreen;
-}
-
-.draggable.active {
-    outline: 2px solid red;
-}
-
 .canvas {
     background-color: #ffffff;
     width: 600px;
@@ -41,17 +26,6 @@
     padding: 0 15px;
 }
 
-.drag-handler {
-    cursor: pointer;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #000000;
-    bottom: 100%;
-    right: 0;
-    display: none;
-}
-
 .drag-delete {
     cursor: pointer;
     position: absolute;
@@ -62,12 +36,8 @@
     height: 20px;
     background-color: red;
     bottom: 100%;
-    right: 23px;
+    right: 0;
     display: none;
-}
-
-.active-content > .drag-handler {
-    display: block;
 }
 
 .active-content > .drag-delete {

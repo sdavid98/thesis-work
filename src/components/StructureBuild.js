@@ -76,7 +76,7 @@ const StructureBuild = (props) => {
     return (
         <div key={props.index} style={{...style}}>
             {props.columns.map((col, index) => (
-                <div key={index} style={{display: 'grid'}}>
+                <div key={index} style={{display: 'grid', height: 'fit-content'}}>
                     {col.rows.map(colRow => (
                         props.rows.filter(row => row.id === colRow).map((row, index) => {
                             if (row.columns && row.columns.length > 0) {
