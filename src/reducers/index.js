@@ -494,6 +494,7 @@ const items = (state = initState, action) => {
         case 'INITROWSTYLE':
             return {
                 ...state,
+                activeItemId: null,
                 rowStyles: [
                     ...state.rowStyles,
                     {

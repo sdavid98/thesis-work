@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {deleteRow, toggleRegions} from "../actions";
+import {changeActiveItemId, deleteRow, toggleRegions} from "../actions";
 import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -39,14 +39,24 @@ const RowActions = (props) => {
 
     if (!activeRowId) return false;
 
+    const onDeleteRow = () => {
+        dispatch(deleteRow());
+        dispatch(changeActiveItemId(null));
+    };
+
+    const onChangeStructure = () => {
+        props.modalOpener(1)
+        dispatch(changeActiveItemId(null));
+    };
+
     return (
         <div>
             <div className={classes.label}>ROW SETTINGS</div>
             <div className={classes.grid}>
-                <Button onClick={() => props.modalOpener(1)} size='medium' variant='contained' color='primary'>
+                <Button onClick={onChangeStructure} size='medium' variant='contained' color='primary'>
                     Change structure
                 </Button>
-                <Button onClick={() => dispatch(deleteRow())} size='medium' variant="outlined" color='secondary'>
+                <Button onClick={onDeleteRow} size='medium' variant="outlined" color='secondary'>
                     Delete row
                 </Button>
             </div>

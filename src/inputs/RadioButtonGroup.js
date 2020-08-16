@@ -43,7 +43,7 @@ const RadioButtonGroup = (props) => {
 
     useEffect(() => {
         setSelectedItem(props.item.value(props.rowSetting ? rowItemStyle : activeItem));
-    }, [activeItem, activeItemId, props.item, props.rowSetting, rowItemId, rowItemStyle]);
+    }, [activeItemId]);
 
     const options = props.item.items.map((item, index) => {
        return (

@@ -25,7 +25,7 @@ const MultiLevelInputGroup = (props) => {
 
     useEffect(() => {
         setActiveParentValue(props.item.value(activeItem));
-    }, [activeItem, activeItemId, props.item]);
+    }, [activeItemId]);
 
     const childOption = props.item.items.find(item => item.label.replace(/ /g, "") === activeParentValue);
     const onParentChange = value => {
