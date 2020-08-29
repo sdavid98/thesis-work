@@ -60,5 +60,14 @@ const expandShortHandPadding = str => {
     return str.replace(/padding:\s((\d*px\s?){1,4});/, generatePaddingCSSText(pad));
 };
 
+const pushStyleOnElement = (elem, styleObj) => {
+    Object.keys(styleObj).map(key => {
+        elem.style[key] = styleObj[key];
+    });
+    const res = expandShortHandPadding(elem.outerHTML.toString());
+    console.log(res);
 
-export {removeUnusedStyles, removeParentStyle, expandShortHandPadding};
+    return res;
+};
+
+export {removeUnusedStyles, removeParentStyle, pushStyleOnElement};

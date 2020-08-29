@@ -1,4 +1,4 @@
-import {expandShortHandPadding, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
 
 const additionalStyles = {
     display: 'block'
@@ -27,13 +27,7 @@ const button = item => {
         return span.outerHTML;
     }).join('');
 
-    const itemStyle = {...removeUnusedStyles({...item.rootElementStyle}), ...additionalStyles};
-
-    Object.keys(itemStyle).map(key => {
-        a.style[key] = itemStyle[key];
-    });
-
-    return expandShortHandPadding(a.outerHTML.toString());
+    return pushStyleOnElement(a, {...removeUnusedStyles({...item.rootElementStyle}), ...additionalStyles});
 };
 
 export default button;

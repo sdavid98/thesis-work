@@ -1,14 +1,17 @@
-import {expandShortHandPadding, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
-
-const additionalStyles = {
-    display: 'block'
-};
+import {pushStyleOnElement, removeUnusedStyles} from "./styleHelpers";
 
 const image = (item, width) => {
     const img = document.createElement('img');
     img.src = item.content.imageSrc;
     img.alt = item.content.imageAlt;
-    img.width = width;
+
+    let reducedWidthByPadding = width;
+    if (item.rootElementStyle.padding.split(' ').some(pad => pad !== '0px')) {
+        reducedWidthByPadding -= (parseInt(item.rootElementStyle.padding.split(' ')[1]) + parseInt(item.rootElementStyle.padding.split(' ')[3]));
+    }
+
+    img.width = reducedWidthByPadding;
+    img.style.width = reducedWidthByPadding;
 
     if (item.content.link) {
         const a = document.createElement('a');
@@ -20,28 +23,9 @@ const image = (item, width) => {
             a.style.textDecorationLine = 'none';
         }
 
-        const itemStyle = {...removeUnusedStyles({...item.rootElementStyle}), ...additionalStyles};
-        Object.keys(itemStyle).map(key => {
-            a.style[key] = itemStyle[key];
-        });
-
-        const res = expandShortHandPadding(a.outerHTML.toString());
-
-        console.log(res);
-
-        return res;
+        return pushStyleOnElement(a, {...removeUnusedStyles({...item.rootElementStyle}), display: 'block'});
     }
-
-    const itemStyle = {...removeUnusedStyles({...item.rootElementStyle}), ...additionalStyles};
-    Object.keys(itemStyle).map(key => {
-        img.style[key] = itemStyle[key];
-    });
-
-    const res = expandShortHandPadding(img.outerHTML.toString());
-
-    console.log(res);
-
-    return res;
+    return pushStyleOnElement(img, removeUnusedStyles({...item.rootElementStyle}));
 };
 
 export default image;

@@ -77,7 +77,7 @@ const Generator = (props) => {
         a.download = true;
         a.href = window.URL.createObjectURL(data);
         a.download = 'test.html';
-        //a.click();
+        a.click();
     }, []);
 
     return false;

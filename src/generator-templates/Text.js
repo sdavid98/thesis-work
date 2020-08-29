@@ -1,4 +1,4 @@
-import {expandShortHandPadding, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
 
 const text = item => {
     const div = document.createElement('div');
@@ -20,13 +20,7 @@ const text = item => {
         return node.outerHTML;
     }).join('');
 
-    const itemStyle = removeUnusedStyles({...item.rootElementStyle});
-
-    Object.keys(itemStyle).map(key => {
-        div.style[key] = itemStyle[key];
-    });
-
-    return expandShortHandPadding(div.outerHTML.toString());
+    return pushStyleOnElement(div, removeUnusedStyles({...item.rootElementStyle}));
 };
 
 export default text;
