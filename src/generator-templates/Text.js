@@ -1,6 +1,4 @@
-const fakeStyle = {
-  color: 'red'
-};
+import {expandShortHandPadding, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
 
 const text = item => {
     const div = document.createElement('div');
@@ -8,17 +6,27 @@ const text = item => {
 
     const children = [...div.childNodes];
 
-    div.innerHTML = children.map(node => {
-        Object.keys(item.rootElementStyle).map(key => {
-            //TODO: filter style of unused + incorrect items
-            node.style[key] = item.rootElementStyle[key];
+    div.innerHTML = children.filter(node => node.tagName).map(node => {
+        const itemStyle = removeParentStyle(removeUnusedStyles({...item.rootElementStyle}));
+        Object.keys(itemStyle).map(key => {
+            node.style[key] = itemStyle[key];
         });
-        console.log(node);
-        return node.outerHTML;
-    });
-    console.log(div.innerHTML);
 
-    return div.innerHTML;
+        const links = Array.from(node.getElementsByTagName('a'));
+        if (links.length > 0 && !item.underlineLinksIfPresent) {
+            links.forEach(link => link.style.textDecorationLine = 'none');
+        }
+
+        return node.outerHTML;
+    }).join('');
+
+    const itemStyle = removeUnusedStyles({...item.rootElementStyle});
+
+    Object.keys(itemStyle).map(key => {
+        div.style[key] = itemStyle[key];
+    });
+
+    return expandShortHandPadding(div.outerHTML.toString());
 };
 
 export default text;

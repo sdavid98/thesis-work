@@ -34,14 +34,6 @@ const App = () => {
 		setOpen(false);
 	};
 
-	const generateClick = (
-		<Generator
-			columns={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).columns.filter(col => col.level === 0)}
-			rows={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).rows}
-			dataId={activeStructureItem}
-		/>
-	);
-
 	return (
 		<div className="App" style={{backgroundColor: canvasStyle.backColor}}>
 			<div className="ui" onClick={clickHandler}>
@@ -60,7 +52,11 @@ const App = () => {
 				<StructureEditor/>
 			</Popup>
 			<Popup open={open === 2} modalCloser={handleClose}>
-				{generateClick}
+				<Generator
+					columns={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).columns.filter(col => col.level === 0)}
+					rows={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).rows}
+					dataId={activeStructureItem}
+				/>
 			</Popup>
 		</div>
 	);

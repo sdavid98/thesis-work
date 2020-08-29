@@ -7,6 +7,8 @@ const TextEditor = () => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
+    const textToolbar = 'undo redo | bold italic underline | link | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat';
+    const buttonToolbar = 'undo redo | bold italic underline | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat';
 
     return (
         <Editor
@@ -17,8 +19,7 @@ const TextEditor = () => {
                 inline: true,
                 menubar: false,
                 plugins: ['link charmap'],
-                toolbar:
-                    'undo redo | bold italic underline | link | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat'
+                toolbar: activeItem.type === 'button' ? buttonToolbar : textToolbar
             }}
             onEditorChange={content => dispatch(changeItemContent(activeItemId, content))}
         />
