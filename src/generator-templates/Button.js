@@ -1,21 +1,39 @@
-import {removeUnusedStyles} from "./styleHelpers";
+import {expandShortHandPadding, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+
+const additionalStyles = {
+    display: 'block'
+};
 
 const button = item => {
-    const div = document.createElement('div');
-    div.innerHTML = item.content.text;
+    const a = document.createElement('a');
+    a.innerHTML = item.content.text;
+    a.href = item.content.link;
+    a.target = '_blank';
+    if (!item.underlineLinksIfPresent) {
+        a.style.textDecorationLine = 'none';
+    }
 
-    const children = [...div.childNodes];
+    const children = [...a.childNodes];
 
-    const styledNodes = children.map(node => {
-        const itemStyle = removeUnusedStyles({...item.rootElementStyle});
+    a.innerHTML = children.filter(node => node.tagName).map(node => {
+        const span = document.createElement('span');
+        span.innerHTML = node.innerHTML;
+
+        const itemStyle = removeParentStyle(removeUnusedStyles({...item.rootElementStyle}));
         Object.keys(itemStyle).map(key => {
-            node.style[key] = itemStyle[key];
+            span.style[key] = itemStyle[key];
         });
 
-        return node.outerHTML;
+        return span.outerHTML;
+    }).join('');
+
+    const itemStyle = {...removeUnusedStyles({...item.rootElementStyle}), ...additionalStyles};
+
+    Object.keys(itemStyle).map(key => {
+        a.style[key] = itemStyle[key];
     });
 
-    return div.innerHTML;
+    return expandShortHandPadding(a.outerHTML.toString());
 };
 
 export default button;

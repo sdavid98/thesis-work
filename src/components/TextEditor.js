@@ -19,7 +19,7 @@ const TextEditor = () => {
                 inline: true,
                 menubar: false,
                 plugins: ['link charmap'],
-                toolbar: activeItem.type === 'button' ? buttonToolbar : textToolbar
+                toolbar: activeItem.type === 'button' ? buttonToolbar : textToolbar,
             }}
             onEditorChange={content => dispatch(changeItemContent(activeItemId, content))}
         />
