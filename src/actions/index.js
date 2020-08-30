@@ -6,6 +6,22 @@ const createBasicDraggable = (itemType, id) => {
     };
 };
 
+const createButtonDraggable = (itemType, id) => {
+    return {
+        type: 'CREATEBUTTONDRAGGABLE',
+        itemType: itemType,
+        id: id
+    };
+};
+
+const createSpacerDraggable = (itemType, id) => {
+    return {
+        type: 'CREATESPACERDRAGGABLE',
+        itemType: itemType,
+        id: id
+    };
+};
+
 const createListDraggable = (itemType, id) => {
     return {
         type: 'CREATELISTDRAGGABLE',
@@ -22,12 +38,11 @@ const createImageDraggable = (itemType, id) => {
     };
 };
 
-const resizeItem = (itemId, itemData) => {
+const resizeItem = (itemId, height) => {
     return {
         type: 'RESIZEITEM',
         itemId: itemId,
-        width: itemData.width,
-        height: itemData.height
+        height: height
     }
 };
 
@@ -415,7 +430,15 @@ const toggleRegions = () => {
     }
 };
 
-export {createBasicDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
+const changeInnerHeight = (itemId, height) => {
+    return {
+        type: 'CHANGEINNERHEIGHT',
+        itemId: itemId,
+        height: height
+    }
+};
+
+export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, changeItemColor, changeItemBackColor,
     changeItemFontSize, changeItemLineHeight, changeItemFontWeight, changeItemFontStyle, changeItemTextDecoration,
     changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder, changeLinkUnderlineDisplay,
@@ -424,4 +447,4 @@ export {createBasicDraggable, resizeItem, changeActiveItemId, changeItemContent,
     changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
     changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
     addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
-    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign};
+    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight};

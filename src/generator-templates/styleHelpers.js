@@ -1,5 +1,5 @@
 const removeUnusedStyles = (styleObj) => {
-    if (styleObj.padding.split(' ').every(padding => padding === '0px')) {
+    if (styleObj.padding && styleObj.padding.split(' ').every(padding => padding === '0px')) {
         delete styleObj.padding;
     }
     if (styleObj.backgroundColor.split(' ')[0] === 'none') {
@@ -21,12 +21,21 @@ const removeUnusedStyles = (styleObj) => {
     if (styleObj.border.split(' ')[0] === 'none') {
         delete styleObj.border;
     }
+    if (styleObj.alignItems) {
+        delete styleObj.alignItems;
+    }
+    if (styleObj.justifyContent) {
+        delete styleObj.justifyContent;
+    }
+    if (styleObj.innerHeight) {
+        delete styleObj.innerHeight;
+    }
 
     return styleObj;
 };
 
 const removeParentStyle = (styleObj) => {
-    ['padding', 'paddingTop', 'paddingLeft', 'paddingBottom', 'paddingRight', 'border', 'backgroundColor'].map(style => {
+    ['padding', 'paddingTop', 'paddingLeft', 'paddingBottom', 'paddingRight', 'border', 'backgroundColor', 'display', 'alignItems', 'justifyContent', 'height'].map(style => {
         if (styleObj[style]) {
             delete styleObj[style];
         }

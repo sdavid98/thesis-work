@@ -53,7 +53,7 @@ const Generator = (props) => {
                                 result += Text(content);
                             }
                             if (content.type === 'button') {
-                                result += Button(content);
+                                result += Button(content, col.width);
                             }
                             if (content.type === 'image') {
                                 result += Image(content, col.width);
@@ -77,7 +77,7 @@ const Generator = (props) => {
         a.download = true;
         a.href = window.URL.createObjectURL(data);
         a.download = 'test.html';
-        a.click();
+        //a.click();
     }, []);
 
     return false;

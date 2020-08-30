@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TextEditor from "./TextEditor";
 import ImageContent from "./ImageContent";
 import List from "./List";
 import Spacer from "./Spacer";
-import {changeActiveItemId, removeDraggable} from "../actions";
+import {changeActiveItemId, changeInnerHeight, changeItemContent, removeDraggable, resizeItem} from "../actions";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -16,9 +16,11 @@ const useStyles = makeStyles({
 });
 
 const Content = (props) => {
+    const ref = useRef();
     const classes = useStyles();
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
 
     const handleDragDelete = (e) => {
         e.stopPropagation();
@@ -46,6 +48,14 @@ const Content = (props) => {
         return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;
     };
 
+    const onChangeForButton = (content) => {
+        dispatch(changeItemContent(activeItemId, content));
+        if (parseInt(activeItem.rootElementStyle.height) < ref.current.clientHeight) {
+            dispatch(changeInnerHeight(activeItemId, ref.current.clientHeight));
+            dispatch(resizeItem(activeItemId, ref.current.clientHeight+'px'));
+        }
+    };
+
     const getActiveItem = () => {
         if (props.item.type === 'image') {
             return <ImageContent item={props.item} />;
@@ -55,6 +65,9 @@ const Content = (props) => {
         }
         if (props.item.type === 'divider') {
             return <Spacer item={props.item} />;
+        }
+        if (props.item.type === 'button') {
+            return <div ref={ref}><TextEditor change={onChangeForButton} /></div>;
         }
 
         return <div><TextEditor /></div>;
@@ -72,7 +85,7 @@ const Content = (props) => {
         <div className={props.item.id === activeItemId ? 'active-content' : ''} style={{height: '100%', position: 'relative'}} onClick={() => dispatch(changeActiveItemId(props.item.id))}>
             <div className="drag-delete" onClick={(e) => handleDragDelete(e)}>x</div>
             <div
-                className={`content ${!props.item.underlineLinksIfPresent && classes['noLinkUnderline']}`}
+                className={`content ${!props.item.underlineLinksIfPresent ? classes['noLinkUnderline'] : ''} ${props.item.type === 'button' ? 'content-button' : ''}`}
                 style={{...props.item.rootElementStyle, backgroundColor: getBgColor()}}
             >
                 {activeItemId === props.item.id ? getActiveItem() : getPassiveItem()}

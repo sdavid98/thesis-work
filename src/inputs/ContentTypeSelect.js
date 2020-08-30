@@ -2,7 +2,13 @@ import React from "react";
 import {useDispatch} from "react-redux";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import {addContent, createBasicDraggable, createImageDraggable, createListDraggable} from "../actions";
+import {
+    addContent,
+    createBasicDraggable,
+    createButtonDraggable,
+    createImageDraggable,
+    createListDraggable, createSpacerDraggable
+} from "../actions";
 
 const options = [
     {
@@ -15,7 +21,7 @@ const options = [
     },
     {
         name: 'button',
-        action: createBasicDraggable
+        action: createButtonDraggable
     },
     {
         name: 'list',
@@ -23,7 +29,7 @@ const options = [
     },
     {
         name: 'divider',
-        action: createBasicDraggable
+        action: createSpacerDraggable
     }
 ];
 

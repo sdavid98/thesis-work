@@ -452,11 +452,11 @@ const blockStyleConfig = [
     },
     {
         id: 'spacerSize',
-        label: 'Size',
+        label: 'Height',
         displayLabel: true,
         type: 'text',
         change: (activeItem, itemText, value) => {
-            return resizeItem(activeItem.id, {width: activeItem.width, height: parseInt(value)});
+            return resizeItem(activeItem.id, value+'px');
         },
         childChange: true,
         condition: false,
@@ -465,9 +465,9 @@ const blockStyleConfig = [
                 label: 'Height',
                 watch: 'height',
                 disabled: false,
-                displayLabel: true,
+                displayLabel: false,
                 hasAfterChangeFunction: false,
-                value: activeItem => activeItem.height,
+                value: activeItem => parseInt(activeItem.rootElementStyle.height),
                 childInputs: []
             }
         ]

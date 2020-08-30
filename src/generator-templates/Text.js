@@ -12,6 +12,8 @@ const text = item => {
             node.style[key] = itemStyle[key];
         });
 
+        node.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
+
         const links = Array.from(node.getElementsByTagName('a'));
         if (links.length > 0 && !item.underlineLinksIfPresent) {
             links.forEach(link => link.style.textDecorationLine = 'none');
@@ -20,7 +22,7 @@ const text = item => {
         return node.outerHTML;
     }).join('');
 
-    return pushStyleOnElement(div, removeUnusedStyles({...item.rootElementStyle}));
+    return pushStyleOnElement(div, {...removeUnusedStyles({...item.rootElementStyle}), fontFamily: 'Roboto, Helvetica, Arial, sans-serif'});
 };
 
 export default text;

@@ -3,12 +3,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeItemContent} from "../actions";
 import {Editor} from "@tinymce/tinymce-react";
 
-const TextEditor = () => {
+const TextEditor = (props) => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const textToolbar = 'undo redo | bold italic underline | link | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat';
     const buttonToolbar = 'undo redo | bold italic underline | superscript subscript | fontselect | forecolor backcolor | charmap | removeformat';
+
+    const onChange = (content) => {
+        if (props.change) {
+            props.change(content);
+        }
+        else {
+            dispatch(changeItemContent(activeItemId, content));
+        }
+    };
 
     return (
         <Editor
@@ -21,7 +30,7 @@ const TextEditor = () => {
                 plugins: ['link charmap'],
                 toolbar: activeItem.type === 'button' ? buttonToolbar : textToolbar,
             }}
-            onEditorChange={content => dispatch(changeItemContent(activeItemId, content))}
+            onEditorChange={onChange}
         />
     );
 

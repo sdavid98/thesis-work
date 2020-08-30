@@ -24,6 +24,31 @@ const initTextRootStyle = {
     border: 'none #000000 1px'
 };
 
+const initButtonStyle = {
+    wordBreak: 'break-all',
+    color: '#171717',
+    backgroundColor: 'none #ffffff',
+    fontSize: '14px',
+    lineHeight: '16px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    textDecorationLine: 'none',
+    textDecorationColor: '#171717',
+    textAlign: 'center',
+    border: 'none #000000 1px',
+    display: 'grid',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '20px',
+    innerHeight: 20
+};
+
+const initSpacerStyle = {
+    backgroundColor: 'none #ffffff',
+    border: 'none #000000 1px',
+    height: '20px'
+};
+
 const initImageRootStyle = {
     padding: '0px 0px 0px 0px',
     backgroundColor: 'none #ffffff',
@@ -48,6 +73,48 @@ const items = (state = initState, action) => {
                             link: 'https://example.com'
                         },
                         rootElementStyle: {...initTextRootStyle},
+                        underlineLinksIfPresent: true
+                    }
+                ],
+                activeItemId: action.id
+            };
+        case 'CREATEBUTTONDRAGGABLE':
+            return {
+                ...state,
+                draggables: [ ...state.draggables,
+                    {
+                        id: action.id,
+                        type: action.itemType,
+                        width: 100,
+                        height: 16,
+                        x: 0,
+                        y: action.y,
+                        content: {
+                            text: '<p>Change me</p>',
+                            link: 'https://example.com'
+                        },
+                        rootElementStyle: {...initButtonStyle},
+                        underlineLinksIfPresent: true
+                    }
+                ],
+                activeItemId: action.id
+            };
+        case 'CREATESPACERDRAGGABLE':
+            return {
+                ...state,
+                draggables: [ ...state.draggables,
+                    {
+                        id: action.id,
+                        type: action.itemType,
+                        width: 100,
+                        height: 16,
+                        x: 0,
+                        y: action.y,
+                        content: {
+                            text: '<p>Change me</p>',
+                            link: 'https://example.com'
+                        },
+                        rootElementStyle: {...initSpacerStyle},
                         underlineLinksIfPresent: true
                     }
                 ],
@@ -121,7 +188,19 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, width: action.width, height: action.height}
+                            return {...item, rootElementStyle: {...item.rootElementStyle, height: action.height}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEINNERHEIGHT':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, innerHeight: action.height}}
                         }
                         return item;
                     })

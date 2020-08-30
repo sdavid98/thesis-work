@@ -4,8 +4,7 @@ const Spacer = (props) => {
     return (
         <div>
             <div style={{
-                ...props.item.rootElementStyle,
-                height: props.item.height
+                ...props.item.rootElementStyle
             }}></div>
         </div>
     );
