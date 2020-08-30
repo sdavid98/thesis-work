@@ -33,61 +33,61 @@ function format(node, level) {
 
     return node;
 }
-const Generator = (props) => {
-    const structureData = useSelector(state => state.structure.data);
-    const contents = useSelector(state => state.items.draggables);
-
-    useEffect(() => {
-        const create = (columns, rows, dataId, structureData) => {
-            let result = '';
-            result += "<table cellspacing='0' cellpadding='0' border='0'><tr>";
-            columns.map((col) => {
-                result += `<td width='${col.width}' valign='top'><table width='${col.width}' cellspacing='0' cellpadding='3' border='1px'>`;
-                col.rows.map(colRow => {
-                    return rows.filter(row => row.id === colRow).map((row, index) => {
-                        result += `<tr><td width='${col.width}' valign='top'>`;
-                        if (row.columns && row.columns.length > 0) {
-                            result += create(structureData.find(data => data.id === dataId).columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, dataId, structureData);
+const generator = (structureData, contents, rootWidth, rowStyles) => {
+    const getInitRowStyle = (id) => {
+        const rowStyle = rowStyles.find(row => row.id === id);
+        return `align="${rowStyle.justifyContent}" ${rowStyle.backgroundColor.split(' ')[0] !== 'none' ? 'bgcolor="' + rowStyle.backgroundColor.split(' ')[1] +'"' : ''}`;
+    };
+    const create = (columns, rows, width, dataId, initStyle = false) => {
+        let result = '';
+        result += `<table width="${width}" ${initStyle ? getInitRowStyle(dataId) : ''} cellspacing='0' cellpadding='0' border='0'><tr>`;
+        columns.map((col) => {
+            result += `<td width='${col.width}' valign='top'><table width='${col.width}' cellspacing='0' cellpadding='0' border='0'>`;
+            col.rows.map(colRow => {
+                return rows.filter(row => row.id === colRow).map((row, index) => {
+                    result += `<tr><td width='${col.width}' valign='top'>`;
+                    if (row.columns && row.columns.length > 0) {
+                        result += create(structureData.find(data => data.id === dataId).columns.filter(col => row.columns.indexOf(col.id) >= 0), rows, col.width, dataId);
+                    }
+                    else {
+                        const content = contents.find(con => con.id === row.content);
+                        if (content.type === 'text') {
+                            result += Text(content);
                         }
-                        else {
-                            const content = contents.find(con => con.id === row.content);
-                            if (content.type === 'text') {
-                                result += Text(content);
-                            }
-                            if (content.type === 'button') {
-                                result += Button(content, col.width);
-                            }
-                            if (content.type === 'image') {
-                                result += Image(content, col.width);
-                            }
-                            if (content.type === 'divider') {
-                                result += Spacer(content);
-                            }
-                            if (content.type === 'list') {
-                                result += List(content, col.width);
-                            }
+                        if (content.type === 'button') {
+                            result += Button(content, col.width);
                         }
-                        result += "</td></tr>";
-                        return result;
-                    })
-                });
-                result += "</table></td>";
+                        if (content.type === 'image') {
+                            result += Image(content, col.width);
+                        }
+                        if (content.type === 'divider') {
+                            result += Spacer(content);
+                        }
+                        if (content.type === 'list') {
+                            result += List(content, col.width);
+                        }
+                    }
+                    result += "</td></tr>";
+                    return result;
+                })
             });
-            result += "</tr></table>";
-            return result;
-        };
+            result += "</table></td>";
+        });
+        result += "</tr></table>";
+        return result;
+    };
 
-        const value = create(props.columns, props.rows, props.dataId, structureData);
-
-        const data = new Blob([process(value)], {type: 'text/html'});
-        let a = document.createElement('a');
-        a.download = true;
-        a.href = window.URL.createObjectURL(data);
-        a.download = 'test.html';
-        //a.click();
-    }, []);
+    const result = structureData.map(
+        data => create(data.columns.filter(col => col.level === 0), data.rows, parseInt(rootWidth), data.id, true)
+    ).join('');
+    const data = new Blob([process(result)], {type: 'text/html'});
+    let a = document.createElement('a');
+    a.download = true;
+    a.href = window.URL.createObjectURL(data);
+    a.download = 'test.html';
+    a.click();
 
     return false;
 };
 
-export default Generator;
+export default generator;

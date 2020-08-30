@@ -15,8 +15,9 @@ import Generator from "./components/Generator";
 const App = () => {
 	const dispatch = useDispatch();
 	const canvasStyle = useSelector(state => state.items.canvasStyle);
-	const activeStructureItem = useSelector(state => state.structure.activeDataId);
+	const rowStyles = useSelector(state => state.items.rowStyles);
 	const structureData = useSelector(state => state.structure.data);
+	const contents = useSelector(state => state.items.draggables);
 
 	const clickHandler = (e) => {
 		if(e.target.className === 'ui') {
@@ -38,7 +39,7 @@ const App = () => {
 		<div className="App" style={{backgroundColor: canvasStyle.backColor}}>
 			<div className="ui" onClick={clickHandler}>
 				<Panel>
-					<Button onClick={() => handleOpen(2)} color='primary' variant='contained'>GENERATE</Button>
+					<Button onClick={() => Generator(structureData, contents, canvasStyle.width, rowStyles)} color='primary' variant='contained'>GENERATE</Button>
 					<MenuItems modalOpener={handleOpen} />
 					<RowActions modalOpener={handleOpen}/>
 					<BlockSettings rowSettings={true} />
@@ -52,11 +53,11 @@ const App = () => {
 				<StructureEditor/>
 			</Popup>
 			<Popup open={open === 2} modalCloser={handleClose}>
-				<Generator
+				{/*<Generator
 					columns={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).columns.filter(col => col.level === 0)}
 					rows={structureData.find(data => data.id === activeStructureItem) && structureData.find(data => data.id === activeStructureItem).rows}
 					dataId={activeStructureItem}
-				/>
+				/>*/}
 			</Popup>
 		</div>
 	);

@@ -44,7 +44,12 @@ const getStyledListItemText = (item, content) => {
 };
 
 const list = (item, width) => {
-    let result = `<table width="${width}" cellspacing="0" cellpadding="0" border="0" ${item.rootElementStyle.backgroundColor .split(' ')[0] !== 'none' ? 'bgcolor="'+item.rootElementStyle.backgroundColor.split(' ')[1]+'"' : ''}>`;
+    let reducedWidthByPadding = width;
+    if (item.rootElementStyle.padding.split(' ').some(pad => pad !== '0px')) {
+        reducedWidthByPadding -= (parseInt(item.rootElementStyle.padding.split(' ')[1]) + parseInt(item.rootElementStyle.padding.split(' ')[3]));
+    }
+
+    let result = `<table width="${reducedWidthByPadding}" cellspacing="0" cellpadding="0" border="0" ${item.rootElementStyle.backgroundColor .split(' ')[0] !== 'none' ? 'bgcolor="'+item.rootElementStyle.backgroundColor.split(' ')[1]+'"' : ''}>`;
     item.content.text.map((listItem, index) => {
         result += '<tr>';
         result += `<td valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)}">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;

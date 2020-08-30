@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TextEditor from "./TextEditor";
 import ImageContent from "./ImageContent";
@@ -47,6 +47,19 @@ const Content = (props) => {
 
         return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;
     };
+
+    //TODO: afterChange func -> fz+lh
+    useEffect(() => {
+        if (activeItemId && activeItem.type === 'button') {
+            if (activeItem.rootElementStyle.innerHeight !== ref.current.clientHeight) {
+                dispatch(changeInnerHeight(activeItemId, ref.current.clientHeight));
+            }
+            if (parseInt(activeItem.rootElementStyle.height) < activeItem.rootElementStyle.innerHeight) {
+                dispatch(resizeItem(activeItemId, ref.current.clientHeight+'px'));
+            }
+        }
+    });
+
 
     const onChangeForButton = (content) => {
         dispatch(changeItemContent(activeItemId, content));
