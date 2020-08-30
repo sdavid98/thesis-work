@@ -38,6 +38,30 @@ const convertToRoman = (num) => {
     return romansArray.reverse().join("");
 };
 
+const getListSign = (index, item) => {
+    if (item.content.listSymbol.type === 'Numeric') {
+        return index+1;
+    }
+    if (item.content.listSymbol.type.indexOf('Latin') >= 0) {
+        return item.content.listSymbol.type.indexOf('upper') >= 0 ? String.fromCharCode(Number(index)+65) : String.fromCharCode(Number(index)+97);
+    }
+    if (item.content.listSymbol.type.indexOf('Roman') >= 0) {
+        return item.content.listSymbol.type.indexOf('upper') >= 0 ? convertToRoman(index+1) : convertToRoman(index+1).toLowerCase();
+    }
+    if (item.content.listSymbol.type === 'Custom Image') {
+        return <img style={{width: 'auto', height: item.content.listSymbol.imageStyle.symbolImageHeight}} src={item.content.listSymbol.signSrc} alt='*' />;
+    }
+    return String.fromCharCode(item.content.listSymbol.sign.split('+')[1].toLowerCase().split('').reduce( (result, ch) =>
+        result * 16 + '0123456789abcdefgh'.indexOf(ch), 0));
+};
+
+const getTrailingCharacters = (item) => {
+    if (item.content.listSymbol.trailingCharacters !== '' && item.content.listSymbol.type !== 'Custom Image') {
+        return item.content.listSymbol.trailingCharacters;
+    }
+    return '';
+};
+
 const List = (props) => {
     const dispatch = useDispatch();
     const activeItemId = useSelector(state => state.items.activeItemId);
@@ -63,30 +87,6 @@ const List = (props) => {
         dispatch(changeListItems(activeItemId, items));
     };
 
-    const getListSign = index => {
-        if (props.item.content.listSymbol.type === 'Numeric') {
-            return index+1;
-        }
-        if (props.item.content.listSymbol.type.indexOf('Latin') >= 0) {
-            return props.item.content.listSymbol.type.indexOf('upper') >= 0 ? String.fromCharCode(Number(index)+65) : String.fromCharCode(Number(index)+97);
-        }
-        if (props.item.content.listSymbol.type.indexOf('Roman') >= 0) {
-            return props.item.content.listSymbol.type.indexOf('upper') >= 0 ? convertToRoman(index+1) : convertToRoman(index+1).toLowerCase();
-        }
-        if (props.item.content.listSymbol.type === 'Custom Image') {
-            return <img style={{width: 'auto', height: props.item.content.listSymbol.imageStyle.symbolImageHeight}} src={props.item.content.listSymbol.signSrc} alt='*' />;
-        }
-        return String.fromCharCode(props.item.content.listSymbol.sign.split('+')[1].toLowerCase().split('').reduce( (result, ch) =>
-            result * 16 + '0123456789abcdefgh'.indexOf(ch), 0));
-    };
-
-    const getTrailingCharacters = () => {
-        if (props.item.content.listSymbol.trailingCharacters !== '' && props.item.content.listSymbol.type !== 'Custom Image') {
-            return props.item.content.listSymbol.trailingCharacters;
-        }
-        return false;
-    };
-
     const listItems = props.item.content.text.map((text, index) => (
         <div
             key={index}
@@ -100,7 +100,7 @@ const List = (props) => {
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
                 fontSize: props.item.content.listSymbol.style.symbolSize
             }}>
-                {getListSign(index)}{getTrailingCharacters()}
+                {getListSign(index, props.item)}{getTrailingCharacters(props.item)}
             </div>
             <ListItem
                 itemNum={listItemNum}
@@ -145,4 +145,4 @@ const List = (props) => {
     );
 };
 
-export default List;
+export {List as default, convertToRoman, getListSign, getTrailingCharacters};

@@ -618,7 +618,7 @@ const blockStyleConfig = [
                 value: activeItem => activeItem.content.listSymbol.type === 'Custom Unicode',
                 childInputs: [
                     {
-                        label: 'Escape Sequence Unicode',
+                        label: 'Unicode string',
                         displayLabel: true,
                         watch: 'sign',
                         disabled: false,

@@ -58,7 +58,6 @@ const App = () => {
 					dataId={activeStructureItem}
 				/>
 			</Popup>
-			<div id='dump'></div>
 		</div>
 	);
 };

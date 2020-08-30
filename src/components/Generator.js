@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
-import Text from "../generator-templates/Text";
+import Text from '../generator-templates/Text';
 import Button from '../generator-templates/Button';
 import Image from '../generator-templates/Image';
+import Spacer from '../generator-templates/Spacer';
+import List from '../generator-templates/List';
 
 //https://stackoverflow.com/questions/26360414/javascript-how-to-correct-indentation-in-html-string
 function process(str) {
@@ -58,7 +60,12 @@ const Generator = (props) => {
                             if (content.type === 'image') {
                                 result += Image(content, col.width);
                             }
-                            //result += `<div>${row.content}</div>`;
+                            if (content.type === 'divider') {
+                                result += Spacer(content);
+                            }
+                            if (content.type === 'list') {
+                                result += List(content, col.width);
+                            }
                         }
                         result += "</td></tr>";
                         return result;

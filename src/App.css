@@ -3,14 +3,8 @@
 }
 
 .App {
-    overflow: hidden;
     background-color: whitesmoke;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-}
-
-#dump {
-    position: absolute;
-    top: 120%;
 }
 
 .ui {

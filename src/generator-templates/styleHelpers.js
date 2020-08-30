@@ -73,10 +73,7 @@ const pushStyleOnElement = (elem, styleObj) => {
     Object.keys(styleObj).map(key => {
         elem.style[key] = styleObj[key];
     });
-    const res = expandShortHandPadding(elem.outerHTML.toString());
-    console.log(res);
-
-    return res;
+    return expandShortHandPadding(elem.outerHTML.toString());
 };
 
 export {removeUnusedStyles, removeParentStyle, pushStyleOnElement};

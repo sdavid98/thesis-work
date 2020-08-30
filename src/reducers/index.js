@@ -66,8 +66,6 @@ const items = (state = initState, action) => {
                         type: action.itemType,
                         width: 100,
                         height: 16,
-                        x: 0,
-                        y: action.y,
                         content: {
                             text: '<p>Change me</p>',
                             link: 'https://example.com'
@@ -87,8 +85,6 @@ const items = (state = initState, action) => {
                         type: action.itemType,
                         width: 100,
                         height: 16,
-                        x: 0,
-                        y: action.y,
                         content: {
                             text: '<p>Change me</p>',
                             link: 'https://example.com'
@@ -108,8 +104,6 @@ const items = (state = initState, action) => {
                         type: action.itemType,
                         width: 100,
                         height: 16,
-                        x: 0,
-                        y: action.y,
                         content: {
                             text: '<p>Change me</p>',
                             link: 'https://example.com'
@@ -129,8 +123,6 @@ const items = (state = initState, action) => {
                         type: action.itemType,
                         width: 100,
                         height: 18,
-                        x: 0,
-                        y: action.y,
                         content: {
                             text: ['<p>Change me</p>'],
                             listSymbol: {
@@ -151,6 +143,7 @@ const items = (state = initState, action) => {
                                 }
                             }
                         },
+                        underlineLinksIfPresent: true,
                         rootElementStyle: {...initTextRootStyle}
                     }
                 ],

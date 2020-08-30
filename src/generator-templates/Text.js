@@ -13,6 +13,7 @@ const text = item => {
         });
 
         node.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
+        node.style.margin = '0';
 
         const links = Array.from(node.getElementsByTagName('a'));
         if (links.length > 0 && !item.underlineLinksIfPresent) {
