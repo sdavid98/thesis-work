@@ -15,7 +15,7 @@ const initTextRootStyle = {
     padding: '0px 0px 0px 0px',
     backgroundColor: 'none #ffffff',
     fontSize: '14px',
-    lineHeight: '16px',
+    lineHeight: '1.2em',
     fontWeight: 'normal',
     fontStyle: 'normal',
     textDecorationLine: 'none',
@@ -29,7 +29,7 @@ const initButtonStyle = {
     color: '#171717',
     backgroundColor: 'none #ffffff',
     fontSize: '14px',
-    lineHeight: '16px',
+    lineHeight: '1.2em',
     fontWeight: 'normal',
     fontStyle: 'normal',
     textDecorationLine: 'none',
@@ -40,7 +40,7 @@ const initButtonStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '20px',
-    innerHeight: 20
+    innerHeight: 17
 };
 
 const initSpacerStyle = {
@@ -139,7 +139,8 @@ const items = (state = initState, action) => {
                                     listSymbolPaddingTop: '0px',
                                     symbolSize: '14px',
                                     listItemGap: '0px',
-                                    inlineGap: '5px'
+                                    inlineGap: '5px',
+                                    width: 0
                                 }
                             }
                         },
@@ -530,6 +531,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, inlineGap: action.style}}}}
+                        }
+                        return item;
+                    }),
+
+            };
+        case 'CHANGELISTSYMBOLWIDTH':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, width: action.style}}}}
                         }
                         return item;
                     }),

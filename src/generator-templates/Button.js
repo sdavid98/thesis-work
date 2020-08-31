@@ -55,13 +55,13 @@ const button = (item, width) => {
 
     const bulletProofButton = `
     <div>
-        <!--[if (mso|IE)]>
+        <!--[if (mso)|(IE)]>
         <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${getBgColor()}">
             <w:anchorlock/>
             <center style="${getTextStyle(item.rootElementStyle)}">${a.innerHTML}</center>
         </v:rect>
         <![endif]-->
-        <!--[if !(mso|IE)]>-->
+        <!--[if (!mso)&(!IE)]>-->
         ${pushStyleOnElement(a, {...removeUnusedStyles(outerStyle), ...additionalStyles})}
         <![endif]-->
     </div>

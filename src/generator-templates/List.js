@@ -14,10 +14,10 @@ const getListItemVerticalAlign = (item) => {
 };
 
 const generateListItemStyle = (item) => (
-    `font-size: ${item.content.listSymbol.style.symbolSize}; color: ${item.rootElementStyle.color}; line-height: 1; vertical-align: ${getListItemVerticalAlign(item)};
+    `font-size: ${item.content.listSymbol.style.symbolSize}; color: ${item.rootElementStyle.color}; vertical-align: ${getListItemVerticalAlign(item)};
     font-weight: ${item.rootElementStyle.fontWeight}; font-style: ${item.rootElementStyle.fontStyle}; text-decoration-line: ${item.rootElementStyle.textDecorationLine}; 
-    text-decoration-color: ${item.rootElementStyle.textDecorationColor}; fontFamily: 'Roboto, Helvetica, Arial, sans-serif';
-    ${item.content.listSymbol.style.listSymbolPaddingTop !== '0px' ? 'padding-top:' +item.content.listSymbol.style.listSymbolPaddingTop  : ''}`
+    text-decoration-color: ${item.rootElementStyle.textDecorationColor}; font-family: Roboto, Helvetica, Arial, sans-serif;
+    ${item.content.listSymbol.style.listSymbolPaddingTop !== '0px' ? 'padding-top:' +item.content.listSymbol.style.listSymbolPaddingTop+';'  : ''}`
 );
 
 const getStyledListItemText = (item, content) => {
@@ -52,9 +52,10 @@ const list = (item, width) => {
     let result = `<table width="${reducedWidthByPadding}" cellspacing="0" cellpadding="0" border="0" ${item.rootElementStyle.backgroundColor .split(' ')[0] !== 'none' ? 'bgcolor="'+item.rootElementStyle.backgroundColor.split(' ')[1]+'"' : ''}>`;
     item.content.text.map((listItem, index) => {
         result += '<tr>';
-        result += `<td valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)}">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;
-        result += `<td width="${item.content.listSymbol.style.inlineGap}">&nbsp;</td>`;
-        result += `<td valign="top">${getStyledListItemText(item, listItem)}</td>`;
+        result += `<td width="${item.content.listSymbol.style.width}" valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)} width:${item.content.listSymbol.style.width}px">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;
+        result += `<td width="${parseInt(item.content.listSymbol.style.inlineGap)}"></td>`;
+        const remainingWidth = reducedWidthByPadding - item.content.listSymbol.style.width - parseInt(item.content.listSymbol.style.inlineGap);
+        result += `<td width="${remainingWidth}" valign="${getListItemVerticalAlign(item)}" style="width:${remainingWidth}px; vertical-align: ${getListItemVerticalAlign(item)}">${getStyledListItemText(item, listItem)}</td>`;
         result += '</tr>';
 
         if (index !== item.content.text.length - 1 && item.content.listSymbol.style.listItemGap !== '0px') {

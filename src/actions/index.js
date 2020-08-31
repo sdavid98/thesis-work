@@ -262,6 +262,14 @@ const changeListItemsGap = (itemId, style) => {
     }
 };
 
+const changeListSymbolWidth = (itemId, style) => {
+    return {
+        type: 'CHANGELISTSYMBOLWIDTH',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeListInlineGap = (itemId, style) => {
     return {
         type: 'CHANGELISTITEMINLINEGAP',
@@ -447,4 +455,4 @@ export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveIte
     changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
     changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
     addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
-    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight};
+    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth};

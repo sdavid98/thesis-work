@@ -48,12 +48,16 @@ const Content = (props) => {
         return <div dangerouslySetInnerHTML={{__html: props.item.content.text}}></div>;
     };
 
-    //TODO: afterChange func -> fz+lh
     useEffect(() => {
         if (activeItemId && activeItem.type === 'button') {
             if (activeItem.rootElementStyle.innerHeight !== ref.current.clientHeight) {
                 dispatch(changeInnerHeight(activeItemId, ref.current.clientHeight));
             }
+        }
+    });
+
+    useEffect(() => {
+        if (activeItemId && activeItem.type === 'button') {
             if (parseInt(activeItem.rootElementStyle.height) < activeItem.rootElementStyle.innerHeight) {
                 dispatch(resizeItem(activeItemId, ref.current.clientHeight+'px'));
             }

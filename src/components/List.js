@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import ListItem from "./ListItem";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from "@material-ui/core/styles";
-import {addNewListItem, changeListItems} from "../actions";
+import {addNewListItem, changeListItems, changeListSymbolWidth} from "../actions";
 
 const useStyles = makeStyles({
     icon: {
@@ -64,10 +64,18 @@ const getTrailingCharacters = (item) => {
 
 const List = (props) => {
     const dispatch = useDispatch();
+    const ref = useRef();
     const activeItemId = useSelector(state => state.items.activeItemId);
+    const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
     const [activeListItemNum, setActiveListItemNum] = useState(null);
     const [listItemNum, setListItemNum] = useState(1);
+
+    useEffect(() => {
+        if (activeItemId && activeItem.type === 'list' && ref.current.clientWidth !== activeItem.content.listSymbol.style.width) {
+            dispatch(changeListSymbolWidth(activeItemId, ref.current.clientWidth));
+        }
+    });
 
     const addNewItem = () => {
         setListItemNum(listItemNum + 1);
@@ -95,8 +103,7 @@ const List = (props) => {
                 alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
                 gridColumnGap: props.item.content.listSymbol.style.inlineGap
             }}>
-            <div style={{
-                lineHeight: 1,
+            <div ref={ref} style={{
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
                 fontSize: props.item.content.listSymbol.style.symbolSize
             }}>

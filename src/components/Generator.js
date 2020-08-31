@@ -5,6 +5,7 @@ import Button from '../generator-templates/Button';
 import Image from '../generator-templates/Image';
 import Spacer from '../generator-templates/Spacer';
 import List from '../generator-templates/List';
+import htmlHead from "../generator-templates/htmlHead";
 
 //https://stackoverflow.com/questions/26360414/javascript-how-to-correct-indentation-in-html-string
 function process(str) {
@@ -33,7 +34,7 @@ function format(node, level) {
 
     return node;
 }
-const generator = (structureData, contents, rootWidth, rowStyles) => {
+const generator = (structureData, contents, canvasStyle, rowStyles) => {
     const getInitRowStyle = (id) => {
         const rowStyle = rowStyles.find(row => row.id === id);
         return `align="${rowStyle.justifyContent}" ${rowStyle.backgroundColor.split(' ')[0] !== 'none' ? 'bgcolor="' + rowStyle.backgroundColor.split(' ')[1] +'"' : ''}`;
@@ -42,7 +43,7 @@ const generator = (structureData, contents, rootWidth, rowStyles) => {
         let result = '';
         result += `<table width="${width}" ${initStyle ? getInitRowStyle(dataId) : ''} cellspacing='0' cellpadding='0' border='0'><tr>`;
         columns.map((col) => {
-            result += `<td width='${col.width}' valign='top'><table width='${col.width}' cellspacing='0' cellpadding='0' border='0'>`;
+            result += `<td valign="${rowStyles.find(row => row.id === dataId).justifyContent}" width='${col.width}' valign='top'><table width='${col.width}' cellspacing='0' cellpadding='0' border='0'>`;
             col.rows.map(colRow => {
                 return rows.filter(row => row.id === colRow).map((row, index) => {
                     result += `<tr><td width='${col.width}' valign='top'>`;
@@ -77,10 +78,28 @@ const generator = (structureData, contents, rootWidth, rowStyles) => {
         return result;
     };
 
-    const result = structureData.map(
-        data => create(data.columns.filter(col => col.level === 0), data.rows, parseInt(rootWidth), data.id, true)
-    ).join('');
-    const data = new Blob([process(result)], {type: 'text/html'});
+    let resultTop = htmlHead;
+    resultTop += `<body style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: ${canvasStyle.backColor};">`;
+    let result = `<table style="table-layout: fixed; vertical-align: top; min-width: 320px; Margin: 0 auto; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: ${canvasStyle.backColor}; width: 100%;" cellpadding="0" cellspacing="0" role="presentation" width="100%" bgcolor="${canvasStyle.backColor}" valign="top">`;
+    result += `<tr><td style="word-break: break-word; vertical-align: top; padding-top:20px;padding-bottom:20px;padding-right:0;padding-left:0" valign="top">`;
+    result += `<table width="${parseInt(canvasStyle.width)}" align="center" cellpadding="0" cellspacing="0" border="0" style="background-color:${canvasStyle.foreColor};" bgcolor="${canvasStyle.foreColor}">`;
+
+    result += structureData.map(
+        data => create(data.columns.filter(col => col.level === 0), data.rows, parseInt(canvasStyle.width), data.id, true)
+    ).map(table => `<tr><td>${table}</td></tr>`).join('');
+    result += '</table></td></tr></table>';
+
+    result = process(result);
+
+    const resultBottom = '</body></html>';
+
+    result = `
+        ${resultTop}
+        ${result}
+        ${resultBottom}
+    `;
+
+    const data = new Blob([result], {type: 'text/html'});
     let a = document.createElement('a');
     a.download = true;
     a.href = window.URL.createObjectURL(data);

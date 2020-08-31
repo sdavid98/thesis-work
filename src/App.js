@@ -39,7 +39,7 @@ const App = () => {
 		<div className="App" style={{backgroundColor: canvasStyle.backColor}}>
 			<div className="ui" onClick={clickHandler}>
 				<Panel>
-					<Button onClick={() => Generator(structureData, contents, canvasStyle.width, rowStyles)} color='primary' variant='contained'>GENERATE</Button>
+					<Button onClick={() => Generator(structureData, contents, canvasStyle, rowStyles)} color='primary' variant='contained'>GENERATE</Button>
 					<MenuItems modalOpener={handleOpen} />
 					<RowActions modalOpener={handleOpen}/>
 					<BlockSettings rowSettings={true} />
