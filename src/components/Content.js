@@ -49,7 +49,7 @@ const Content = (props) => {
     };
 
     useEffect(() => {
-        if (activeItemId && activeItem.type === 'button') {
+        if (activeItemId && activeItem.type === 'button' && ref.current) {
             if (activeItem.rootElementStyle.innerHeight !== ref.current.clientHeight) {
                 dispatch(changeInnerHeight(activeItemId, ref.current.clientHeight));
             }

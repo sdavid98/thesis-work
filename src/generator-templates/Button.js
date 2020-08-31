@@ -53,8 +53,7 @@ const button = (item, width) => {
         additionalStyles.padding = `${verticalPadding}px 0px`;
     }
 
-    const bulletProofButton = `
-    <div>
+    const bulletProofButton = `<div>
         <!--[if (mso)|(IE)]>
         <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${getBgColor()}">
             <w:anchorlock/>
@@ -64,8 +63,7 @@ const button = (item, width) => {
         <!--[if (!mso)&(!IE)]>-->
         ${pushStyleOnElement(a, {...removeUnusedStyles(outerStyle), ...additionalStyles})}
         <![endif]-->
-    </div>
-    `;
+    </div>`;
 
     console.log(bulletProofButton);
     return bulletProofButton;

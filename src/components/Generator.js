@@ -93,11 +93,7 @@ const generator = (structureData, contents, canvasStyle, rowStyles) => {
 
     const resultBottom = '</body></html>';
 
-    result = `
-        ${resultTop}
-        ${result}
-        ${resultBottom}
-    `;
+    result = resultTop + result + resultBottom;
 
     const data = new Blob([result], {type: 'text/html'});
     let a = document.createElement('a');
