@@ -36,6 +36,9 @@ const htmlHead = `
     </style>
     <!--[if (mso)|(IE)]>
         <style>
+            * {
+                mso-line-height-rule: exactly
+            }
             sup {
                 font-size: 80%;
             }

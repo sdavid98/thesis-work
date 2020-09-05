@@ -1,10 +1,12 @@
 import {pushStyleOnElement, removeUnusedStyles} from "./styleHelpers";
 
-const spacer = (item) => {
-    const div = document.createElement('div');
-    div.innerHTML = '&nbsp;';
+const spacer = (item, width, height) => {
+    const td = document.createElement('td');
+    td.height = height;
+    td.width = width;
+    td.vAlign = 'top';
 
-    return pushStyleOnElement(div, removeUnusedStyles({...item.rootElementStyle}));
+    return pushStyleOnElement(td, removeUnusedStyles({...item.rootElementStyle}));
 };
 
 export default spacer;

@@ -10,12 +10,11 @@ const initState = {
 };
 
 const initTextRootStyle = {
-    wordBreak: 'break-all',
     color: '#171717',
     padding: '0px 0px 0px 0px',
     backgroundColor: 'none #ffffff',
     fontSize: '14px',
-    lineHeight: '1.2em',
+    lineHeight: '1.2',
     fontWeight: 'normal',
     fontStyle: 'normal',
     textDecorationLine: 'none',
@@ -25,11 +24,10 @@ const initTextRootStyle = {
 };
 
 const initButtonStyle = {
-    wordBreak: 'break-all',
     color: '#171717',
     backgroundColor: 'none #ffffff',
     fontSize: '14px',
-    lineHeight: '1.2em',
+    lineHeight: '1.2',
     fontWeight: 'normal',
     fontStyle: 'normal',
     textDecorationLine: 'none',
@@ -46,7 +44,9 @@ const initButtonStyle = {
 const initSpacerStyle = {
     backgroundColor: 'none #ffffff',
     border: 'none #000000 1px',
-    height: '20px'
+    height: '20px',
+    lineHeight: '1px',
+    fontSize: '1px'
 };
 
 const initImageRootStyle = {

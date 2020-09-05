@@ -88,6 +88,7 @@ const StructureBuild = (props) => {
                                         index={index}
                                         isOnCanvas={props.isOnCanvas}
                                         active={props.active}
+                                        dataId={props.dataId}
                                     />
                                 )
                              }

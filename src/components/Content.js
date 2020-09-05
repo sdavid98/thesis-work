@@ -53,17 +53,11 @@ const Content = (props) => {
             if (activeItem.rootElementStyle.innerHeight !== ref.current.clientHeight) {
                 dispatch(changeInnerHeight(activeItemId, ref.current.clientHeight));
             }
-        }
-    });
-
-    useEffect(() => {
-        if (activeItemId && activeItem.type === 'button') {
             if (parseInt(activeItem.rootElementStyle.height) < activeItem.rootElementStyle.innerHeight) {
                 dispatch(resizeItem(activeItemId, ref.current.clientHeight+'px'));
             }
         }
     });
-
 
     const onChangeForButton = (content) => {
         dispatch(changeItemContent(activeItemId, content));

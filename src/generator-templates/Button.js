@@ -6,7 +6,7 @@ const additionalStyles = {
 };
 
 const getTextStyle = ({color, fontSize, lineHeight, fontStyle, fontWeight}) => (
-    `color: ${color}; font-size: ${fontSize}; line-height: ${lineHeight}; font-style: ${fontStyle}; font-weight: ${fontWeight}`
+    `color: ${color}; font-size: ${fontSize}; mso-line-height-rule: exactly; line-height: ${lineHeight}; font-style: ${fontStyle}; font-weight: ${fontWeight}`
 );
 
 const button = (item, width) => {
@@ -14,9 +14,7 @@ const button = (item, width) => {
     a.innerHTML = item.content.text;
     a.href = item.content.link;
     a.target = '_blank';
-    if (!item.underlineLinksIfPresent) {
-        a.style.textDecorationLine = 'none';
-    }
+    a.style.textDecorationLine = 'none';
 
     const children = [...a.childNodes];
 
@@ -39,7 +37,7 @@ const button = (item, width) => {
         if (item.rootElementStyle.backgroundColor.split(' ')[0] !== 'none') {
             return item.rootElementStyle.backgroundColor.split(' ')[1];
         }
-        return 'f';
+        return 'none';
     };
 
     const outerStyle = {...item.rootElementStyle};
@@ -53,20 +51,19 @@ const button = (item, width) => {
         additionalStyles.padding = `${verticalPadding}px 0px`;
     }
 
-    const bulletProofButton = `<div>
+    return `<div>
         <!--[if (mso)|(IE)]>
         <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${getBgColor()}">
-            <w:anchorlock/>
-            <center style="${getTextStyle(item.rootElementStyle)}">${a.innerHTML}</center>
+            <v:textbox inset="0,0,0,0"> 
+                <w:anchorlock/>
+                <center style="${getTextStyle(item.rootElementStyle)}">${a.innerHTML}</center>
+            </v:textbox>
         </v:rect>
         <![endif]-->
         <!--[if (!mso)&(!IE)]>-->
         ${pushStyleOnElement(a, {...removeUnusedStyles(outerStyle), ...additionalStyles})}
         <![endif]-->
     </div>`;
-
-    console.log(bulletProofButton);
-    return bulletProofButton;
 };
 
 export default button;

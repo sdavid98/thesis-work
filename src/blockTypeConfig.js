@@ -1,8 +1,8 @@
 let blockTypeConfig = {
-    'text': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'textAlign', 'border', 'linkUnderline', 'padding'],
-    'image': ['backgroundColor', 'border', 'padding', 'sourceUrl', 'imageAlt', 'imageLink'],
-    'button': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'border', 'linkUnderline', 'link', 'spacerSize'],
-    'list': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'border', 'linkUnderline', 'padding',
+    'text': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'textAlign', 'padding'],
+    'image': ['backgroundColor', 'padding', 'sourceUrl', 'imageAlt', 'imageLink'],
+    'button': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'link', 'spacerSize'],
+    'list': ['color', 'backgroundColor', 'fontSize', 'fontStyle', 'padding',
         'listSymbol','listSymbolTrailingCharacters', 'symbolImageHeight', 'listSymbolVerticalAlign', 'listSymbolPaddingTop', 'listSymbolSize', 'listItemsGap', 'listInlineGap'],
     'divider': ['backgroundColor', 'spacerSize']
 };

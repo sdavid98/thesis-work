@@ -1,6 +1,7 @@
 import {pushStyleOnElement, removeUnusedStyles} from "./styleHelpers";
 
 const image = (item, width) => {
+    const td = document.createElement('td');
     const img = document.createElement('img');
     img.src = item.content.imageSrc;
     img.alt = item.content.imageAlt;
@@ -12,6 +13,10 @@ const image = (item, width) => {
 
     img.width = reducedWidthByPadding;
     img.style.width = reducedWidthByPadding;
+    img.style.display = 'block';
+
+    td.width = reducedWidthByPadding;
+    td.vAlign = 'top';
 
     if (item.content.link) {
         const a = document.createElement('a');
@@ -23,9 +28,11 @@ const image = (item, width) => {
             a.style.textDecorationLine = 'none';
         }
 
-        return pushStyleOnElement(a, {...removeUnusedStyles({...item.rootElementStyle}), display: 'block'});
+        td.innerHTML = pushStyleOnElement(a, {...removeUnusedStyles({...item.rootElementStyle}), display: 'block'});
     }
-    return pushStyleOnElement(img, removeUnusedStyles({...item.rootElementStyle}));
+    td.innerHTML = pushStyleOnElement(img, removeUnusedStyles({...item.rootElementStyle}));
+
+    return td.outerHTML;
 };
 
 export default image;

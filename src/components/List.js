@@ -64,7 +64,7 @@ const getTrailingCharacters = (item) => {
 
 const List = (props) => {
     const dispatch = useDispatch();
-    const ref = useRef();
+    const ref = useRef([]);
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const classes = useStyles();
@@ -72,8 +72,8 @@ const List = (props) => {
     const [listItemNum, setListItemNum] = useState(1);
 
     useEffect(() => {
-        if (activeItemId && activeItem.type === 'list' && ref.current.clientWidth !== activeItem.content.listSymbol.style.width) {
-            dispatch(changeListSymbolWidth(activeItemId, ref.current.clientWidth));
+        if (activeItemId && activeItem.type === 'list' && ref.current[activeItemId] && ref.current[activeItemId].clientWidth !== activeItem.content.listSymbol.style.width) {
+            dispatch(changeListSymbolWidth(activeItemId, ref.current[activeItemId].clientWidth));
         }
     });
 
@@ -101,11 +101,13 @@ const List = (props) => {
             className={classes.item}
             style={{
                 alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
-                gridColumnGap: props.item.content.listSymbol.style.inlineGap
+                gridColumnGap: props.item.content.listSymbol.style.inlineGap,
+                gridTemplateColumns: `${props.item.content.listSymbol.style.width} 1fr`,
             }}>
-            <div ref={ref} style={{
+            <div ref={el => ref.current[props.item.id] = el} style={{
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
-                fontSize: props.item.content.listSymbol.style.symbolSize
+                fontSize: props.item.content.listSymbol.style.symbolSize,
+                lineHeight: 1.2
             }}>
                 {getListSign(index, props.item)}{getTrailingCharacters(props.item)}
             </div>

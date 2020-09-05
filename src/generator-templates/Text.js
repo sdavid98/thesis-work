@@ -1,29 +1,16 @@
-import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeUnusedStyles} from "./styleHelpers";
 
-const text = item => {
-    const div = document.createElement('div');
-    div.innerHTML = item.content.text;
+const text = (item, width) => {
+    const td = document.createElement('td');
+    td.innerHTML = item.content.text;
+    td.width = width;
+    td.vAlign = 'top';
 
-    const children = [...div.childNodes];
+    const children = [...td.childNodes];
 
-    div.innerHTML = children.filter(node => node.tagName).map(node => {
-        const itemStyle = removeParentStyle(removeUnusedStyles({...item.rootElementStyle}));
-        Object.keys(itemStyle).map(key => {
-            node.style[key] = itemStyle[key];
-        });
+    td.innerHTML = children.filter(node => node.tagName).map(node => node.innerHTML).join('<br>');
 
-        node.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
-        node.style.margin = '0';
-
-        const links = Array.from(node.getElementsByTagName('a'));
-        if (links.length > 0 && !item.underlineLinksIfPresent) {
-            links.forEach(link => link.style.textDecorationLine = 'none');
-        }
-
-        return node.outerHTML;
-    }).join('');
-
-    return pushStyleOnElement(div, {...removeUnusedStyles({...item.rootElementStyle}), fontFamily: 'Roboto, Helvetica, Arial, sans-serif'});
+    return pushStyleOnElement(td, {...removeUnusedStyles({...item.rootElementStyle}), fontFamily: 'Roboto, Helvetica, Arial, sans-serif'});
 };
 
 export default text;
