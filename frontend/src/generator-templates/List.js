@@ -46,7 +46,7 @@ const list = (item, width) => {
     let result = `<table width="${reducedWidthByPadding}" cellspacing="0" cellpadding="0" border="0" ${item.rootElementStyle.backgroundColor.split(' ')[0] !== 'none' ? 'bgcolor="'+item.rootElementStyle.backgroundColor.split(' ')[1]+'"' : ''}>`;
     item.content.text.map((listItem, index) => {
         result += '<tr>';
-        result += `<td width="${Math.ceil(item.content.listSymbol.style.width)}" valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)} width:${item.content.listSymbol.style.width}px">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;
+        result += `<td width="${item.content.listSymbol.style.width}" valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)} width:${item.content.listSymbol.style.width}px">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;
         result += `<td width="${parseInt(item.content.listSymbol.style.inlineGap)}"></td>`;
         const remainingWidth = reducedWidthByPadding - Math.ceil(item.content.listSymbol.style.width) - parseInt(item.content.listSymbol.style.inlineGap);
         result += `<td width="${remainingWidth}" valign="${getListItemVerticalAlign(item)}" style="width:${remainingWidth}px; vertical-align: ${getListItemVerticalAlign(item)}">${getStyledListItemText(item, listItem)}</td>`;

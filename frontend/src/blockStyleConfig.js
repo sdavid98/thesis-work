@@ -3,7 +3,7 @@ import {
     changeImageAlt,
     changeImageSourceUrl,
     changeItemBackColor,
-    changeItemBorder,
+    changeItemBorder, changeItemBorderRadius,
     changeItemColor,
     changeItemFontSize,
     changeItemFontStyle,
@@ -382,8 +382,8 @@ const blockStyleConfig = [
                 'Border width': () => blockStyleValidations['borderWidth'](value) ? `${value}px` : activeItem.rootElementStyle['border'].split(' ')[2],
                 'Border color': () => value ? value : activeItem.rootElementStyle['border'].split(' ')[1]
             };
-            border[itemText] = styleValues[itemText]();
 
+            border[itemText] = styleValues[itemText]();
             return changeItemBorder(activeItem.id, `${border['Displayborder']} ${border['Border color']} ${border['Border width']}`);
         },
         hasAfterChangeFunction: false,
@@ -401,7 +401,7 @@ const blockStyleConfig = [
                         label: 'Border color',
                         watch: 'border',
                         disabled: true,
-                        displayLabel: false,
+                        displayLabel: true,
                         hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.border.split(' ').length === 3) {
@@ -415,7 +415,7 @@ const blockStyleConfig = [
                         label: 'Border width',
                         watch: 'border',
                         disabled: false,
-                        displayLabel: false,
+                        displayLabel: true,
                         hasAfterChangeFunction: false,
                         value: activeItem => {
                             if (activeItem.rootElementStyle.border.split(' ').length === 3) {
@@ -425,6 +425,26 @@ const blockStyleConfig = [
                         }
                     }
                 ]
+            }
+        ]
+    },
+    {
+        id: 'borderRadius',
+        label: 'Border radius',
+        displayLabel: true,
+        type: 'text',
+        change: (activeItem, itemText, value) => {
+            return changeItemBorderRadius(activeItem.id, parseInt(value) + 'px');
+        },
+        childChange: true,
+        items: [
+            {
+                label: 'Border radius',
+                watch: 'border',
+                disabled: false,
+                displayLabel: true,
+                hasAfterChangeFunction: false,
+                value: activeItem => parseInt(activeItem.rootElementStyle.borderRadius)
             }
         ]
     },
@@ -574,11 +594,7 @@ const blockStyleConfig = [
         type: 'select',
         change: (activeItem, text, value) => {
             if (text === 'Escape Sequence Unicode') {
-                //console.log(unescape(value), /[^\u0000-\u00ff]/.test(unescape(value)));
-                // if (/[^\u0000-\u00ff]/.test(value)) {
-                     return changeListSymbolSign(activeItem.id, value);
-                // }
-                // return changeListSymbolSign(activeItem.id, activeItem.content.listSymbol.sign);
+                return changeListSymbolSign(activeItem.id, value);
             }
             if (text === 'Image url') {
                 return changeListSymbolSrc(activeItem.id, value);

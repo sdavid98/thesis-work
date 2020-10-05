@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     },
     item: {
         display: 'grid',
-        gridTemplateColumns: 'auto 1fr',
         justifyContent: 'left'
     }
 });
@@ -72,8 +71,8 @@ const List = (props) => {
     const [listItemNum, setListItemNum] = useState(1);
 
     useEffect(() => {
-        if (activeItemId && activeItem.type === 'list' && ref.current[activeItemId] && ref.current[activeItemId].clientWidth !== activeItem.content.listSymbol.style.width) {
-            dispatch(changeListSymbolWidth(activeItemId, ref.current[activeItemId].clientWidth));
+        if (activeItemId && activeItem.type === 'list' && ref.current[activeItemId] && Math.ceil(ref.current[activeItemId].getBoundingClientRect().width) !== activeItem.content.listSymbol.style.width) {
+            dispatch(changeListSymbolWidth(activeItemId, Math.ceil(ref.current[activeItemId].getBoundingClientRect().width)));
         }
     });
 
@@ -102,7 +101,7 @@ const List = (props) => {
             style={{
                 alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
                 gridColumnGap: props.item.content.listSymbol.style.inlineGap,
-                gridTemplateColumns: `${props.item.content.listSymbol.style.width} 1fr`,
+                gridTemplateColumns: `${props.item.content.listSymbol.style.width}px 1fr`, //TODO: proper grid columns
             }}>
             <div ref={el => ref.current[props.item.id] = el} style={{
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,

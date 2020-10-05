@@ -40,6 +40,21 @@ const button = (item, width) => {
         return 'none';
     };
 
+    const getBorder = (border) => {
+        if (border.split(' ')[0] === 'none') {
+            return 'stroke="f"';
+        }
+        return `strokecolor="${border.split(' ')[1]}" strokeweigth="${border.split(' ')[2]}"`;
+    };
+
+    const getBorderRadius = () => {
+        if (item.rootElementStyle.borderRadius !== '0px') {
+            console.log(item.rootElementStyle.borderRadius, Math.min(item.rootElementStyle.height, width));
+            return `arcsize="${Math.floor(parseInt(item.rootElementStyle.borderRadius) / Math.min(item.rootElementStyle.height, width))}%"`;
+        }
+        return '';
+    };
+
     const outerStyle = {...item.rootElementStyle};
     delete outerStyle.height;
 
@@ -47,23 +62,25 @@ const button = (item, width) => {
     span.innerHTML = item.content.text;
 
     if (parseInt(item.rootElementStyle.height) > item.rootElementStyle.innerHeight) {
-        const verticalPadding = Math.floor((parseInt(item.rootElementStyle.height) - item.rootElementStyle.innerHeight) / 2);
+        let verticalPadding = Math.floor((parseInt(item.rootElementStyle.height) - item.rootElementStyle.innerHeight) / 2);
+        if (item.rootElementStyle.border.split(' ')[0] !== 'none') {
+            verticalPadding -= parseInt(item.rootElementStyle.border.split(' ')[2]);
+        }
         additionalStyles.padding = `${verticalPadding}px 0px`;
     }
 
-    return `<div>
+    return `
         <!--[if (mso)|(IE)]>
-        <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${getBgColor()}">
+        <v:${item.rootElementStyle.borderRadius === '0px' ? 'rect' : 'roundrect'} xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" ${getBorder(item.rootElementStyle.border)} ${getBorderRadius()} fillcolor="${getBgColor()}">
             <v:textbox inset="0,0,0,0"> 
                 <w:anchorlock/>
                 <center style="${getTextStyle(item.rootElementStyle)}">${a.innerHTML}</center>
             </v:textbox>
-        </v:rect>
+        </v:${item.rootElementStyle.borderRadius === '0px' ? 'rect' : 'roundrect'}>
         <![endif]-->
         <!--[if (!mso)&(!IE)]>-->
         ${pushStyleOnElement(a, {...removeUnusedStyles(outerStyle), ...additionalStyles})}
-        <![endif]-->
-    </div>`;
+        <![endif]-->`;
 };
 
 export default button;

@@ -21,6 +21,9 @@ const removeUnusedStyles = (styleObj) => {
     if (styleObj.border.split(' ')[0] === 'none') {
         delete styleObj.border;
     }
+    if (styleObj.borderRadius === '0px') {
+        delete styleObj.borderRadius;
+    }
     if (styleObj.alignItems) {
         delete styleObj.alignItems;
     }
@@ -35,7 +38,8 @@ const removeUnusedStyles = (styleObj) => {
 };
 
 const removeParentStyle = (styleObj) => {
-    ['padding', 'paddingTop', 'paddingLeft', 'paddingBottom', 'paddingRight', 'border', 'backgroundColor', 'display', 'alignItems', 'justifyContent', 'height'].map(style => {
+    ['padding', 'paddingTop', 'paddingLeft', 'paddingBottom', 'paddingRight', 'border', 'borderRadius', 'backgroundColor',
+        'display', 'alignItems', 'justifyContent', 'height'].map(style => {
         if (styleObj[style]) {
             delete styleObj[style];
         }
@@ -76,4 +80,24 @@ const pushStyleOnElement = (elem, styleObj) => {
     return expandShortHandPadding(elem.outerHTML.toString());
 };
 
-export {removeUnusedStyles, removeParentStyle, pushStyleOnElement};
+const wrapContentWithBorder = (item, border) => {
+    const {size, color} = {border};
+    const {content, width} = {item};
+    return (
+        `<table width="${item.width}" cellspacing='0' cellpadding='0' border='0'>
+            <tr>
+                <td colspan="3" width="${width}" height="${size}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
+            </tr>
+            <tr>
+                <td width="${size}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
+                ${content}
+                <td width="${size}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
+            </tr>
+            <tr>
+                <td colspan="3" width="${width}" height="${size}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
+            </tr>
+        </table>`
+    );
+};
+
+export {removeUnusedStyles, removeParentStyle, pushStyleOnElement, wrapContentWithBorder};

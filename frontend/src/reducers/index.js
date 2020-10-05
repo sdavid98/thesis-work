@@ -20,7 +20,8 @@ const initTextRootStyle = {
     textDecorationLine: 'none',
     textDecorationColor: '#171717',
     textAlign: 'left',
-    border: 'none #000000 1px'
+    border: 'none #000000 1px',
+    borderRadius: '0px'
 };
 
 const initButtonStyle = {
@@ -38,7 +39,8 @@ const initButtonStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '20px',
-    innerHeight: 17
+    innerHeight: 17,
+    borderRadius: '0px'
 };
 
 const initSpacerStyle = {
@@ -52,7 +54,8 @@ const initSpacerStyle = {
 const initImageRootStyle = {
     padding: '0px 0px 0px 0px',
     backgroundColor: 'none #ffffff',
-    border: 'none #000000 1px'
+    border: 'none #000000 1px',
+    borderRadius: '0px'
 };
 
 const items = (state = initState, action) => {
@@ -363,6 +366,18 @@ const items = (state = initState, action) => {
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
                             return {...item, rootElementStyle: {...item.rootElementStyle, border: action.style}}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'CHANGEITEMBORDERRADIUS':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.itemId) {
+                            return {...item, rootElementStyle: {...item.rootElementStyle, borderRadius: action.style}}
                         }
                         return item;
                     })

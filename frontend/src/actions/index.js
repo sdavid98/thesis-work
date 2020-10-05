@@ -158,6 +158,14 @@ const changeItemBorder = (itemId, style) => {
     }
 };
 
+const changeItemBorderRadius = (itemId, style) => {
+    return {
+        type: 'CHANGEITEMBORDERRADIUS',
+        itemId: itemId,
+        style: style
+    }
+};
+
 const changeLinkUnderlineDisplay = (itemId, display) => {
     return {
         type: 'CHANGELINKUNDERLINEDISPLAY',
@@ -455,4 +463,5 @@ export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveIte
     changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
     changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
     addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
-    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth};
+    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth,
+    changeItemBorderRadius};
