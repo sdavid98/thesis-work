@@ -95,14 +95,7 @@ const List = (props) => {
     };
 
     const listItems = props.item.content.text.map((text, index) => (
-        <div
-            key={index}
-            className={classes.item}
-            style={{
-                alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
-                gridColumnGap: props.item.content.listSymbol.style.inlineGap,
-                gridTemplateColumns: `${props.item.content.listSymbol.style.width}px 1fr`, //TODO: proper grid columns
-            }}>
+        <>
             <div ref={el => ref.current[props.item.id] = el} style={{
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
                 fontSize: props.item.content.listSymbol.style.symbolSize,
@@ -120,7 +113,7 @@ const List = (props) => {
                 delete={deleteListItem}
                 text={text}
             />
-        </div>
+        </>
     ));
 
     const getAddIcon = () => {
@@ -143,7 +136,10 @@ const List = (props) => {
             <div
                 style={{
                     display: 'grid',
-                    gridRowGap: props.item.content.listSymbol.style.listItemGap
+                    gridRowGap: props.item.content.listSymbol.style.listItemGap,
+                    alignItems: props.item.content.listSymbol.style.listSymbolVerticalAlign,
+                    gridColumnGap: props.item.content.listSymbol.style.inlineGap,
+                    gridTemplateColumns: `auto 1fr`
                 }}
             >
                 {listItems}
