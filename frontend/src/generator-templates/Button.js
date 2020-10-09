@@ -1,4 +1,4 @@
-import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles, wrapContentWithBorder} from "./styleHelpers";
 
 const additionalStyles = {
     display: 'block',
@@ -10,6 +10,8 @@ const getTextStyle = ({color, fontSize, lineHeight, fontStyle, fontWeight}) => (
 );
 
 const button = (item, width) => {
+    const hasBorder = item.rootElementStyle.border.split(' ')[0] !== 'none';
+
     const a = document.createElement('a');
     a.innerHTML = item.content.text;
     a.href = item.content.link;
@@ -41,7 +43,7 @@ const button = (item, width) => {
     };
 
     const getBorder = (border) => {
-        if (border.split(' ')[0] === 'none') {
+        if (hasBorder) {
             return 'stroke="f"';
         }
         return `strokecolor="${border.split(' ')[1]}" strokeweigth="${border.split(' ')[2]}"`;
@@ -49,8 +51,7 @@ const button = (item, width) => {
 
     const getBorderRadius = () => {
         if (item.rootElementStyle.borderRadius !== '0px') {
-            console.log(item.rootElementStyle.borderRadius, Math.min(item.rootElementStyle.height, width));
-            return `arcsize="${Math.floor(parseInt(item.rootElementStyle.borderRadius) / Math.min(item.rootElementStyle.height, width))}%"`;
+            return `arcsize="${Math.floor(parseInt(item.rootElementStyle.borderRadius) * 100 / Math.min(parseInt(item.rootElementStyle.height), width))}%"`;
         }
         return '';
     };
@@ -61,17 +62,15 @@ const button = (item, width) => {
     const span = document.createElement('span');
     span.innerHTML = item.content.text;
 
+    let verticalPadding = 0;
     if (parseInt(item.rootElementStyle.height) > item.rootElementStyle.innerHeight) {
-        let verticalPadding = Math.floor((parseInt(item.rootElementStyle.height) - item.rootElementStyle.innerHeight) / 2);
-        if (item.rootElementStyle.border.split(' ')[0] !== 'none') {
-            verticalPadding -= parseInt(item.rootElementStyle.border.split(' ')[2]);
-        }
+        verticalPadding = Math.floor((parseInt(item.rootElementStyle.height) - item.rootElementStyle.innerHeight) / 2);
         additionalStyles.padding = `${verticalPadding}px 0px`;
     }
 
     return `
         <!--[if (mso)|(IE)]>
-        <v:${item.rootElementStyle.borderRadius === '0px' ? 'rect' : 'roundrect'} xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${item.rootElementStyle.height};v-text-anchor:middle;width:${width}px;" ${getBorder(item.rootElementStyle.border)} ${getBorderRadius()} fillcolor="${getBgColor()}">
+        <v:${item.rootElementStyle.borderRadius === '0px' ? 'rect' : 'roundrect'} xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${item.content.link}" style="height:${parseInt(item.rootElementStyle.height) + parseInt(item.rootElementStyle.border.split(' ')[2]) * 2}px;v-text-anchor:middle;width:${width}px;" ${getBorder(item.rootElementStyle.border)} ${getBorderRadius()} fillcolor="${getBgColor()}">
             <v:textbox inset="0,0,0,0"> 
                 <w:anchorlock/>
                 <center style="${getTextStyle(item.rootElementStyle)}">${a.innerHTML}</center>

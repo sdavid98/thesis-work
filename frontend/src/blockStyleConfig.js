@@ -442,7 +442,7 @@ const blockStyleConfig = [
                 label: 'Border radius',
                 watch: 'border',
                 disabled: false,
-                displayLabel: true,
+                displayLabel: false,
                 hasAfterChangeFunction: false,
                 value: activeItem => parseInt(activeItem.rootElementStyle.borderRadius)
             }

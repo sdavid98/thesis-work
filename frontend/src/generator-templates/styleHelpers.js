@@ -18,7 +18,7 @@ const removeUnusedStyles = (styleObj) => {
         delete styleObj.textDecorationLine;
         delete styleObj.textDecorationColor;
     }
-    if (styleObj.border.split(' ')[0] === 'none') {
+    if (styleObj.border) {
         delete styleObj.border;
     }
     if (styleObj.borderRadius === '0px') {
@@ -81,20 +81,21 @@ const pushStyleOnElement = (elem, styleObj) => {
 };
 
 const wrapContentWithBorder = (item, border) => {
-    const {size, color} = {border};
-    const {content, width} = {item};
+    const {size, color} = border;
+    const {content, width} = item;
+    console.log(item, border);
     return (
-        `<table width="${item.width}" cellspacing='0' cellpadding='0' border='0'>
+        `<table width="${width}" cellspacing='0' cellpadding='0' border='0'>
             <tr>
-                <td colspan="3" width="${width}" height="${size}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
+                <td colspan="3" width="${width}" height="${parseInt(size)}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
             </tr>
             <tr>
-                <td width="${size}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
+                <td width="${parseInt(size)}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
                 ${content}
-                <td width="${size}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
+                <td width="${parseInt(size)}" bgcolor="${color}" style="width: ${size}; background-color: ${color}"></td>
             </tr>
             <tr>
-                <td colspan="3" width="${width}" height="${size}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
+                <td colspan="3" width="${width}" height="${parseInt(size)}" bgcolor="${color}" style="width: ${width}; background-color: ${color}"></td>
             </tr>
         </table>`
     );
