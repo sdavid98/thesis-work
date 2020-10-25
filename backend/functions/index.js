@@ -1,52 +1,67 @@
+const express = require('express');
 const ObjectId = require('mongodb').ObjectID;
 const functions = require('firebase-functions');
+const bcrypt = require('bcrypt');
+
+const getClient = require('./db');
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 
-const express = require('express');
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const saltRounds = 5;
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://nlAdmin:qpCCJpwm0P2vtmoi@malteq.j3m2h.gcp.mongodb.net/mailteq_dev?retryWrites=true&w=majority";
+const findUserByEmail = async (email) => {
+    const client = await getClient();
+    const collection = client.db("mailteq_dev").collection("users");
+    return collection.findOne({email: email});
+};
 
-app.get('/add', (req, res) => {
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-    const collection = client.db("mailteq_dev").collection("mailData");
-    client.connect(() => {
-        var myobj = { created_at: "2020-10-16 11:11", created_by: "John", name: "ASD Project DE_2020_2" };
-        collection.insertOne(myobj, (err, res) => {
+app.get('/projects', async (req, res) => {
+    const client = await getClient();
+    const collection = client.db("mailteq_dev").collection("projectInfo");
+    collection.find({}).toArray((err, data) => {
+        res.send(data);
+    });
+});
+
+app.get('/projects/:projectId', async (req, res) => {
+    const client = await getClient();
+    const collection = client.db("mailteq_dev").collection("projectInfo");
+    collection.findOne({_id: ObjectId(req.params.projectId)}).then((data) => {
+        res.send(data);
+    });
+});
+
+app.post('/register', async (req, res) => {
+    if (await findUserByEmail(req.body.email) === null) {
+        const client = await getClient();
+        const collection = client.db("mailteq_dev").collection("users");
+        const hashedPw = await bcrypt.hash(req.body.password, saltRounds);
+        const newUser = {
+            email: req.body.email,
+            password: hashedPw,
+            name: req.body.name
+        };
+        collection.insertOne(newUser, (err, response) => {
             if (err) throw err;
-            console.log("1 document inserted");
+            res.send({registered: true, pw: hashedPw});
+            console.log("1 user inserted");
         });
-        client.close();
-    });
-    res.send('New Document Added to Collection "mailData"');
+    } else {
+        res.send({registered: false});
+    }
 });
-
-app.get('/list', (req, res) => {
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-    client.connect(() => {
-        const collection = client.db("mailteq_dev").collection("mailData");
-        collection.find({}).toArray((err, data) => {
-            res.send(data);
-            client.close();
-        });
-    });
-
+app.post('/login', async (req, res) => {
+    const user = await findUserByEmail(req.body.email);
+    if (user) {
+        bcrypt.compare(req.body.password, user.password).then(result => {
+            res.send({dbpw: user.password, result});
+        })
+    }
 });
-
-app.get('/list/:projectId', (req, res) => {
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-    client.connect(() => {
-        const collection = client.db("mailteq_dev").collection("mailData");
-        collection.findOne({_id: ObjectId(req.params.projectId)}).then(data => {
-            res.send(data);
-            client.close();
-        });
-    });
-});
-
 exports.app = functions.https.onRequest(app);
