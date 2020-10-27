@@ -4,19 +4,15 @@ const functions = require('firebase-functions');
 const bcrypt = require('bcrypt');
 const redis = require("redis");
 const session = require('express-session');
-
 const RedisStore = require('connect-redis')(session);
+const getClient = require('./db');
+
 const redisClient = redis.createClient({
     host: 'eu1-gorgeous-ladybug-30556.lambda.store',
     port: '30556',
     password: '958c6e8da26649ad8f91a04a06408e2c',
     tls: {}
 });
-redisClient.on("error", function (err) {
-    throw err;
-});
-
-const getClient = require('./db');
 
 const app = express();
 app.use(express.json());
@@ -29,10 +25,6 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
 
 const saltRounds = 5;
 
@@ -47,6 +39,30 @@ app.get('/projects', async (req, res) => {
     const collection = client.db("mailteq_dev").collection("projectInfo");
     collection.find({}).toArray((err, data) => {
         res.send(data);
+    });
+});
+
+app.post('/projects/new', async (req, res) => {
+    const client = await getClient();
+    const mailData = client.db("mailteq_dev").collection("mailData");
+    const projectInfo = client.db("mailteq_dev").collection("projectInfo");
+
+    redisClient.get('userID', (err, key) => {
+        if (err) throw err;
+        mailData.insertOne(req.body.mailData, (err, response) => {
+            if (err) throw err;
+            const projectData = {
+                _id: ObjectId(response.insertedId),
+                created_at: Date.now(),
+                created_by: key,
+                name: req.body.mailData.items.projectInfo.name
+            };
+            projectInfo.insertOne(projectData, { forceServerObjectId: false }, (err, response) => {
+                if (err) throw err;
+                console.log("1 info inserted", response.ops);
+                res.send({saved: true});
+            });
+        });
     });
 });
 
@@ -70,7 +86,7 @@ app.post('/register', async (req, res) => {
         };
         collection.insertOne(newUser, (err, response) => {
             if (err) throw err;
-            res.send({registered: true, pw: hashedPw});
+            res.send({registered: true});
             console.log("1 user inserted");
         });
     } else {
@@ -86,7 +102,11 @@ app.post('/login', async (req, res) => {
     const user = await findUserByEmail(req.body.email);
     if (user && await bcrypt.compare(req.body.password, user.password)) {
         redisClient.set('isLoggedIn', true);
+        redisClient.set('userID', user._id.toString());
         res.send({login: 'logged in now'});
+    }
+    else {
+        res.send({login: 'failed'});
     }
 });
 
