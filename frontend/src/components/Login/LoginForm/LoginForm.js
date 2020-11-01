@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-const Login = ({submit, isRegisterForm}) => {
+const LoginForm = ({submit, isRegisterForm}) => {
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
@@ -55,4 +55,4 @@ const Login = ({submit, isRegisterForm}) => {
     );
 };
 
-export default Login;
+export default LoginForm;

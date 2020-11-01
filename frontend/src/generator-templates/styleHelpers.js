@@ -39,7 +39,7 @@ const removeUnusedStyles = (styleObj) => {
 
 const removeParentStyle = (styleObj) => {
     ['padding', 'paddingTop', 'paddingLeft', 'paddingBottom', 'paddingRight', 'border', 'borderRadius', 'backgroundColor',
-        'display', 'alignItems', 'justifyContent', 'height'].map(style => {
+        'display', 'alignItems', 'justifyContent', 'height'].forEach(style => {
         if (styleObj[style]) {
             delete styleObj[style];
         }
@@ -74,7 +74,7 @@ const expandShortHandPadding = str => {
 };
 
 const pushStyleOnElement = (elem, styleObj) => {
-    Object.keys(styleObj).map(key => {
+    Object.keys(styleObj).forEach(key => {
         elem.style[key] = styleObj[key];
     });
     return expandShortHandPadding(elem.outerHTML.toString());

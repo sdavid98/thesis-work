@@ -1,4 +1,4 @@
-import {pushStyleOnElement, removeParentStyle, removeUnusedStyles, wrapContentWithBorder} from "./styleHelpers";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
 
 const additionalStyles = {
     display: 'block',
@@ -26,7 +26,7 @@ const button = (item, width) => {
 
         const itemStyle = removeParentStyle(removeUnusedStyles({...item.rootElementStyle}));
         span.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
-        Object.keys(itemStyle).map(key => {
+        Object.keys(itemStyle).forEach(key => {
             if (['display', 'height'].indexOf(key) < 0) {
                 span.style[key] = itemStyle[key];
             }

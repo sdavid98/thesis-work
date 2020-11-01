@@ -1,30 +1,68 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Panel from "../../Panel";
 import MenuItems from "../../MenuItems";
 import BlockSettings from "../../BlockSettings";
-import {changeActiveItemId} from "../../../actions";
+import {changeActiveItemId, changePreheader, changeProjectName} from "../../../actions";
 import Popup from "../../Popup";
 import StructureEditor from "../../StructureEditor";
 import Canvas from "../../Canvas";
 import RowActions from "../../RowActions";
 import Button from "@material-ui/core/Button";
 import Generator from "../../Generator";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import axios from "../../../axios";
+import {useHistory} from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+
+const useStyles = makeStyles(() => ({
+    wrapper: {
+        padding: '20px 15px',
+        display: 'grid',
+        gridAutoFlow: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottom: 'solid 1px #cacaca;'
+    },
+    menu: {
+        display: 'grid',
+        gridAutoFlow: 'column',
+        gridGap: 40,
+        justifyContent: 'left',
+        height: 36
+    },
+    label: {
+        fontSize: '0.9rem',
+        color: '#0000008a'
+    },
+    grid: {
+        display: 'grid',
+        gridAutoFlow: 'column',
+        gridGap: 50,
+        gridTemplateColumns: '200px 200px',
+        marginBottom: 15
+    }
+}));
 
 const Edit = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
-    const canvasStyle = useSelector(state => state.items.canvasStyle);
-    const rowStyles = useSelector(state => state.items.rowStyles);
-    const structureData = useSelector(state => state.structure.data);
-    const contents = useSelector(state => state.items.draggables);
+    const history = useHistory();
+    const state = useSelector(state => state);
+    const canvasStyle = state.items.canvasStyle;
+    const rowStyles = state.items.rowStyles;
+    const structureData = state.structure.data;
+    const contents = state.items.draggables;
+    const [open, setOpen] = React.useState(false);
+    const [projectNameText, updateProjectNameText] = useState('initialStateValue');
+    const [preheaderText, updatepreheaderText] = useState('initialStateValue');
 
     const clickHandler = (e) => {
-        if(e.target.className === 'ui') {
+        if (e.target.className === 'ui') {
             dispatch(changeActiveItemId(null));
         }
     };
-
-    const [open, setOpen] = React.useState(false);
 
     const handleOpen = (num) => {
         setOpen(num);
@@ -34,24 +72,83 @@ const Edit = () => {
         setOpen(false);
     };
 
+    const getValue = (textInput, key) => {
+        if (textInput !== 'initialStateValue') {
+            return textInput;
+        }
+        return state.items.projectInfo[key];
+    };
+
+    const onProjectSave = () => {
+        axios.post('/projects/new', {mailData: {...state}})
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    const keyup = (e, action) => {
+        if (e.keyCode === 13) {
+            dispatch(action(e.target.value));
+        }
+    };
+
     return (
-        <div className="App" style={{backgroundColor: canvasStyle.backColor}}>
-            <div className="ui" onClick={clickHandler}>
-                <Panel>
-                    <Button onClick={() => Generator(structureData, contents, canvasStyle, rowStyles)} color='primary' variant='contained'>GENERATE</Button>
-                    <MenuItems modalOpener={handleOpen} />
-                    <RowActions modalOpener={handleOpen}/>
-                    <BlockSettings rowSettings={true} />
-                </Panel>
-                <Canvas/>
-                <Panel>
-                    <BlockSettings rowSettings={false} />
-                </Panel>
+        <>
+            <div className={classes.wrapper}>
+                <div className={classes.grid}>
+                    <div>
+                        <Grid item className={classes.label}>
+                            Project Name
+                        </Grid>
+                        <TextField
+                            value={getValue(projectNameText, 'name')}
+                            onChange={(e) => updateProjectNameText(e.target.value)}
+                            InputProps={{
+                                onKeyUp: (e) => keyup(e, changeProjectName)
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <Grid item className={classes.label}>
+                            Email Preheader
+                        </Grid>
+                        <TextField
+                            value={getValue(preheaderText, 'preheader')}
+                            onChange={(e) => updatepreheaderText(e.target.value)}
+                            InputProps={{
+                                onKeyUp: (e) => keyup(e, changePreheader)
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className={classes.menu}>
+                    <Button onClick={onProjectSave} variant='outlined' color='primary'>Save</Button>
+                    <Button onClick={() => history.push('/projects')} variant='outlined' color='secondary'>Cancel</Button>
+                    <Button onClick={() => Generator(structureData, contents, canvasStyle, rowStyles)}
+                            color='primary' variant='contained'>Download</Button>
+                </div>
             </div>
-            <Popup open={open === 1} modalCloser={handleClose}>
-                <StructureEditor/>
-            </Popup>
-        </div>
+            <div className="App" style={{backgroundColor: canvasStyle.backColor}}>
+                <div className="ui" onClick={clickHandler}>
+                    <Panel>
+
+                        <MenuItems modalOpener={handleOpen}/>
+                        <RowActions modalOpener={handleOpen}/>
+                        <BlockSettings rowSettings={true}/>
+                    </Panel>
+                    <Canvas/>
+                    <Panel>
+                        <BlockSettings rowSettings={false}/>
+                    </Panel>
+                </div>
+                <Popup open={open === 1} modalCloser={handleClose}>
+                    <StructureEditor/>
+                </Popup>
+            </div>
+        </>
     );
 };
 

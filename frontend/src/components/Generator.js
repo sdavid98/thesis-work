@@ -43,7 +43,7 @@ const generator = (structureData, contents, canvasStyle, rowStyles) => {
     const create = (columns, rows, width, dataId, initStyle = false) => {
         let result = '';
         result += `<table width="${width}" ${initStyle ? getInitRowStyle(dataId) : ''} cellspacing='0' cellpadding='0' border='0'><tr>`;
-        columns.map((col) => {
+        columns.forEach((col) => {
             result += `<td align="${rowStyles.find(row => row.id === dataId).justifyContent}" width='${col.width}' valign='top'><table width='${col.width}' cellspacing='0' cellpadding='0' border='0'>`;
             col.rows.map(colRow => {
                 return rows.filter(row => row.id === colRow).map((row, index) => {

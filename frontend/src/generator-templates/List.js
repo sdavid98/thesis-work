@@ -29,7 +29,7 @@ const getStyledListItemText = (item, content) => {
         const itemStyle = removeParentStyle(removeUnusedStyles({...item.rootElementStyle}));
         node.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
         node.style.margin = '0';
-        Object.keys(itemStyle).map(key => {
+        Object.keys(itemStyle).forEach(key => {
             node.style[key] = itemStyle[key];
         });
 
@@ -44,7 +44,7 @@ const list = (item, width) => {
     }
 
     let result = `<table width="${reducedWidthByPadding}" cellspacing="0" cellpadding="0" border="0" ${item.rootElementStyle.backgroundColor.split(' ')[0] !== 'none' ? 'bgcolor="'+item.rootElementStyle.backgroundColor.split(' ')[1]+'"' : ''}>`;
-    item.content.text.map((listItem, index) => {
+    item.content.text.forEach((listItem, index) => {
         result += '<tr>';
         result += `<td width="${item.content.listSymbol.style.width}" valign="${getListItemVerticalAlign(item)}" style="${generateListItemStyle(item)} width:${item.content.listSymbol.style.width}px">${getListSign(index, item)}${getTrailingCharacters(item)}</td>`;
         result += `<td width="${parseInt(item.content.listSymbol.style.inlineGap)}"></td>`;

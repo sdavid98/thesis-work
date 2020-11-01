@@ -1,4 +1,8 @@
 const initState = {
+    projectInfo: {
+      name: 'Project Name',
+      preheader: 'Email Preheader'
+    },
     draggables: [],
     activeItemId: null,
     rowStyles: [],
@@ -630,6 +634,22 @@ const items = (state = initState, action) => {
                     return style;
                 })
             };
+        case 'CHANGEPROJECTNAME':
+            return {
+                ...state,
+                projectInfo: {
+                    ...state.projectInfo,
+                    name: action.value
+                }
+            };
+        case 'CHANGEPREHEADER':
+            return {
+                ...state,
+                projectInfo: {
+                    ...state.projectInfo,
+                    preheader: action.value
+                }
+            };
         default:
             return state;
     }
@@ -940,4 +960,26 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
     }
 };
 
-export {items, structure};
+const initUserState = {
+    isLoggedIn: false,
+    username: '',
+    userGroup: ''
+};
+const user = (state = initUserState, action) => {
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                isLoggedIn: true,
+                name: action.name,
+                group: action.group
+            };
+        case 'LOGOUT':
+            return {
+                ...initUserState
+            };
+        default:
+            return state;
+    }
+};
+
+export {items, structure, user};

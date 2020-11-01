@@ -2,6 +2,7 @@ const express = require('express');
 const ObjectId = require('mongodb').ObjectID;
 const functions = require('firebase-functions');
 const bcrypt = require('bcrypt');
+const { v4: uuid } = require('uuid');
 const redis = require("redis");
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
@@ -19,8 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(session({
-    name: 'redisIntro',
+    genid: (req) => {
+        return uuid()
+    },
+    name: '_redisIntro',
     store: new RedisStore({client: redisClient}),
+    cookie: { secure: false, maxAge: 60000 },
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
@@ -95,19 +100,28 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    if (redisClient.get('isLoggedIn', (err, reply) => reply === true)) {
+    /*if (redisClient.get('isLoggedIn', (err, reply) => reply === true)) {
         res.send({login: 'already logged in'});
         return;
-    }
+    }*/
     const user = await findUserByEmail(req.body.email);
     if (user && await bcrypt.compare(req.body.password, user.password)) {
+        req.session.key = user;
         redisClient.set('isLoggedIn', true);
         redisClient.set('userID', user._id.toString());
-        res.send({login: 'logged in now'});
+        res.send({user: {name: user.name, group: user.group}});
     }
     else {
         res.send({login: 'failed'});
     }
+});
+
+app.get('/logout', async (req, res) => {
+    console.log(req.session);
+    /*redisClient.del('isLoggedIn', (err, reply) => {
+        res.send({login: 'deleted login'});
+    });*/
+    res.send();
 });
 
 exports.app = functions.https.onRequest(app);

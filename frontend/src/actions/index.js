@@ -454,6 +454,34 @@ const changeInnerHeight = (itemId, height) => {
     }
 };
 
+const changeProjectName = (name) => {
+    return {
+        type: 'CHANGEPROJECTNAME',
+        value: name
+    }
+};
+
+const changePreheader = (name) => {
+    return {
+        type: 'CHANGEPREHEADER',
+        value: name
+    }
+};
+
+const login = (name, group) => {
+    return {
+        type: 'LOGIN',
+        name,
+        group
+    }
+};
+
+const logout = () => {
+    return {
+        type: 'LOGOUT'
+    }
+};
+
 export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, changeItemColor, changeItemBackColor,
     changeItemFontSize, changeItemLineHeight, changeItemFontWeight, changeItemFontStyle, changeItemTextDecoration,
@@ -464,4 +492,4 @@ export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveIte
     changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
     addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
     changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth,
-    changeItemBorderRadius};
+    changeItemBorderRadius, changePreheader, changeProjectName, login, logout};
