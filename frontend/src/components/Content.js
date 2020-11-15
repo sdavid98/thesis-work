@@ -93,13 +93,13 @@ const Content = (props) => {
 
 
     return (
-        <div className={props.item.id === activeItemId ? 'active-content' : ''} style={{height: '100%', position: 'relative'}} onClick={() => dispatch(changeActiveItemId(props.item.id))}>
+        <div className={(props.item.id === activeItemId && !props.readOnly) ? 'active-content' : ''} style={{height: '100%', position: 'relative'}} onClick={() => dispatch(changeActiveItemId(props.item.id))}>
             <div className="drag-delete" onClick={(e) => handleDragDelete(e)}>x</div>
             <div
                 className={`content ${!props.item.underlineLinksIfPresent ? classes['noLinkUnderline'] : ''} ${props.item.type === 'button' ? 'content-button' : ''}`}
                 style={{...props.item.rootElementStyle, backgroundColor: getBgColor()}}
             >
-                {activeItemId === props.item.id ? getActiveItem() : getPassiveItem()}
+                {(activeItemId === props.item.id && !props.readOnly) ? getActiveItem() : getPassiveItem()}
             </div>
         </div>
     );

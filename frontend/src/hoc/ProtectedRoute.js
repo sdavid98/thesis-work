@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect} from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, user, ...rest }) => {
     return (
@@ -8,6 +8,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
                 if (user) {
                     return <Component {...rest} {...props} />
                 } else {
+                    console.log(props.location);
                     return <Redirect to={
                         {
                             pathname: '/login',

@@ -482,6 +482,32 @@ const logout = () => {
     }
 };
 
+const openForEditItems = (data) => {
+    return {
+        type: 'OPENFOREDITITEMS',
+        data
+    }
+};
+
+const openForEditStructure = (data) => {
+    return {
+        type: 'OPENFOREDITSTRUCTURE',
+        data
+    }
+};
+
+const clearItems = () => {
+    return {
+        type: 'CLEARITEMS'
+    }
+};
+
+const clearStructure = () => {
+    return {
+        type: 'CLEARSTRUCTURE'
+    }
+};
+
 export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
     createListDraggable, createImageDraggable, addNewListItem, changeListItems, changeItemColor, changeItemBackColor,
     changeItemFontSize, changeItemLineHeight, changeItemFontWeight, changeItemFontStyle, changeItemTextDecoration,
@@ -492,4 +518,5 @@ export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveIte
     changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
     addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
     changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth,
-    changeItemBorderRadius, changePreheader, changeProjectName, login, logout};
+    changeItemBorderRadius, changePreheader, changeProjectName, login, logout, openForEditItems, openForEditStructure,
+    clearItems, clearStructure};

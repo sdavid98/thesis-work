@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import axios from "../../../axios";
 import ListItem from "./ListItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
+import Popup from "../../Popup";
 
 const useStyles = makeStyles({
     root: {
@@ -24,6 +26,8 @@ const List = () => {
     const navigateToNewProject = () => history.push('/projects/new');
     const [projectsInfo, updateProjectsInfo] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [viewLink, updateViewLink] = useState('');
+    const [open, updateOpen] = useState(false);
 
     const initProjectsList = () => {
         axios.get('/projects').then(res => {
@@ -41,6 +45,14 @@ const List = () => {
         initProjectsList();
     }, []);
 
+    const handleOpen = () => {
+        updateOpen(true);
+    };
+
+    const handleClose = () => {
+        updateOpen(false);
+    };
+
     if (isLoading) {
         return <div>Loading</div>;
     }
@@ -48,11 +60,18 @@ const List = () => {
     return (
         <>
             <div className={classes.root}>
-                {projectsInfo.map((project, index) => <ListItem key={index} project={project} />)}
+                {projectsInfo.map((project, index) => <ListItem handleModalOpen={handleOpen}
+                                                                updateViewLink={updateViewLink} key={index}
+                                                                project={project}/>)}
             </div>
             <Fab className={classes.fab} onClick={navigateToNewProject} color="primary" aria-label="add">
-                <AddIcon />
+                <AddIcon/>
             </Fab>
+            <Popup open={open} modalCloser={handleClose}>
+                The actual version of this project can be viewed by anyone through this link:<br/><br/>
+                <TextField fullWidth disabled variant={'outlined'}
+                           value={`${window.location.protocol}//${window.location.host}/projects/view/${viewLink}`}/>
+            </Popup>
         </>
     );
 };

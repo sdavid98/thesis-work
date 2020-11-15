@@ -95,7 +95,7 @@ const List = (props) => {
     };
 
     const listItems = props.item.content.text.map((text, index) => (
-        <>
+        <React.Fragment key={index}>
             <div ref={el => ref.current[props.item.id] = el} style={{
                 paddingTop: props.item.content.listSymbol.style.listSymbolPaddingTop,
                 fontSize: props.item.content.listSymbol.style.symbolSize,
@@ -113,7 +113,7 @@ const List = (props) => {
                 delete={deleteListItem}
                 text={text}
             />
-        </>
+        </React.Fragment>
     ));
 
     const getAddIcon = () => {

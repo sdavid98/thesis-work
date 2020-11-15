@@ -650,12 +650,25 @@ const items = (state = initState, action) => {
                     preheader: action.value
                 }
             };
+        case 'OPENFOREDITITEMS':
+            return {
+                ...action.data
+            };
+        case 'CLEARITEMS':
+            return {
+                ...initState
+            };
         default:
             return state;
     }
 };
 
-const structure = (state = {activeDataId: null, data: []}, action) => {
+const initStructureState = {
+    activeDataId: null,
+    data: []
+};
+
+const structure = (state = {...initStructureState}, action) => {
     switch (action.type) {
         case 'INITCUSTOM':
         case 'INITCOL1':
@@ -954,6 +967,14 @@ const structure = (state = {activeDataId: null, data: []}, action) => {
             return {
                 ...state,
                 showRegions: !state.showRegions,
+            };
+        case 'OPENFOREDITSTRUCTURE':
+            return {
+                ...action.data
+            };
+        case 'CLEARSTRUCTURE':
+            return {
+                ...initStructureState
             };
         default:
             return state;

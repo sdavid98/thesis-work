@@ -44,9 +44,9 @@ const StructureBuild = (props) => {
 
     const getContent = (contentId, rowId) => {
         if (props.isOnCanvas && contentId && contentItems.find(item => item.id === contentId)) {
-            return <Content item={contentItems.find(item => item.id === contentId)} />
+            return <Content readOnly={props.readOnly || false} item={contentItems.find(item => item.id === contentId)} />
         }
-        if (props.isOnCanvas && props.active) {
+        if (props.isOnCanvas && props.active && !props.readOnly) {
             return (
                 <div style={{display: 'grid', justifyContent: 'center'}}>
                     <IconButton edge="end" aria-label="add" onClick={(e) => handlePopoverOpen(e, props.dataId, rowId)}>

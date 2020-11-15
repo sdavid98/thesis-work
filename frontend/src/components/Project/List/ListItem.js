@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import {Link, useHistory} from "react-router-dom";
 
 const useStyles = makeStyles({
     root: {
@@ -29,8 +30,9 @@ const useStyles = makeStyles({
     }
 });
 
-const ListItem = ({project}) => {
+const ListItem = ({project, updateViewLink, handleModalOpen}) => {
     const classes = useStyles();
+    const history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -40,6 +42,21 @@ const ListItem = ({project}) => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const onEditClick = () => {
+        history.push('/projects/' + project._id);
+    };
+
+    const dateToLocalTimeString = (date) => {
+        const dateToConvert = new Date(date);
+        return dateToConvert.toLocaleString(window.navigator.language);
+    };
+
+    const setViewLink = () => {
+        updateViewLink(project.view_id);
+        handleModalOpen();
+        handleClose();
     };
 
     return (
@@ -67,11 +84,11 @@ const ListItem = ({project}) => {
                         }}
                         onClose={handleClose}
                     >
-                        <MenuItem key='1' onClick={handleClose}>
+                        <MenuItem key='1' onClick={setViewLink}>
                             Share
                         </MenuItem>
                         <MenuItem key='2' onClick={handleClose}>
-                            View feedback
+                            <Link target='_blank' to={"/projects/view/" + project.view_id}>View feedback</Link>
                         </MenuItem>
                         <MenuItem key='3' onClick={handleClose}>
                             Duplicate
@@ -84,16 +101,18 @@ const ListItem = ({project}) => {
                         {project.name}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Created: {project.created_at} by {project.created_by}<br/>
-                        Last updated: {project.created_at} by {project.created_by}
+                        Created: {dateToLocalTimeString(project.created_at)} by {project.created_by}<br/>
+                        {!!project.updated_at &&
+                            `Last updated: ${dateToLocalTimeString(project.updated_at)} by ${project.updated_by}`
+                        }
                     </Typography>
                 </div>
                 <CardActions>
-                    <Button size="small" color="primary">
+                    <Button onClick={onEditClick} size="small" color="primary">
                         Edit
                     </Button>
                     <Button size="small" color="primary">
-                        Download
+                         Download
                     </Button>
                 </CardActions>
             </CardContent>

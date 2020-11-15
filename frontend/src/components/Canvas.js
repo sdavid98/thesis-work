@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import StructureBuild from "./StructureBuild";
 import {changeActiveStructureId} from "../actions";
 
-const Canvas = () => {
+const Canvas = (props) => {
     const dispatch = useDispatch();
     const canvasStyle = useSelector(state => state.items.canvasStyle);
     const rowStyles = useSelector(state => state.items.rowStyles);
@@ -29,6 +29,7 @@ const Canvas = () => {
                         index={index}
                         active={data.id === activeStructureItemId}
                         isOnCanvas={true}
+                        readOnly={props.readOnly || false}
                     />
                 </div>
             ))}
