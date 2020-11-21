@@ -10,6 +10,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {Link, useHistory} from "react-router-dom";
+import {dateToLocalTimeString} from "../../../utils/date";
 
 const useStyles = makeStyles({
     root: {
@@ -46,11 +47,6 @@ const ListItem = ({project, updateViewLink, handleModalOpen}) => {
 
     const onEditClick = () => {
         history.push('/projects/' + project._id);
-    };
-
-    const dateToLocalTimeString = (date) => {
-        const dateToConvert = new Date(date);
-        return dateToConvert.toLocaleString(window.navigator.language);
     };
 
     const setViewLink = () => {

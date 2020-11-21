@@ -1,7 +1,7 @@
 const initState = {
     projectInfo: {
-      name: 'Project Name',
-      preheader: 'Email Preheader'
+        name: 'Project Name',
+        preheader: 'Email Preheader'
     },
     draggables: [],
     activeItemId: null,
@@ -67,7 +67,7 @@ const items = (state = initState, action) => {
         case 'CREATEBASICDRAGGABLE':
             return {
                 ...state,
-                draggables: [ ...state.draggables,
+                draggables: [...state.draggables,
                     {
                         id: action.id,
                         type: action.itemType,
@@ -86,7 +86,7 @@ const items = (state = initState, action) => {
         case 'CREATEBUTTONDRAGGABLE':
             return {
                 ...state,
-                draggables: [ ...state.draggables,
+                draggables: [...state.draggables,
                     {
                         id: action.id,
                         type: action.itemType,
@@ -105,7 +105,7 @@ const items = (state = initState, action) => {
         case 'CREATESPACERDRAGGABLE':
             return {
                 ...state,
-                draggables: [ ...state.draggables,
+                draggables: [...state.draggables,
                     {
                         id: action.id,
                         type: action.itemType,
@@ -124,7 +124,7 @@ const items = (state = initState, action) => {
         case 'CREATELISTDRAGGABLE':
             return {
                 ...state,
-                draggables: [ ...state.draggables,
+                draggables: [...state.draggables,
                     {
                         id: action.id,
                         type: action.itemType,
@@ -160,7 +160,7 @@ const items = (state = initState, action) => {
         case 'CREATEIMAGEDRAGGABLE':
             return {
                 ...state,
-                draggables: [ ...state.draggables,
+                draggables: [...state.draggables,
                     {
                         id: action.id,
                         type: action.itemType,
@@ -225,7 +225,10 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, text: [...item.content.text, action.newListItem]}}
+                            return {
+                                ...item,
+                                content: {...item.content, text: [...item.content.text, action.newListItem]}
+                            }
                         }
                         return item;
                     }),
@@ -273,7 +276,10 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, rootElementStyle: {...item.rootElementStyle, backgroundColor: action.style}}
+                            return {
+                                ...item,
+                                rootElementStyle: {...item.rootElementStyle, backgroundColor: action.style}
+                            }
                         }
                         return item;
                     })
@@ -333,7 +339,10 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, rootElementStyle: {...item.rootElementStyle, textDecorationLine: action.style}}
+                            return {
+                                ...item,
+                                rootElementStyle: {...item.rootElementStyle, textDecorationLine: action.style}
+                            }
                         }
                         return item;
                     })
@@ -345,7 +354,10 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, rootElementStyle: {...item.rootElementStyle, textDecorationColor: action.style}}
+                            return {
+                                ...item,
+                                rootElementStyle: {...item.rootElementStyle, textDecorationColor: action.style}
+                            }
                         }
                         return item;
                     })
@@ -441,7 +453,13 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, type: action.symbolType}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {...item.content.listSymbol, type: action.symbolType}
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -453,7 +471,10 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, sign: action.sign}}}
+                            return {
+                                ...item,
+                                content: {...item.content, listSymbol: {...item.content.listSymbol, sign: action.sign}}
+                            }
                         }
                         return item;
                     }),
@@ -465,7 +486,13 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, signSrc: action.src}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {...item.content.listSymbol, signSrc: action.src}
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -477,7 +504,13 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, trailingCharacters: action.chars}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {...item.content.listSymbol, trailingCharacters: action.chars}
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -489,7 +522,19 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, imageStyle: {...item.content.listSymbol.imageStyle, symbolImageHeight: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        imageStyle: {
+                                            ...item.content.listSymbol.imageStyle,
+                                            symbolImageHeight: action.style
+                                        }
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -501,7 +546,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listSymbolVerticalAlign: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, listSymbolVerticalAlign: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -513,7 +567,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listSymbolPaddingTop: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, listSymbolPaddingTop: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -525,7 +588,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, symbolSize: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, symbolSize: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -537,7 +609,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, listItemGap: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, listItemGap: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -549,7 +630,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, inlineGap: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, inlineGap: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -561,7 +651,16 @@ const items = (state = initState, action) => {
                 draggables:
                     state.draggables.map(item => {
                         if (item.id === action.itemId) {
-                            return {...item, content: {...item.content, listSymbol: {...item.content.listSymbol, style: {...item.content.listSymbol.style, width: action.style}}}}
+                            return {
+                                ...item,
+                                content: {
+                                    ...item.content,
+                                    listSymbol: {
+                                        ...item.content.listSymbol,
+                                        style: {...item.content.listSymbol.style, width: action.style}
+                                    }
+                                }
+                            }
                         }
                         return item;
                     }),
@@ -889,11 +988,11 @@ const structure = (state = {...initStructureState}, action) => {
                     ...state.data.map(item => item.id === state.activeDataId ?
                         {
                             ...item,
-                            rowIndex: item.rowIndex+1,
+                            rowIndex: item.rowIndex + 1,
                             columns: item.columns.map(col => col.id === action.colId ?
-                                {...col, rows: [...col.rows, 'row'+item.rowIndex]}
+                                {...col, rows: [...col.rows, 'row' + item.rowIndex]}
                                 : {...col}),
-                            rows: [...item.rows, {id: 'row'+item.rowIndex, columns: false, content: false}]
+                            rows: [...item.rows, {id: 'row' + item.rowIndex, columns: false, content: false}]
                         }
                         : {...item}
                     )
@@ -1003,4 +1102,41 @@ const user = (state = initUserState, action) => {
     }
 };
 
-export {items, structure, user};
+const comments = (state = {shouldSave: false, comments: []}, action) => {
+    switch (action.type) {
+        case 'NEWCOMMENT':
+            return {
+                shouldSave: true,
+                comments: [
+                    ...state.comments,
+                    {
+                        ...action.comment,
+                        time: Date.now()
+                    }
+                ]
+            };
+        case 'DELETECOMMENT':
+            return {
+                shouldSave: true,
+                comments: [
+                    ...state.comments.filter(comment => comment.id !== action.id)
+                ]
+            };
+        case 'LOADFROMSERVER':
+            return {
+                shouldSave: false,
+                comments: [
+                    ...action.comments
+                ]
+            };
+        case 'SAVEDCOMMENT':
+            return {
+                ...state.comments,
+                shouldSave: false
+            };
+        default:
+            return state;
+    }
+};
+
+export {items, structure, user, comments};

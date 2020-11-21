@@ -60,16 +60,16 @@ const Edit = () => {
     const user = state.user;
     const canvasStyle = state.items.canvasStyle;
     const rowStyles = state.items.rowStyles;
-    const structureData = state.structure.data;
     const contents = state.items.draggables;
-    const [open, setOpen] = React.useState(false);
+    const structureData = state.structure.data;
+    const [open, setOpen] = useState(false);
     const [projectNameText, updateProjectNameText] = useState('initialStateValue');
     const [preheaderText, updatepreheaderText] = useState('initialStateValue');
     const [isLoading, updateIsLoading] = useState(true);
     const [isNewProject, updateIsNewProject] = useState(true);
 
     const initProjectEdit = useCallback((id) => {
-        axios.get('projects/' + id).then((res) => {
+        axios.get('/projects/' + id).then((res) => {
             console.log(res);
             dispatch(openForEditItems(res.data.items));
             dispatch(openForEditStructure(res.data.structure));
@@ -113,7 +113,7 @@ const Edit = () => {
     };
 
     const onProjectSave = () => {
-        let apiEndPoint = 'projects/new';
+        let apiEndPoint = '/projects/new';
         const payload = {
             mailData: {
                 structure: state.structure,
@@ -126,7 +126,7 @@ const Edit = () => {
         };
 
         if (!isNewProject) {
-            apiEndPoint = 'projects/' + params.projectId;
+            apiEndPoint = '/projects/' + params.projectId;
         }
 
         axios.post(apiEndPoint, {payload})

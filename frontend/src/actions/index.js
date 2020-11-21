@@ -1,4 +1,4 @@
-const createBasicDraggable = (itemType, id) => {
+export const createBasicDraggable = (itemType, id) => {
     return {
         type: 'CREATEBASICDRAGGABLE',
         itemType: itemType,
@@ -6,7 +6,7 @@ const createBasicDraggable = (itemType, id) => {
     };
 };
 
-const createButtonDraggable = (itemType, id) => {
+export const createButtonDraggable = (itemType, id) => {
     return {
         type: 'CREATEBUTTONDRAGGABLE',
         itemType: itemType,
@@ -14,7 +14,7 @@ const createButtonDraggable = (itemType, id) => {
     };
 };
 
-const createSpacerDraggable = (itemType, id) => {
+export const createSpacerDraggable = (itemType, id) => {
     return {
         type: 'CREATESPACERDRAGGABLE',
         itemType: itemType,
@@ -22,7 +22,7 @@ const createSpacerDraggable = (itemType, id) => {
     };
 };
 
-const createListDraggable = (itemType, id) => {
+export const createListDraggable = (itemType, id) => {
     return {
         type: 'CREATELISTDRAGGABLE',
         itemType: itemType,
@@ -30,7 +30,7 @@ const createListDraggable = (itemType, id) => {
     };
 };
 
-const createImageDraggable = (itemType, id) => {
+export const createImageDraggable = (itemType, id) => {
     return {
         type: 'CREATEIMAGEDRAGGABLE',
         itemType: itemType,
@@ -38,7 +38,7 @@ const createImageDraggable = (itemType, id) => {
     };
 };
 
-const resizeItem = (itemId, height) => {
+export const resizeItem = (itemId, height) => {
     return {
         type: 'RESIZEITEM',
         itemId: itemId,
@@ -46,7 +46,7 @@ const resizeItem = (itemId, height) => {
     }
 };
 
-const changeItemContent = (itemId, text) => {
+export const changeItemContent = (itemId, text) => {
     return {
         type: 'CHANGECONTENT',
         itemId: itemId,
@@ -54,7 +54,7 @@ const changeItemContent = (itemId, text) => {
     }
 };
 
-const addNewListItem = (itemId, newListItem) => {
+export const addNewListItem = (itemId, newListItem) => {
     return {
         type: 'ADDNEWLISTITEM',
         itemId: itemId,
@@ -62,7 +62,7 @@ const addNewListItem = (itemId, newListItem) => {
     }
 };
 
-const changeListItems = (itemId, listItem) => {
+export const changeListItems = (itemId, listItem) => {
     return {
         type: 'CHANGELISTITEMS',
         itemId: itemId,
@@ -70,7 +70,7 @@ const changeListItems = (itemId, listItem) => {
     }
 };
 
-const changeItemPadding = (itemId, style) => {
+export const changeItemPadding = (itemId, style) => {
     return {
         type: 'CHANGEITEMPADDING',
         itemId: itemId,
@@ -78,7 +78,7 @@ const changeItemPadding = (itemId, style) => {
     }
 };
 
-const changeItemColor = (itemId, style) => {
+export const changeItemColor = (itemId, style) => {
     return {
         type: 'CHANGEITEMCOLOR',
         itemId: itemId,
@@ -86,7 +86,7 @@ const changeItemColor = (itemId, style) => {
     }
 };
 
-const changeItemBackColor = (itemId, style) => {
+export const changeItemBackColor = (itemId, style) => {
     return {
         type: 'CHANGEITEMBACKCOLOR',
         itemId: itemId,
@@ -94,7 +94,7 @@ const changeItemBackColor = (itemId, style) => {
     }
 };
 
-const changeItemFontSize = (itemId, style) => {
+export const changeItemFontSize = (itemId, style) => {
     return {
         type: 'CHANGEITEMFONTSIZE',
         itemId: itemId,
@@ -102,7 +102,7 @@ const changeItemFontSize = (itemId, style) => {
     }
 };
 
-const changeItemLineHeight = (itemId, style) => {
+export const changeItemLineHeight = (itemId, style) => {
     return {
         type: 'CHANGEITEMLINEHEIGHT',
         itemId: itemId,
@@ -110,7 +110,7 @@ const changeItemLineHeight = (itemId, style) => {
     }
 };
 
-const changeItemFontWeight = (itemId, style) => {
+export const changeItemFontWeight = (itemId, style) => {
     return {
         type: 'CHANGEITEMFONTWEIGHT',
         itemId: itemId,
@@ -118,7 +118,7 @@ const changeItemFontWeight = (itemId, style) => {
     }
 };
 
-const changeItemFontStyle = (itemId, style) => {
+export const changeItemFontStyle = (itemId, style) => {
     return {
         type: 'CHANGEITEMFONTSTYLE',
         itemId: itemId,
@@ -126,7 +126,7 @@ const changeItemFontStyle = (itemId, style) => {
     }
 };
 
-const changeItemTextDecoration = (itemId, style) => {
+export const changeItemTextDecoration = (itemId, style) => {
     return {
         type: 'CHANGEITEMTEXTDECORATION',
         itemId: itemId,
@@ -134,7 +134,7 @@ const changeItemTextDecoration = (itemId, style) => {
     }
 };
 
-const changeItemTextDecorationColor = (itemId, style) => {
+export const changeItemTextDecorationColor = (itemId, style) => {
     return {
         type: 'CHANGEITEMTEXTDECORATIONCOLOR',
         itemId: itemId,
@@ -142,7 +142,7 @@ const changeItemTextDecorationColor = (itemId, style) => {
     }
 };
 
-const changeItemTextAlign = (itemId, style) => {
+export const changeItemTextAlign = (itemId, style) => {
     return {
         type: 'CHANGEITEMTEXTALIGN',
         itemId: itemId,
@@ -150,7 +150,7 @@ const changeItemTextAlign = (itemId, style) => {
     }
 };
 
-const changeItemBorder = (itemId, style) => {
+export const changeItemBorder = (itemId, style) => {
     return {
         type: 'CHANGEITEMBORDER',
         itemId: itemId,
@@ -158,7 +158,7 @@ const changeItemBorder = (itemId, style) => {
     }
 };
 
-const changeItemBorderRadius = (itemId, style) => {
+export const changeItemBorderRadius = (itemId, style) => {
     return {
         type: 'CHANGEITEMBORDERRADIUS',
         itemId: itemId,
@@ -166,7 +166,7 @@ const changeItemBorderRadius = (itemId, style) => {
     }
 };
 
-const changeLinkUnderlineDisplay = (itemId, display) => {
+export const changeLinkUnderlineDisplay = (itemId, display) => {
     return {
         type: 'CHANGELINKUNDERLINEDISPLAY',
         itemId: itemId,
@@ -174,7 +174,7 @@ const changeLinkUnderlineDisplay = (itemId, display) => {
     }
 };
 
-const changeImageSourceUrl = (itemId, src) => {
+export const changeImageSourceUrl = (itemId, src) => {
     return {
         type: 'CHANGEIMAGESOURCEURL',
         itemId: itemId,
@@ -182,7 +182,7 @@ const changeImageSourceUrl = (itemId, src) => {
     }
 };
 
-const changeImageAlt = (itemId, alt) => {
+export const changeImageAlt = (itemId, alt) => {
     return {
         type: 'CHANGEIMAGEALT',
         itemId: itemId,
@@ -190,7 +190,7 @@ const changeImageAlt = (itemId, alt) => {
     }
 };
 
-const changeLink = (itemId, link) => {
+export const changeLink = (itemId, link) => {
     return {
         type: 'CHANGELINK',
         itemId: itemId,
@@ -198,7 +198,7 @@ const changeLink = (itemId, link) => {
     }
 };
 
-const changeListSymbolType = (itemId, symbol) => {
+export const changeListSymbolType = (itemId, symbol) => {
     return {
         type: 'CHANGELISTSYMBOLTYPE',
         itemId: itemId,
@@ -206,7 +206,7 @@ const changeListSymbolType = (itemId, symbol) => {
     }
 };
 
-const changeListSymbolSign = (itemId, symbol) => {
+export const changeListSymbolSign = (itemId, symbol) => {
     return {
         type: 'CHANGELISTSYMBOLSIGN',
         itemId: itemId,
@@ -214,7 +214,7 @@ const changeListSymbolSign = (itemId, symbol) => {
     }
 };
 
-const changeListSymbolSrc = (itemId, symbol) => {
+export const changeListSymbolSrc = (itemId, symbol) => {
     return {
         type: 'CHANGELISTSYMBOLSRC',
         itemId: itemId,
@@ -222,7 +222,7 @@ const changeListSymbolSrc = (itemId, symbol) => {
     }
 };
 
-const changeListSymbolTrailingChars = (itemId, chars) => {
+export const changeListSymbolTrailingChars = (itemId, chars) => {
     return {
         type: 'CHANGELISTSYMBOLTRAILING',
         itemId: itemId,
@@ -230,7 +230,7 @@ const changeListSymbolTrailingChars = (itemId, chars) => {
     }
 };
 
-const changeListSymbolImageStyle = (itemId, style) => {
+export const changeListSymbolImageStyle = (itemId, style) => {
     return {
         type: 'CHANGELISTSYMBOLIMAGESTYLE',
         itemId: itemId,
@@ -238,7 +238,7 @@ const changeListSymbolImageStyle = (itemId, style) => {
     }
 };
 
-const changeListSymbolVerticalAlign = (itemId, style) => {
+export const changeListSymbolVerticalAlign = (itemId, style) => {
     return {
         type: 'CHANGELISTSYMBOLVERTICALALIGN',
         itemId: itemId,
@@ -246,7 +246,7 @@ const changeListSymbolVerticalAlign = (itemId, style) => {
     }
 };
 
-const changeListSymbolVerticalAlignAdjustment = (itemId, style) => {
+export const changeListSymbolVerticalAlignAdjustment = (itemId, style) => {
     return {
         type: 'CHANGELISTSYMBOLVERTICALALIGNADJUSTMENT',
         itemId: itemId,
@@ -254,7 +254,7 @@ const changeListSymbolVerticalAlignAdjustment = (itemId, style) => {
     }
 };
 
-const changeListSymbolSize = (itemId, style) => {
+export const changeListSymbolSize = (itemId, style) => {
     return {
         type: 'CHANGELISTSYMBOLSIZE',
         itemId: itemId,
@@ -262,7 +262,7 @@ const changeListSymbolSize = (itemId, style) => {
     }
 };
 
-const changeListItemsGap = (itemId, style) => {
+export const changeListItemsGap = (itemId, style) => {
     return {
         type: 'CHANGELISTITEMSGAP',
         itemId: itemId,
@@ -270,7 +270,7 @@ const changeListItemsGap = (itemId, style) => {
     }
 };
 
-const changeListSymbolWidth = (itemId, style) => {
+export const changeListSymbolWidth = (itemId, style) => {
     return {
         type: 'CHANGELISTSYMBOLWIDTH',
         itemId: itemId,
@@ -278,7 +278,7 @@ const changeListSymbolWidth = (itemId, style) => {
     }
 };
 
-const changeListInlineGap = (itemId, style) => {
+export const changeListInlineGap = (itemId, style) => {
     return {
         type: 'CHANGELISTITEMINLINEGAP',
         itemId: itemId,
@@ -286,42 +286,42 @@ const changeListInlineGap = (itemId, style) => {
     }
 };
 
-const changeCanvasWidth = (style) => {
+export const changeCanvasWidth = (style) => {
     return {
         type: 'CHANGECANVASWIDTH',
         style: style
     }
 };
 
-const changeCanvasBackColor = (style) => {
+export const changeCanvasBackColor = (style) => {
     return {
         type: 'CHANGECANVASBACKCOLOR',
         style: style
     }
 };
 
-const changeCanvasForeColor = (style) => {
+export const changeCanvasForeColor = (style) => {
     return {
         type: 'CHANGECANVAFORECOLOR',
         style: style
     }
 };
 
-const changeActiveItemId = itemId => {
+export const changeActiveItemId = itemId => {
     return {
         type: 'CHANGEACTIVEITEMID',
         itemId: itemId
     }
 };
 
-const removeDraggable = itemId => {
+export const removeDraggable = itemId => {
     return {
         type: 'REMOVEDRAGGABLE',
         id: itemId,
     }
 };
 
-const createStructure = (id, type, width) => {
+export const createStructure = (id, type, width) => {
     switch (type) {
         case 'custom':
             return {
@@ -362,14 +362,14 @@ const createStructure = (id, type, width) => {
     }
 };
 
-const changeActiveStructureId = id => {
+export const changeActiveStructureId = id => {
     return {
         type: 'CHANGEACTIVEDATAID',
         id: id
     }
 };
 
-const addStructureColumn = ({indexChange, columns, rows, rowId, colIdArray}) => {
+export const addStructureColumn = ({indexChange, columns, rows, rowId, colIdArray}) => {
     return {
         type: 'ADDCOLUMN',
         columns: columns,
@@ -380,7 +380,7 @@ const addStructureColumn = ({indexChange, columns, rows, rowId, colIdArray}) => 
     }
 };
 
-const deleteStructureSubItem = (deleteColumnIdsArray, deleteRowIdsArray) => {
+export const deleteStructureSubItem = (deleteColumnIdsArray, deleteRowIdsArray) => {
     return {
         type: 'DELETESUBITEM',
         deleteColumnIdsArray: deleteColumnIdsArray,
@@ -388,14 +388,14 @@ const deleteStructureSubItem = (deleteColumnIdsArray, deleteRowIdsArray) => {
     }
 };
 
-const addStructureRow = (colId) => {
+export const addStructureRow = (colId) => {
     return {
         type: 'ADDROW',
         colId: colId
     }
 };
 
-const changeColumnWidth = (colId, width) => {
+export const changeColumnWidth = (colId, width) => {
     return {
         type: 'CHANGECOLUMNWIDTH',
         colId: colId,
@@ -403,7 +403,7 @@ const changeColumnWidth = (colId, width) => {
     }
 };
 
-const addContent = (rowId, contentId) => {
+export const addContent = (rowId, contentId) => {
     return {
         type: 'ADDCONTENT',
         rowId: rowId,
@@ -411,14 +411,14 @@ const addContent = (rowId, contentId) => {
     }
 };
 
-const initRowStyle = (rowId) => {
+export const initRowStyle = (rowId) => {
     return {
         type: 'INITROWSTYLE',
         id: rowId,
     }
 };
 
-const changeRowBackColor = (id, value) => {
+export const changeRowBackColor = (id, value) => {
     return {
         type: 'CHANGEROWBACKCOLOR',
         id: id,
@@ -426,7 +426,7 @@ const changeRowBackColor = (id, value) => {
     }
 };
 
-const changeRowAlign = (id, value) => {
+export const changeRowAlign = (id, value) => {
     return {
         type: 'CHANGEROWALIGN',
         id: id,
@@ -434,19 +434,19 @@ const changeRowAlign = (id, value) => {
     }
 };
 
-const deleteRow = () => {
+export const deleteRow = () => {
     return {
         type: 'DELETEROW',
     }
 };
 
-const toggleRegions = () => {
+export const toggleRegions = () => {
     return {
         type: 'SHOWREGIONS',
     }
 };
 
-const changeInnerHeight = (itemId, height) => {
+export const changeInnerHeight = (itemId, height) => {
     return {
         type: 'CHANGEINNERHEIGHT',
         itemId: itemId,
@@ -454,21 +454,21 @@ const changeInnerHeight = (itemId, height) => {
     }
 };
 
-const changeProjectName = (name) => {
+export const changeProjectName = (name) => {
     return {
         type: 'CHANGEPROJECTNAME',
         value: name
     }
 };
 
-const changePreheader = (name) => {
+export const changePreheader = (name) => {
     return {
         type: 'CHANGEPREHEADER',
         value: name
     }
 };
 
-const login = (name, group) => {
+export const login = (name, group) => {
     return {
         type: 'LOGIN',
         name,
@@ -476,47 +476,67 @@ const login = (name, group) => {
     }
 };
 
-const logout = () => {
+export const logout = () => {
     return {
         type: 'LOGOUT'
     }
 };
 
-const openForEditItems = (data) => {
+export const openForEditItems = (data) => {
     return {
         type: 'OPENFOREDITITEMS',
         data
     }
 };
 
-const openForEditStructure = (data) => {
+export const openForEditStructure = (data) => {
     return {
         type: 'OPENFOREDITSTRUCTURE',
         data
     }
 };
 
-const clearItems = () => {
+export const clearItems = () => {
     return {
         type: 'CLEARITEMS'
     }
 };
 
-const clearStructure = () => {
+export const clearStructure = () => {
     return {
         type: 'CLEARSTRUCTURE'
     }
 };
 
-export {createBasicDraggable, createButtonDraggable, resizeItem, changeActiveItemId, changeItemContent, changeItemPadding,
-    createListDraggable, createImageDraggable, addNewListItem, changeListItems, changeItemColor, changeItemBackColor,
-    changeItemFontSize, changeItemLineHeight, changeItemFontWeight, changeItemFontStyle, changeItemTextDecoration,
-    changeItemTextDecorationColor, changeItemTextAlign, changeItemBorder, changeLinkUnderlineDisplay,
-    changeImageSourceUrl, changeImageAlt, changeLink, changeListSymbolType, changeListSymbolSign, changeListSymbolSrc,
-    changeListSymbolTrailingChars, changeListSymbolImageStyle, changeListSymbolVerticalAlign,
-    changeListSymbolVerticalAlignAdjustment, changeListSymbolSize, changeListInlineGap, changeListItemsGap,
-    changeCanvasBackColor, changeCanvasForeColor, changeCanvasWidth, removeDraggable, createStructure, addStructureRow,
-    addStructureColumn, changeActiveStructureId, deleteStructureSubItem, changeColumnWidth, addContent, initRowStyle,
-    changeRowBackColor, deleteRow, toggleRegions, changeRowAlign, createSpacerDraggable, changeInnerHeight, changeListSymbolWidth,
-    changeItemBorderRadius, changePreheader, changeProjectName, login, logout, openForEditItems, openForEditStructure,
-    clearItems, clearStructure};
+export const addComment = (content, commenter, time, position) => {
+    return {
+        type: 'NEWCOMMENT',
+        comment: {
+            content,
+            time,
+            commenter,
+            position,
+            id: Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('')
+        }
+    }
+};
+
+export const deleteComment = (id) => {
+    return {
+        type: 'DELETECOMMENT',
+        id
+    }
+};
+
+export const savedComment = () => {
+    return {
+        type: 'UPDATECOMMENT'
+    }
+};
+
+export const saveCommentsToStore = (comments) => {
+    return {
+        type: 'LOADFROMSERVER',
+        comments
+    }
+};

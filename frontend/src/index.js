@@ -5,9 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import {combineReducers, createStore} from "redux";
-import {items, structure, user} from "./reducers";
+import {comments, items, structure, user} from "./reducers";
 
-const store = createStore(combineReducers({items: items, structure: structure, user: user}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combineReducers({items: items, structure: structure, user: user, comments: comments}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <Provider store={store}>

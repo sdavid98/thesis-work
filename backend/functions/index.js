@@ -73,10 +73,41 @@ app.get('/projects/view/:viewId', async (req, res) => {
             }).catch(err => {
                 throw err
             });
-        }
-        else {
+        } else {
             res.send();
         }
+        return;
+    }).catch(err => {
+        throw err
+    });
+});
+
+app.post('/projects/comment/:viewId', async (req, res) => {
+    const client = await getClient();
+    const projectComment = client.db("mailteq_dev").collection("projectComment");
+
+    projectComment.updateOne(
+        {_id: req.params.viewId},
+        {
+            $set: {
+                comments: req.body.payload,
+            }
+        }, {upsert: true})
+        .then(data => {
+            res.send(data);
+            return;
+        })
+        .catch(err => {
+            throw err
+        });
+});
+
+app.get('/projects/comment/:viewId', async (req, res) => {
+    const client = await getClient();
+    const projectComment = client.db("mailteq_dev").collection("projectComment");
+
+    projectComment.findOne({_id: req.params.viewId}).then((data) => {
+        res.send(data);
         return;
     }).catch(err => {
         throw err

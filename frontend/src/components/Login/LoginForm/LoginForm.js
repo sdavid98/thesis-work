@@ -21,8 +21,7 @@ const LoginForm = ({submit, isRegisterForm}) => {
         if (isRegisterForm) {
             if (passwordValue === confirmPasswordValue && nameValue) {
                 data.name = nameValue;
-            }
-            else {
+            } else {
                 isValid = false;
                 return;
             }
@@ -34,7 +33,7 @@ const LoginForm = ({submit, isRegisterForm}) => {
 
     return (
         <>
-            <div>
+            <div style={{marginBottom: 30}}>
                 <div><TextField value={emailValue} onChange={e => setEmailValue(e.target.value)} label='Email'/></div>
                 <div><TextField value={passwordValue} onChange={e => setPasswordValue(e.target.value)} label='Password'
                                 type='password'/></div>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { set } from 'idb-keyval';
+import {set} from 'idb-keyval';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LoginForm from "../LoginForm/LoginForm";
@@ -8,6 +8,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../../actions";
 import Button from "@material-ui/core/Button";
+import Grid from '@material-ui/core/Grid';
 
 const LoginTabs = () => {
     const dispatch = useDispatch();
@@ -59,19 +60,20 @@ const LoginTabs = () => {
     };
 
     return (
-        <div>
+        <Grid container justify={"center"} alignItems={"center"} direction={"column"} style={{minHeight: '80vh'}}>
             <Tabs
+                style={{marginBottom: 30}}
                 value={value}
                 indicatorColor="primary"
                 textColor="primary"
                 onChange={handleChange}
             >
-                <Tab label="Login" />
-                <Tab label="Register" />
+                <Tab label="Login"/>
+                <Tab label="Register"/>
             </Tabs>
-            {<LoginForm submit={submitAction} isRegisterForm={value === 1} />}
+            {<LoginForm submit={submitAction} isRegisterForm={value === 1}/>}
             <Button onClick={logout}>Logout</Button>
-        </div>
+        </Grid>
     );
 };
 
