@@ -8,7 +8,6 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
                 if (user) {
                     return <Component {...rest} {...props} />
                 } else {
-                    console.log(props.location);
                     return <Redirect to={
                         {
                             pathname: '/login',

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -38,30 +38,23 @@ const RadioButtonGroup = (props) => {
     const rowItemId = useSelector(state => state.structure.activeDataId);
     const rowItemStyle = useSelector(state => state.items.rowStyles).find(style => style.id === rowItemId);
     const dispatch = useDispatch();
-    const [selectedItem, setSelectedItem] = useState(props.item.value(props.rowSetting ? rowItemStyle : activeItem));
     const classes = useStyles();
 
-    useEffect(() => {
-        setSelectedItem(props.item.value(props.rowSetting ? rowItemStyle : activeItem));
-    }, [activeItemId]);
-
     const options = props.item.items.map((item, index) => {
-       return (
-           <FormControlLabel
-               key={index}
-               value={item.label.replace(/ /g, "")}
-               control={<Radio color="primary" />}
-               label={item.label}
-           />
-       )
+        return (
+            <FormControlLabel
+                key={index}
+                value={item.label.replace(/ /g, "")}
+                control={<Radio color="primary"/>}
+                label={item.label}
+            />
+        )
     });
 
     const handleChange = (event, text) => {
-        setSelectedItem(event.target.value);
         if (props.dispatchAction) {
             dispatch(props.change(props.rowSetting ? rowItemStyle : activeItem, text, event.target.value));
-        }
-        else {
+        } else {
             props.change(event.target.value);
         }
     };
@@ -74,7 +67,7 @@ const RadioButtonGroup = (props) => {
                 className={classes.radios}
                 row
                 name={props.item.id}
-                value={selectedItem}
+                value={props.value}
             >
                 {options}
             </RadioGroup>

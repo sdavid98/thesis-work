@@ -22,12 +22,17 @@ const MultiLevelInputGroup = (props) => {
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
     const [activeParentValue, setActiveParentValue] = useState(props.item.value(activeItem));
+    const [inputItem, updateInputItem] = useState(activeItemId);
 
     useEffect(() => {
-        setActiveParentValue(props.item.value(activeItem));
-    }, [activeItemId]);
+        if (activeItemId !== inputItem) {
+            updateInputItem(activeItemId);
+            setActiveParentValue(props.item.value(activeItem));
+        }
+    }, [activeItemId, activeItem, props.item, inputItem]);
 
     const childOption = props.item.items.find(item => item.label.replace(/ /g, "") === activeParentValue);
+
     const onParentChange = value => {
         setActiveParentValue(value);
         dispatch(props.item.change(activeItem, value));
@@ -47,7 +52,7 @@ const MultiLevelInputGroup = (props) => {
 
     return (
         <>
-            <RadioButtonGroup change={onParentChange} rowSetting={props.rowSetting} item={props.item} />
+            <RadioButtonGroup value={activeParentValue} change={onParentChange} rowSetting={props.rowSetting} item={props.item} />
             {childOption !== undefined &&
                 <div className={classes[inputWidth]}>{getChildInputs()}</div>
             }
