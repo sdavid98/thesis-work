@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 
 const LoginTabs = () => {
     const dispatch = useDispatch();
-    let location = useLocation();
+    const location = useLocation();
     const history = useHistory();
     const user = useSelector(state => state.user);
     const [value, setValue] = useState(0);
@@ -33,7 +33,6 @@ const LoginTabs = () => {
         axios.defaults.withCredentials = true;
         axios.post(apiEnding, payload)
             .then(res => {
-                console.log(res);
                 if (res.data.user) {
                     dispatch(login(res.data.user.name, res.data.user.group));
                     set('user', {

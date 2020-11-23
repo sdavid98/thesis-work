@@ -31,7 +31,6 @@ const List = () => {
 
     const initProjectsList = () => {
         axios.get('/projects').then(res => {
-            console.log(res);
             if (res.status === 200) {
                 updateProjectsInfo(res.data);
                 setIsLoading(false);
