@@ -1,4 +1,4 @@
-import {pushStyleOnElement, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeUnusedStyles} from "../utils/style";
 
 const spacer = (item, width, height) => {
     const td = document.createElement('td');

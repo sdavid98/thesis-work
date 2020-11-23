@@ -1,5 +1,5 @@
-import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
-import {getListSign, getTrailingCharacters} from "../components/List";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "../utils/style";
+import {getListSign, getTrailingCharacters} from "../containers/List/List";
 
 const getListItemVerticalAlign = (item) => {
     if (item.content.listSymbol.style.listSymbolVerticalAlign === 'start') {

@@ -1,4 +1,4 @@
-import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "./styleHelpers";
+import {pushStyleOnElement, removeParentStyle, removeUnusedStyles} from "../utils/style";
 
 const additionalStyles = {
     display: 'block',

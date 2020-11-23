@@ -6,14 +6,14 @@ import {
 } from "react-router-dom";
 import {get} from 'idb-keyval';
 import './App.css'
-import Edit from "./components/Project/Edit/Edit";
-import List from "./components/Project/List/List";
-import LoginTabs from "./components/Login/LoginTabs/LoginTabs";
+import Edit from "./containers/Project/Edit/Edit";
+import List from "./containers/Project/List/List";
+import LoginTabs from "./containers/Login/LoginTabs/LoginTabs";
 import ProtectedRoute from "./hoc/ProtectedRoute";
 import {useDispatch, useSelector} from "react-redux";
 import {isTokenValid} from "./utils/auth";
-import {login} from "./actions";
-import View from "./components/Project/View/View";
+import {login} from "./store/actions";
+import View from "./containers/Project/View/View";
 
 const App = () => {
     const dispatch = useDispatch();

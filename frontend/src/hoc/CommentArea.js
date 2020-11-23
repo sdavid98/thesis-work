@@ -1,10 +1,10 @@
 import React, {useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import Popup from "../components/Popup";
+import Popup from "../components/Popup/Popup";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import {addComment} from "../actions";
+import {addComment} from "../store/actions";
 
 const CommentArea = (props) => {
     const ref = useRef();

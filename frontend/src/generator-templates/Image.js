@@ -1,4 +1,4 @@
-import {pushStyleOnElement, removeUnusedStyles, wrapContentWithBorder} from "./styleHelpers";
+import {pushStyleOnElement, removeUnusedStyles, wrapContentWithBorder} from "../utils/style";
 
 const image = (item, width) => {
     const hasBorder = item.rootElementStyle.border.split(' ')[0] !== 'none';
