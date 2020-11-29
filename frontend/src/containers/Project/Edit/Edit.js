@@ -21,6 +21,7 @@ import axios from "../../../axios";
 import {useHistory, useParams} from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import Drawer from "@material-ui/core/Drawer";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -67,10 +68,10 @@ const Edit = () => {
     const [preheaderText, updatepreheaderText] = useState('initialStateValue');
     const [isLoading, updateIsLoading] = useState(true);
     const [isNewProject, updateIsNewProject] = useState(true);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const initProjectEdit = useCallback((id) => {
         axios.get('/projects/' + id).then((res) => {
-            console.log(res);
             dispatch(openForEditItems(res.data.items));
             dispatch(openForEditStructure(res.data.structure));
             updateIsLoading(false);
@@ -83,8 +84,7 @@ const Edit = () => {
         if (params && params.projectId) {
             updateIsNewProject(false);
             initProjectEdit(params.projectId);
-        }
-        else {
+        } else {
             dispatch(clearStructure());
             dispatch(clearItems());
             updateIsLoading(false);
@@ -182,19 +182,25 @@ const Edit = () => {
                 </div>
                 <div className={classes.menu}>
                     <Button onClick={onProjectSave} variant='outlined' color='primary'>Save</Button>
-                    <Button onClick={() => history.push('/projects')} variant='outlined' color='secondary'>Close</Button>
+                    <Button onClick={() => history.push('/projects')} variant='outlined'
+                            color='secondary'>Close</Button>
                     <Button onClick={() => Generator(structureData, contents, canvasStyle, rowStyles)}
                             color='primary' variant='contained'>Download</Button>
                 </div>
             </div>
             <div className="App" style={{backgroundColor: canvasStyle.backColor}}>
+                <Button onClick={() => setIsDrawerOpen(true)}>Structure</Button>
                 <div className="ui" onClick={clickHandler}>
-                    <Panel>
-
-                        <MenuItems modalOpener={handleOpen}/>
-                        <RowActions modalOpener={handleOpen}/>
-                        <BlockSettings rowSettings={true}/>
-                    </Panel>
+                    <Drawer
+                        anchor={'left'}
+                        open={isDrawerOpen}
+                        onClose={() => setIsDrawerOpen(false)}>
+                        <Panel>
+                            <MenuItems modalOpener={handleOpen}/>
+                            <RowActions modalOpener={handleOpen}/>
+                            <BlockSettings rowSettings={true}/>
+                        </Panel>
+                    </Drawer>
                     <Canvas/>
                     <Panel>
                         <BlockSettings rowSettings={false}/>

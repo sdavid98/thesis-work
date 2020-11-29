@@ -39,7 +39,7 @@ const ContentTypeSelect = (props) => {
     const handleClick = (action, name) => {
         const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('');
         dispatch(action(name, newId));
-        dispatch(addContent(props.rowId, newId));
+        dispatch(addContent(props.dataId, props.rowId, newId));
         props.closePopup();
     };
 

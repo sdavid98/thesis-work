@@ -80,11 +80,12 @@ export const changeColumnWidth = (colId, width) => {
     }
 };
 
-export const addContent = (rowId, contentId) => {
+export const addContent = (dataId, rowId, contentId) => {
     return {
         type: 'ADDCONTENT',
         rowId: rowId,
-        contentId: contentId
+        contentId: contentId,
+        dataId
     }
 };
 

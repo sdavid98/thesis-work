@@ -276,7 +276,7 @@ const structure = (state = {...initStructureState}, action) => {
             return {
                 ...state,
                 data: [
-                    ...state.data.map(item => item.id === state.activeDataId ?
+                    ...state.data.map(item => item.id === action.dataId ?
                         {
                             ...item,
                             rows: [

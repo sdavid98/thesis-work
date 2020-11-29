@@ -16,11 +16,11 @@ const useStyles = makeStyles(() => ({
         margin: '1px'
     },
     placeHolder: {
-        padding: '20px 5px'
+        padding: '20px 5px',
     }
 }));
 
-const StructureBuild = (props) => {
+const StructureBuild = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const contentItems = useSelector(state => state.items.draggables);
     const showRegions = useSelector(state => state.structure.showRegions);
@@ -29,7 +29,7 @@ const StructureBuild = (props) => {
     const [openId, setOpenId] = useState(null);
     const style = {
         display: 'grid',
-        gridTemplateColumns: props.columns.map(col => col.width+'px').join(' '),
+        gridTemplateColumns: props.columns.map(col => col.width + 'px').join(' '),
     };
 
     const handlePopoverOpen = (event, dataId, rowId) => {
@@ -43,14 +43,18 @@ const StructureBuild = (props) => {
     };
 
     const getContent = (contentId, rowId) => {
+        if (ref) {
+            const dataId = props.dataId;
+            return <div ref={element => (ref.current[props.index] = {element, rowId, dataId})} className={classes.placeHolder}/>;
+        }
         if (props.isOnCanvas && contentId && contentItems.find(item => item.id === contentId)) {
-            return <Content readOnly={props.readOnly || false} item={contentItems.find(item => item.id === contentId)} />
+            return <Content readOnly={props.readOnly || false} item={contentItems.find(item => item.id === contentId)}/>
         }
         if (props.isOnCanvas && props.active && !props.readOnly) {
             return (
                 <div style={{display: 'grid', justifyContent: 'center'}}>
                     <IconButton edge="end" aria-label="add" onClick={(e) => handlePopoverOpen(e, props.dataId, rowId)}>
-                        <AddCircleOutlineOutlinedIcon />
+                        <AddCircleOutlineOutlinedIcon/>
                     </IconButton>
                     <Popover
                         open={openId === `${props.dataId}-${rowId}`}
@@ -65,7 +69,7 @@ const StructureBuild = (props) => {
                             horizontal: 'center',
                         }}
                     >
-                        <ContentTypeSelect rowId={rowId} closePopup={handlePopoverClose} />
+                        <ContentTypeSelect dataId={props.dataId} rowId={rowId} closePopup={handlePopoverClose}/>
                     </Popover>
                 </div>
             )
@@ -89,16 +93,18 @@ const StructureBuild = (props) => {
                                         isOnCanvas={props.isOnCanvas}
                                         active={props.active}
                                         dataId={props.dataId}
+                                        forwardRef={props.ref}
                                     />
                                 )
-                             }
-                            return <div key={index} className={(props.active && showRegions) ? (props.isOnCanvas ? classes.showRegionsOnCanvas : classes.showRegionsOnEditor) : ''}>{getContent(row.content, row.id)}</div>
+                            }
+                            return <div key={index}
+                                        className={(props.active && showRegions) ? (props.isOnCanvas ? classes.showRegionsOnCanvas : classes.showRegionsOnEditor) : ''}>{getContent(row.content, row.id)}</div>
                         })
                     ))}
                 </div>
             ))}
         </div>
     );
-};
+});
 
 export default StructureBuild;

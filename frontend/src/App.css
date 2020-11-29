@@ -9,7 +9,8 @@
 
 .ui {
     display: grid;
-    grid-template-columns: 400px auto 400px;
+    grid-template-columns: auto 400px;
+    align-items: start;
     height: 100vh;
 }
 
@@ -24,6 +25,7 @@
 .panel {
     background-color: #ffffff;
     padding: 0 15px;
+    height: 100%;
 }
 
 .drag-delete {
@@ -66,4 +68,8 @@ img {
 
 .MuiInput-underline.Mui-disabled:before {
     border-bottom-style: solid;
+}
+
+.draggable {
+    z-index: 999;
 }
