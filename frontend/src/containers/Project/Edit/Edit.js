@@ -6,9 +6,9 @@ import BlockSettings from "../../BlockSettings/BlockSettings";
 import {
     changeActiveItemId,
     changePreheader,
-    changeProjectName, clearItems, clearStructure,
+    changeProjectName, clearItems, clearStructure, deleteAllLinkToContent,
     openForEditItems,
-    openForEditStructure
+    openForEditStructure, setAllDisplayedToFalse
 } from "../../../store/actions";
 import Popup from "../../../components/Popup/Popup";
 import StructureEditor from "../../Structure/StructureEditor";
@@ -147,6 +147,11 @@ const Edit = () => {
         }
     };
 
+    const onReStructureClick = () => {
+        dispatch(deleteAllLinkToContent(state.structure.viewMode));
+        dispatch(setAllDisplayedToFalse());
+    };
+
     if (isLoading) {
         return 'Loading...';
     }
@@ -189,7 +194,8 @@ const Edit = () => {
                 </div>
             </div>
             <div className="App" style={{backgroundColor: canvasStyle.backColor}}>
-                <Button onClick={() => setIsDrawerOpen(true)}>Structure</Button>
+                <Button variant='outlined' color='primary' onClick={() => setIsDrawerOpen(true)}>Structure</Button>
+                <Button variant='outlined' color='primary' onClick={onReStructureClick}>RE - Structure</Button>
                 <div className="ui" onClick={clickHandler}>
                     <Drawer
                         anchor={'left'}

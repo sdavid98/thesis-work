@@ -1,40 +1,46 @@
-export const createStructure = (id, type, width) => {
+export const createStructure = (id, type, width, colType) => {
     switch (type) {
         case 'custom':
             return {
                 type: 'INITCUSTOM',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
         case 1:
             return {
                 type: 'INITCOL1',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
         case 2:
             return {
                 type: 'INITCOL2',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
         case 3:
             return {
                 type: 'INITCOL3',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
         case 4:
             return {
                 type: 'INITCOL4',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
         default:
             return {
                 type: 'INITCUSTOM',
                 id: id,
-                width: width
+                width: width,
+                colType
             };
     }
 };
@@ -112,5 +118,12 @@ export const openForEditStructure = (data) => {
 export const clearStructure = () => {
     return {
         type: 'CLEARSTRUCTURE'
+    }
+};
+
+export const deleteAllLinkToContent = (viewMode) => {
+    return {
+        type: 'DELETEALLLINKTOCONTENT',
+        viewMode
     }
 };

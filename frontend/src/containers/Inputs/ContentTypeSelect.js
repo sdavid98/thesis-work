@@ -37,14 +37,15 @@ const ContentTypeSelect = (props) => {
     const dispatch = useDispatch();
 
     const handleClick = (action, name) => {
-        const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('');
+        const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s) + 65)).join('');
         dispatch(action(name, newId));
         dispatch(addContent(props.dataId, props.rowId, newId));
         props.closePopup();
     };
 
     const mapSelectOptions = () => {
-        return options.map((item, index) => <Button onClick={() => handleClick(item.action, item.name)} key={index} value={item.name}>{item.name}</Button>);
+        return options.map((item, index) => <Button onClick={() => handleClick(item.action, item.name)} key={index}
+                                                    value={item.name}>{item.name}</Button>);
     };
 
     return (

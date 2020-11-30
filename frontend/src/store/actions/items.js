@@ -377,3 +377,16 @@ export const clearItems = () => {
         type: 'CLEARITEMS'
     }
 };
+
+export const setDisplayedToTrue = (id) => {
+    return {
+        type: 'SETDISPLAYEDTOTRUE',
+        id
+    }
+};
+
+export const setAllDisplayedToFalse = () => {
+    return {
+        type: 'SETALLDISPLAYEDTOFALSE'
+    }
+};

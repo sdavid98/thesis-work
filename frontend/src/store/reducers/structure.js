@@ -1,6 +1,6 @@
-
 const initStructureState = {
     activeDataId: null,
+    viewMode: 'desktop',
     data: []
 };
 
@@ -9,12 +9,14 @@ const structure = (state = {...initStructureState}, action) => {
         case 'INITCUSTOM':
         case 'INITCOL1':
             return {
+                ...state,
                 activeDataId: action.id,
                 showRegions: true,
                 data: [
                     ...state.data,
                     {
                         id: action.id,
+                        type: action.colType,
                         colIndex: 1,
                         rowIndex: 1,
                         columns: [
@@ -37,12 +39,14 @@ const structure = (state = {...initStructureState}, action) => {
             };
         case 'INITCOL2':
             return {
+                ...state,
                 activeDataId: action.id,
                 showRegions: true,
                 data: [
                     ...state.data,
                     {
                         id: action.id,
+                        type: action.colType,
                         colIndex: 2,
                         rowIndex: 2,
                         columns: [
@@ -76,12 +80,14 @@ const structure = (state = {...initStructureState}, action) => {
             };
         case 'INITCOL3':
             return {
+                ...state,
                 activeDataId: action.id,
                 showRegions: true,
                 data: [
                     ...state.data,
                     {
                         id: action.id,
+                        type: action.colType,
                         colIndex: 3,
                         rowIndex: 3,
                         columns: [
@@ -126,12 +132,14 @@ const structure = (state = {...initStructureState}, action) => {
             };
         case 'INITCOL4':
             return {
+                ...state,
                 activeDataId: action.id,
                 showRegions: true,
                 data: [
                     ...state.data,
                     {
                         id: action.id,
+                        type: action.colType,
                         colIndex: 4,
                         rowIndex: 4,
                         columns: [
@@ -311,6 +319,27 @@ const structure = (state = {...initStructureState}, action) => {
         case 'CLEARSTRUCTURE':
             return {
                 ...initStructureState
+            };
+        case 'DELETEALLLINKTOCONTENT':
+            return {
+                ...state,
+                data: [
+                    ...state.data.map(item => item.type === action.viewMode ?
+                        {
+                            ...item,
+                            rows: [
+                                ...item.rows.map(row => {
+                                        return {
+                                            ...row,
+                                            content: false
+                                        }
+                                    }
+                                )
+                            ]
+                        }
+                        : {...item}
+                    )
+                ]
             };
         default:
             return state;

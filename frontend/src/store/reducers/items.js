@@ -71,6 +71,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
+                        displayed: true,
                         width: 100,
                         height: 16,
                         content: {
@@ -90,6 +91,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
+                        displayed: true,
                         width: 100,
                         height: 16,
                         content: {
@@ -109,6 +111,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
+                        displayed: true,
                         width: 100,
                         height: 16,
                         content: {
@@ -128,6 +131,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
+                        displayed: true,
                         width: 100,
                         height: 18,
                         content: {
@@ -164,6 +168,7 @@ const items = (state = initState, action) => {
                     {
                         id: action.id,
                         type: action.itemType,
+                        displayed: true,
                         width: 100,
                         height: 100,
                         x: 0,
@@ -756,6 +761,27 @@ const items = (state = initState, action) => {
         case 'CLEARITEMS':
             return {
                 ...initState
+            };
+        case 'SETDISPLAYEDTOTRUE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        if (item.id === action.id) {
+                            return {...item, displayed: true}
+                        }
+                        return item;
+                    })
+
+            };
+        case 'SETALLDISPLAYEDTOFALSE':
+            return {
+                ...state,
+                draggables:
+                    state.draggables.map(item => {
+                        return {...item, displayed: false}
+                    })
+
             };
         default:
             return state;

@@ -23,6 +23,28 @@ module.exports = (app) => {
         });
     });
 
+    router.post('/projects/new', async (req, res) => {
+        const client = await getClient();
+        const mailData = client.db("mailteq_dev").collection("mailData");
+        const projectInfo = client.db("mailteq_dev").collection("projectInfo");
+
+        mailData.insertOne(req.body.payload.mailData, (err, response) => {
+            if (err) throw err;
+            const projectData = {
+                _id: ObjectId(response.insertedId),
+                created_at: Date.now(),
+                created_by: req.body.payload.user.name,
+                group: req.body.payload.user.group,
+                name: req.body.payload.mailData.items.projectInfo.name,
+                view_id: Date.now() + response.insertedId
+            };
+            projectInfo.insertOne(projectData, {forceServerObjectId: false}, (err, response) => {
+                if (err) throw err;
+                res.send({saved: true, projectId: response.insertedId});
+            });
+        });
+    });
+
     router.post('/projects/:projectId', async (req, res) => {
         const client = await getClient();
         const mailData = client.db("mailteq_dev").collection("mailData");
@@ -48,28 +70,6 @@ module.exports = (app) => {
                 return;
             }).catch(err => {
             throw err
-        });
-    });
-
-    router.post('/projects/new', async (req, res) => {
-        const client = await getClient();
-        const mailData = client.db("mailteq_dev").collection("mailData");
-        const projectInfo = client.db("mailteq_dev").collection("projectInfo");
-
-        mailData.insertOne(req.body.payload.mailData, (err, response) => {
-            if (err) throw err;
-            const projectData = {
-                _id: ObjectId(response.insertedId),
-                created_at: Date.now(),
-                created_by: req.body.payload.user.name,
-                group: req.body.payload.user.group,
-                name: req.body.payload.mailData.items.projectInfo.name,
-                view_id: Date.now() + response.insertedId
-            };
-            projectInfo.insertOne(projectData, {forceServerObjectId: false}, (err, response) => {
-                if (err) throw err;
-                res.send({saved: true, projectId: response.insertedId});
-            });
         });
     });
 

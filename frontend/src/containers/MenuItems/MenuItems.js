@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
 const MenuItems = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const viewMode = useSelector(state => state.structure.viewMode);
     const canvasWidth = parseInt(useSelector(state => state.items.canvasStyle.width));
 
     const onCreateStructureClick = (type) => {
@@ -62,7 +63,7 @@ const MenuItems = (props) => {
             colWidth = Math.floor(colWidth / type);
         }
 
-        dispatch(createStructure(newId, type, colWidth));
+        dispatch(createStructure(newId, type, colWidth, viewMode));
 
         if (type === 'custom') {
             props.modalOpener(1);

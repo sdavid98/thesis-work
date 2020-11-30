@@ -42,37 +42,44 @@ const StructureBuild = React.forwardRef((props, ref) => {
         setAnchorEl(null);
     };
 
+    const getContentTypeSelect = (rowId) => (
+        <div style={{display: 'grid', justifyContent: 'center'}}>
+            <IconButton edge="end" aria-label="add" onClick={(e) => handlePopoverOpen(e, props.dataId, rowId)}>
+                <AddCircleOutlineOutlinedIcon/>
+            </IconButton>
+            <Popover
+                open={openId === `${props.dataId}-${rowId}`}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <ContentTypeSelect dataId={props.dataId} rowId={rowId} closePopup={handlePopoverClose}/>
+            </Popover>
+        </div>
+    );
+
     const getContent = (contentId, rowId) => {
-        if (ref) {
-            const dataId = props.dataId;
-            return <div ref={element => (ref.current[props.index] = {element, rowId, dataId})} className={classes.placeHolder}/>;
-        }
         if (props.isOnCanvas && contentId && contentItems.find(item => item.id === contentId)) {
             return <Content readOnly={props.readOnly || false} item={contentItems.find(item => item.id === contentId)}/>
         }
-        if (props.isOnCanvas && props.active && !props.readOnly) {
+        if (ref && !props.readOnly) {
+            const dataId = props.dataId;
+            //const elementRef = ref.current.find(el => el.rowId === rowId && el.dataId === dataId);
+            //const index = elementRef ? ref.current.indexOf(elementRef) : ref.current.length;
             return (
-                <div style={{display: 'grid', justifyContent: 'center'}}>
-                    <IconButton edge="end" aria-label="add" onClick={(e) => handlePopoverOpen(e, props.dataId, rowId)}>
-                        <AddCircleOutlineOutlinedIcon/>
-                    </IconButton>
-                    <Popover
-                        open={openId === `${props.dataId}-${rowId}`}
-                        anchorEl={anchorEl}
-                        onClose={handlePopoverClose}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                    >
-                        <ContentTypeSelect dataId={props.dataId} rowId={rowId} closePopup={handlePopoverClose}/>
-                    </Popover>
-                </div>
-            )
+                <div ref={element => (ref.current.push({element, rowId, dataId}))}>
+                    {getContentTypeSelect(rowId)}
+                </div>);
+        }
+        if (props.isOnCanvas && props.active && !props.readOnly) {
+            return getContentTypeSelect(rowId);
         }
         return <div className={classes.placeHolder}></div>
     };
@@ -93,7 +100,7 @@ const StructureBuild = React.forwardRef((props, ref) => {
                                         isOnCanvas={props.isOnCanvas}
                                         active={props.active}
                                         dataId={props.dataId}
-                                        forwardRef={props.ref}
+                                        ref={ref}
                                     />
                                 )
                             }
