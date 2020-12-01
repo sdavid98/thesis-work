@@ -6,9 +6,16 @@ import BlockSettings from "../../BlockSettings/BlockSettings";
 import {
     changeActiveItemId,
     changePreheader,
-    changeProjectName, clearItems, clearStructure, deleteAllLinkToContent,
+    changeProjectName,
+    clearItems,
+    clearStructure,
+    cloneRowStylesForMobile,
+    deleteAllLinkToContent,
+    initMobileViewChanged,
     openForEditItems,
-    openForEditStructure, setAllDisplayedToFalse
+    openForEditStructure,
+    setAllDisplayedToFalse,
+    setViewMode
 } from "../../../store/actions";
 import Popup from "../../../components/Popup/Popup";
 import StructureEditor from "../../Structure/StructureEditor";
@@ -22,6 +29,8 @@ import {useHistory, useParams} from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -59,9 +68,7 @@ const Edit = () => {
     const history = useHistory();
     const state = useSelector(state => state);
     const user = state.user;
-    const canvasStyle = state.items.canvasStyle;
-    const rowStyles = state.items.rowStyles;
-    const contents = state.items.draggables;
+    const {canvasStyle, rowStyles, contents} = state.items;
     const structureData = state.structure.data;
     const [open, setOpen] = useState(false);
     const [projectNameText, updateProjectNameText] = useState('initialStateValue');
@@ -150,6 +157,19 @@ const Edit = () => {
     const onReStructureClick = () => {
         dispatch(deleteAllLinkToContent(state.structure.viewMode));
         dispatch(setAllDisplayedToFalse());
+
+        if (state.structure.viewMode === 'mobile' && !state.structure.isMobileViewChanged) {
+            dispatch(cloneRowStylesForMobile());
+            dispatch(initMobileViewChanged());
+        }
+    };
+
+    const onViewModeChange = (e, tabIndex) => {
+        if (tabIndex === 0) {
+            dispatch(setViewMode('desktop'));
+            return;
+        }
+        dispatch(setViewMode('mobile'));
     };
 
     if (isLoading) {
@@ -193,9 +213,22 @@ const Edit = () => {
                             color='primary' variant='contained'>Download</Button>
                 </div>
             </div>
+            <div className={classes.wrapper}>
+                <div>
+                    <Button variant='outlined' color='primary' onClick={() => setIsDrawerOpen(true)}>Structure</Button>
+                    <Button variant='outlined' color='primary' onClick={onReStructureClick}>RE - Structure</Button>
+                </div>
+                <Tabs
+                    value={state.structure.viewMode === 'desktop' ? 0 : 1}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    onChange={onViewModeChange}
+                >
+                    <Tab label="Desktop"/>
+                    <Tab label="Mobile"/>
+                </Tabs>
+            </div>
             <div className="App" style={{backgroundColor: canvasStyle.backColor}}>
-                <Button variant='outlined' color='primary' onClick={() => setIsDrawerOpen(true)}>Structure</Button>
-                <Button variant='outlined' color='primary' onClick={onReStructureClick}>RE - Structure</Button>
                 <div className="ui" onClick={clickHandler}>
                     <Drawer
                         anchor={'left'}

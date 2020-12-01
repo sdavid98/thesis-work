@@ -2,7 +2,7 @@ import blockStyleValidations from "./blockStyleValidations";
 import {
     changeCanvasBackColor,
     changeCanvasForeColor,
-    changeCanvasWidth,
+    changeCanvasWidth, changeCanvasWidthMobile,
 } from "../actions";
 
 const canvasOptions = [
@@ -15,7 +15,9 @@ const canvasOptions = [
             return changeCanvasWidth(parseInt(value)+'px');
         },
         childChange: true,
-        condition: false,
+        condition: viewMode => {
+            console.log(viewMode);
+            return viewMode === 'desktop'},
         items: [
             {
                 label: 'Width',
@@ -24,6 +26,30 @@ const canvasOptions = [
                 displayLabel: true,
                 hasAfterChangeFunction: false,
                 value: activeItem => parseInt(activeItem.canvasStyle.width),
+                childInputs: []
+            }
+        ]
+    },
+    {
+        id: 'size',
+        label: 'Size',
+        displayLabel: true,
+        type: 'text',
+        change: (state, itemText, value) => {
+            return changeCanvasWidthMobile(parseInt(value)+'px');
+        },
+        childChange: true,
+        condition: viewMode => {
+            console.log(viewMode);
+            return viewMode === 'mobile'},
+        items: [
+            {
+                label: 'Width',
+                watch: 'width',
+                disabled: false,
+                displayLabel: true,
+                hasAfterChangeFunction: false,
+                value: activeItem => parseInt(activeItem.canvasStyle.widthMobile),
                 childInputs: []
             }
         ]

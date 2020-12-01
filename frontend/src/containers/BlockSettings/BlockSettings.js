@@ -27,36 +27,47 @@ const useStyles = makeStyles({
 const BlockSettings = (props) => {
     const activeItemId = useSelector(state => state.items.activeItemId);
     const activeItem = useSelector(state => state.items.draggables).find(drag => drag.id === activeItemId);
-    const activeRow = useSelector(state => state.structure.activeDataId);
+    const {activeDataId, viewMode} = useSelector(state => state.structure);
     const classes = useStyles();
 
     const generateInputs = (item, index) => {
-        if (!item.condition || item.condition(activeItem)) {
+        if (!item.condition || item.condition(activeItem) || item.condition(viewMode)) {
             if (item.type === 'radio' && item.childChange) {
-                return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup rowSetting={props.rowSettings} item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><MultiLevelInputGroup
+                    rowSetting={props.rowSettings} item={item}/></div>
             }
             if (item.type === 'radio') {
-                return <div key={index} className={classes.styleBlock}><RadioButtonGroup rowSetting={props.rowSettings} dispatchAction={true} change={item.change} item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><RadioButtonGroup rowSetting={props.rowSettings}
+                                                                                         dispatchAction={true}
+                                                                                         change={item.change}
+                                                                                         item={item}/></div>
             }
             if (item.type === 'text') {
-                return <div key={index} className={classes.styleBlock}><TextGroup rowSetting={props.rowSettings} item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><TextGroup rowSetting={props.rowSettings}
+                                                                                  item={item}/></div>
             }
             if (item.type === 'checkbox') {
-                return <div key={index} className={classes.styleBlock}><CheckboxGroup rowSetting={props.rowSettings} item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><CheckboxGroup rowSetting={props.rowSettings}
+                                                                                      item={item}/></div>
             }
             if (item.type === 'select') {
-                return <div key={index} className={classes.styleBlock}><SelectGroup item={item} /></div>
+                return <div key={index} className={classes.styleBlock}><SelectGroup item={item}/></div>
             }
         }
         return false;
     };
 
     if (props.rowSettings) {
-        return activeRow ? rowOptions.map((item, index) => generateInputs(item, index)) : false;
+        return activeDataId ? rowOptions.map((item, index) => generateInputs(item, index)) : false;
     }
 
     if (!activeItemId) {
-        return <><div className={classes.label}>CANVAS SETTINGS</div>{canvasOptions.map((item, index) => generateInputs(item, index))}</>;
+        return (
+            <>
+                <div className={classes.label}>CANVAS SETTINGS</div>
+                {canvasOptions.map((item, index) => generateInputs(item, index))}
+            </>
+        );
     }
 
     const optionItems = blockStyleConfig.filter(item => blockTypeConfig[activeItem.type].indexOf(item.id) >= 0).map((item, index) => generateInputs(item, index));

@@ -40,7 +40,8 @@ const generateRow = (intId, double) => {
 const StructureEditor = () => {
     const dispatch = useDispatch();
     const activeStructureItem = useSelector(state => state.structure.activeDataId);
-    const structureData = useSelector(state => state.structure.data);
+    const viewMode = useSelector(state => state.structure.viewMode);
+    const structureData = useSelector(state => state.structure.data).filter(data => data.type === viewMode);
     const [activeDataRow, setActiveDataRow] = useState(false);
     let deleteRowIdsArray = [];
     let deleteColumnIdsArray = [];

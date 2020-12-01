@@ -390,3 +390,16 @@ export const setAllDisplayedToFalse = () => {
         type: 'SETALLDISPLAYEDTOFALSE'
     }
 };
+
+export const cloneRowStylesForMobile = () => {
+    return {
+        type: 'CLONEROWSTYLESFORMOBILE'
+    }
+};
+
+export const changeCanvasWidthMobile = (style) => {
+    return {
+        type: 'CHANGECANVASWIDTHMOBILE',
+        style: style
+    }
+};

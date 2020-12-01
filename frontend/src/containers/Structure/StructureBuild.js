@@ -24,12 +24,17 @@ const StructureBuild = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const contentItems = useSelector(state => state.items.draggables);
     const showRegions = useSelector(state => state.structure.showRegions);
-    const structureData = useSelector(state => state.structure.data);
+    const {structureData, viewMode} = useSelector(state => state.structure);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openId, setOpenId] = useState(null);
     const style = {
         display: 'grid',
-        gridTemplateColumns: props.columns.map(col => col.width + 'px').join(' '),
+        gridTemplateColumns: props.columns.map(col => {
+            if (viewMode === 'mobile') {
+                return Math.floor(+col.width * 0.7) + 'px';
+            }
+            return col.width + 'px'
+        }).join(' '),
     };
 
     const handlePopoverOpen = (event, dataId, rowId) => {

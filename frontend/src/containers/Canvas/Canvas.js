@@ -8,12 +8,16 @@ import Content from "../Content/Content";
 const Canvas = (props) => {
     const ref = useRef([]);
     const dispatch = useDispatch();
-    const canvasStyle = useSelector(state => state.items.canvasStyle);
-    const rowStyles = useSelector(state => state.items.rowStyles);
+    const {canvasStyle, rowStyles, draggables} = useSelector(state => state.items);
     const activeStructureItemId = useSelector(state => state.structure.activeDataId);
     const viewMode = useSelector(state => state.structure.viewMode);
-    const structureData = useSelector(state => state.structure.data).filter(data => data.type === viewMode);
-    const draggables = useSelector(state => state.items.draggables);
+    const isMobileViewChanged = useSelector(state => state.structure.isMobileViewChanged);
+    const canvasWidth = viewMode === 'desktop' ? canvasStyle.width : canvasStyle.widthMobile;
+    let structureData = useSelector(state => state.structure.data);
+
+    if (isMobileViewChanged) {
+        structureData = structureData.filter(data => data.type === viewMode);
+    }
 
     const getBgColor = id => {
         if (rowStyles.find(style => style.id === id).backgroundColor.split(' ')[0] !== 'none') {
@@ -62,8 +66,7 @@ const Canvas = (props) => {
                     </Rnd>
                 ))}
             </div>
-
-            <div style={{width: canvasStyle.width, backgroundColor: canvasStyle.foreColor}} className='canvas'>
+            <div style={{width: canvasWidth, backgroundColor: canvasStyle.foreColor}} className='canvas'>
                 {structureData.length > 0 &&
                 structureData.map((data, index) => (
                     <div style={{

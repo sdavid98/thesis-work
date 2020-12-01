@@ -8,6 +8,7 @@ const initState = {
     rowStyles: [],
     canvasStyle: {
         width: '600px',
+        widthMobile: '420px',
         foreColor: '#ffffff',
         backColor: '#F5F5F5',
     }
@@ -676,6 +677,11 @@ const items = (state = initState, action) => {
                 ...state,
                 canvasStyle: {...state.canvasStyle, width: action.style}
             };
+        case 'CHANGECANVASWIDTHMOBILE':
+            return {
+                ...state,
+                canvasStyle: {...state.canvasStyle, widthMobile: action.style}
+            };
         case 'CHANGECANVASBACKCOLOR':
             return {
                 ...state,
@@ -782,6 +788,19 @@ const items = (state = initState, action) => {
                         return {...item, displayed: false}
                     })
 
+            };
+        case 'CLONEROWSTYLESFORMOBILE':
+            return {
+                ...state,
+                rowStyles: [
+                    ...state.rowStyles,
+                    ...state.rowStyles.map(row => (
+                        {
+                            ...row,
+                            id: row.id + 'M'
+                        }
+                    ))
+                ]
             };
         default:
             return state;

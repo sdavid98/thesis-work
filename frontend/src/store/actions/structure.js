@@ -127,3 +127,16 @@ export const deleteAllLinkToContent = (viewMode) => {
         viewMode
     }
 };
+
+export const setViewMode = (viewMode) => {
+    return {
+        type: 'SETVIEWMODE',
+        viewMode
+    }
+};
+
+export const initMobileViewChanged = () => {
+    return {
+        type: 'INITMOBILEVIEWCHANGED'
+    }
+};

@@ -1,6 +1,7 @@
 const initStructureState = {
     activeDataId: null,
     viewMode: 'desktop',
+    isMobileViewChanged: false,
     data: []
 };
 
@@ -338,6 +339,34 @@ const structure = (state = {...initStructureState}, action) => {
                             ]
                         }
                         : {...item}
+                    )
+                ]
+            };
+        case 'SETVIEWMODE':
+            return {
+                ...state,
+                viewMode: action.viewMode
+            };
+        case 'INITMOBILEVIEWCHANGED':
+            return {
+                ...state,
+                activeDataId: null,
+                isMobileViewChanged: true,
+                data: [
+                    ...state.data,
+                    ...state.data.map(item => (
+                            {
+                                ...item,
+                                id: item.id + 'M',
+                                type: 'mobile',
+                                columns: item.columns.map(col => (
+                                    {...col, width: Math.floor(+col.width * 0.7)}
+                                )),
+                                rows: item.rows.map(row => (
+                                    {...row, content: false}
+                                ))
+                            }
+                        )
                     )
                 ]
             };
