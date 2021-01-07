@@ -58,7 +58,7 @@ const Canvas = (props) => {
                 {draggables.filter(item => !item.displayed).map((item, index) => (
                     <Rnd className="draggable" onDragStop={pos => onDragEndHandler(pos, item.id)} onDrag={onDragHandler}
                          dragHandleClassName="handle" key={index} enableResizing={false} bounds={'.ui'}
-                         size={{width: 100, height: 100}}>
+                         size={{width: 100, height: 100}} default={{x: 5, y: index * 70}}>
                         <div className="handle">X</div>
                         <div style={{width: 100, height: 100, ...item.rootElementStyle}}>
                             <Content readOnly={true} item={item}/>

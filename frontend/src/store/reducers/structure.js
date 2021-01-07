@@ -360,7 +360,7 @@ const structure = (state = {...initStructureState}, action) => {
                                 id: item.id + 'M',
                                 type: 'mobile',
                                 columns: item.columns.map(col => (
-                                    {...col, width: Math.floor(+col.width * 0.7)}
+                                    {...col, width: Math.floor(+col.width * action.ratio)}
                                 )),
                                 rows: item.rows.map(row => (
                                     {...row, content: false}

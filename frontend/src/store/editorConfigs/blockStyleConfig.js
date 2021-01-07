@@ -457,7 +457,7 @@ const blockStyleConfig = [
             return changeLinkUnderlineDisplay(activeItem.id, value);
         },
         childChange: false,
-        condition: activeItem => activeItem.content.text.indexOf('</a>') > 0 || activeItem.type === 'button',
+        condition: activeItem => activeItem.content?.text.indexOf('</a>') > 0 || activeItem.type === 'button',
         items: [
             {
                 label: 'Underline',
@@ -668,7 +668,7 @@ const blockStyleConfig = [
         change: (activeItem, childItemText, value) => {
             return changeListSymbolImageStyle(activeItem.id, value+'px');
         },
-        condition: activeItem => activeItem.content.listSymbol.type === 'Custom Image',
+        condition: activeItem => activeItem.content?.listSymbol.type === 'Custom Image',
         hideEndAdornment: false,
         childChange: false,
         hasAfterChangeFunction: false,
@@ -741,7 +741,7 @@ const blockStyleConfig = [
         change: (activeItem, itemText, value) => {
             return changeListSymbolSize(activeItem.id, value+'px');
         },
-        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
+        condition: activeItem => activeItem.content?.listSymbol.type !== 'Custom Image',
         childChange: false,
         items: [
             {
@@ -761,7 +761,7 @@ const blockStyleConfig = [
         change: (activeItem, itemText, value) => {
             return changeListSymbolTrailingChars(activeItem.id, value);
         },
-        condition: activeItem => activeItem.content.listSymbol.type !== 'Custom Image',
+        condition: activeItem => activeItem.content?.listSymbol.type !== 'Custom Image',
         childChange: false,
         items: [
             {

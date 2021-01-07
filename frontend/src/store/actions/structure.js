@@ -135,8 +135,9 @@ export const setViewMode = (viewMode) => {
     }
 };
 
-export const initMobileViewChanged = () => {
+export const initMobileViewChanged = (ratio) => {
     return {
-        type: 'INITMOBILEVIEWCHANGED'
+        type: 'INITMOBILEVIEWCHANGED',
+        ratio
     }
 };

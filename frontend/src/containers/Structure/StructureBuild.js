@@ -22,16 +22,16 @@ const useStyles = makeStyles(() => ({
 
 const StructureBuild = React.forwardRef((props, ref) => {
     const classes = useStyles();
-    const contentItems = useSelector(state => state.items.draggables);
+    const {draggables: contentItems, canvasStyle} = useSelector(state => state.items);
     const showRegions = useSelector(state => state.structure.showRegions);
-    const {structureData, viewMode} = useSelector(state => state.structure);
+    const {structureData, viewMode, isMobileViewChanged} = useSelector(state => state.structure);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openId, setOpenId] = useState(null);
     const style = {
         display: 'grid',
         gridTemplateColumns: props.columns.map(col => {
-            if (viewMode === 'mobile') {
-                return Math.floor(+col.width * 0.7) + 'px';
+            if (viewMode === 'mobile' && !isMobileViewChanged) {
+                return Math.floor(+col.width * parseInt(canvasStyle.widthMobile) / parseInt(canvasStyle.width)) + 'px';
             }
             return col.width + 'px'
         }).join(' '),

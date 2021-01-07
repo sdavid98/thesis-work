@@ -160,7 +160,7 @@ const Edit = () => {
 
         if (state.structure.viewMode === 'mobile' && !state.structure.isMobileViewChanged) {
             dispatch(cloneRowStylesForMobile());
-            dispatch(initMobileViewChanged());
+            dispatch(initMobileViewChanged(parseInt(canvasStyle.widthMobile) / parseInt(canvasStyle.width)));
         }
     };
 
@@ -215,7 +215,7 @@ const Edit = () => {
             </div>
             <div className={classes.wrapper}>
                 <div>
-                    <Button variant='outlined' color='primary' onClick={() => setIsDrawerOpen(true)}>Structure</Button>
+                    <Button variant='outlined' color='primary' onClick={() => setIsDrawerOpen(true)}>Manage rows</Button>
                     <Button variant='outlined' color='primary' onClick={onReStructureClick}>RE - Structure</Button>
                 </div>
                 <Tabs

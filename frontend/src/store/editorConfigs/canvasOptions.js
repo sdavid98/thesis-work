@@ -16,7 +16,6 @@ const canvasOptions = [
         },
         childChange: true,
         condition: viewMode => {
-            console.log(viewMode);
             return viewMode === 'desktop'},
         items: [
             {
@@ -40,7 +39,6 @@ const canvasOptions = [
         },
         childChange: true,
         condition: viewMode => {
-            console.log(viewMode);
             return viewMode === 'mobile'},
         items: [
             {

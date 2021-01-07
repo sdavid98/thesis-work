@@ -51,19 +51,28 @@ const useStyles = makeStyles(() => ({
 const MenuItems = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const viewMode = useSelector(state => state.structure.viewMode);
-    const canvasWidth = parseInt(useSelector(state => state.items.canvasStyle.width));
+    const {viewMode, isMobileViewChanged} = useSelector(state => state.structure);
+    const canvasStyle = useSelector(state => state.items.canvasStyle);
 
     const onCreateStructureClick = (type) => {
         const newId = Date.now().toString().substr(-8).split('').map(s => String.fromCharCode(Number(s)+65)).join('');
         dispatch(initRowStyle(newId));
 
-        let colWidth = canvasWidth;
+        let colWidth = parseInt(canvasStyle.width);
+        if (viewMode === 'mobile' && isMobileViewChanged) {
+            colWidth = parseInt(canvasStyle.widthMobile);
+        }
+
         if (type !== 'custom') {
             colWidth = Math.floor(colWidth / type);
         }
+        console.log(colWidth);
 
-        dispatch(createStructure(newId, type, colWidth, viewMode));
+        let viewType = viewMode;
+        if (!isMobileViewChanged) {
+            viewType = 'desktop';
+        }
+        dispatch(createStructure(newId, type, colWidth, viewType));
 
         if (type === 'custom') {
             props.modalOpener(1);
