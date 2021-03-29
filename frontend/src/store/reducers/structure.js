@@ -1,7 +1,5 @@
 const initStructureState = {
     activeDataId: null,
-    viewMode: 'desktop',
-    isMobileViewChanged: false,
     data: []
 };
 

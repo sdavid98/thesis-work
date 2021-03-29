@@ -48,49 +48,49 @@ export const createStructure = (id, type, width, colType) => {
 export const changeActiveStructureId = id => {
     return {
         type: 'CHANGEACTIVEDATAID',
-        id: id
+        id
     }
 };
 
 export const addStructureColumn = ({indexChange, columns, rows, rowId, colIdArray}) => {
     return {
         type: 'ADDCOLUMN',
-        columns: columns,
-        indexChange: indexChange,
-        rows: rows,
-        rowId: rowId,
-        colIdArray: colIdArray
+        columns,
+        indexChange,
+        rows,
+        rowId,
+        colIdArray
     }
 };
 
 export const deleteStructureSubItem = (deleteColumnIdsArray, deleteRowIdsArray) => {
     return {
         type: 'DELETESUBITEM',
-        deleteColumnIdsArray: deleteColumnIdsArray,
-        deleteRowIdsArray: deleteRowIdsArray
+        deleteColumnIdsArray,
+        deleteRowIdsArray
     }
 };
 
 export const addStructureRow = (colId) => {
     return {
         type: 'ADDROW',
-        colId: colId
+        colId
     }
 };
 
 export const changeColumnWidth = (colId, width) => {
     return {
         type: 'CHANGECOLUMNWIDTH',
-        colId: colId,
-        width: width
+        colId,
+        width
     }
 };
 
 export const addContent = (dataId, rowId, contentId) => {
     return {
         type: 'ADDCONTENT',
-        rowId: rowId,
-        contentId: contentId,
+        rowId,
+        contentId,
         dataId
     }
 };

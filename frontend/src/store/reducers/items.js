@@ -8,7 +8,6 @@ const initState = {
     rowStyles: [],
     canvasStyle: {
         width: '600px',
-        widthMobile: '420px',
         foreColor: '#ffffff',
         backColor: '#F5F5F5',
     }

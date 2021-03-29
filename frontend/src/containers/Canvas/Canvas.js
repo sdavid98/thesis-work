@@ -47,6 +47,7 @@ const Canvas = (props) => {
                     ref.current = [];
                     dispatch(addContent(item.dataId, item.rowId, contentId));
                     dispatch(setDisplayedToTrue(contentId));
+                    console.log('changed to true');
                 }
             })
         }
@@ -55,6 +56,7 @@ const Canvas = (props) => {
     return (
         <>
             <div style={{position: 'absolute'}}>
+                {console.log(draggables)}
                 {draggables.filter(item => !item.displayed).map((item, index) => (
                     <Rnd className="draggable" onDragStop={pos => onDragEndHandler(pos, item.id)} onDrag={onDragHandler}
                          dragHandleClassName="handle" key={index} enableResizing={false} bounds={'.ui'}
