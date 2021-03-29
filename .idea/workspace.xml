@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fad5596-554f-47b7-b56c-0c3305f2c9e8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/firebase-debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/Canvas/Canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/Canvas/Canvas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/Project/Edit/Edit.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/Project/Edit/Edit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/Structure/StructureEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/Structure/StructureEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/actions/items.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/actions/items.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/actions/structure.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/actions/structure.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/reducers/items.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/reducers/items.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/reducers/structure.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/reducers/structure.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -2112,7 +2100,7 @@
       <workItem from="1615477236927" duration="1192000" />
       <workItem from="1616273412772" duration="1890000" />
       <workItem from="1616352328466" duration="1328000" />
-      <workItem from="1617009188159" duration="8576000" />
+      <workItem from="1617009188159" duration="8835000" />
     </task>
     <servers />
   </component>
